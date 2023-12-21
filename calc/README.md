@@ -49,7 +49,7 @@ options:
 
 ### Calculating Parameters
 
-`calc_transformer_params.py` calculates the number of parameters present in a given model based on its hyperparams. Such calculations are important to determine memory overheads, FLOPs, or to determine the size of an unknown transformer model. We also found the following resource helpful: [How does GPT-3 spend its 175B parameters?](https://www.lesswrong.com/posts/3duR8CrvcHywrnhLo/how-does-gpt-3-spend-its-175b-parameters).
+`calc_transformer_params.py` calculates the number of parameters present in a given model based on its hyperparams. Such calculations are important to determine memory overheads, FLOPs, or to determine the size of an unknown transformer model. We also found the following resources helpful: [How does GPT-3 spend its 175B parameters?](https://www.lesswrong.com/posts/3duR8CrvcHywrnhLo/how-does-gpt-3-spend-its-175b-parameters) and [LLM Parameter Counting](https://kipp.ly/transformer-param-count/).
 
 ```
 Example with Fairseq-MoE 15B: python calc_transformer_params.py -l 12 -hs 768 --moe -e 512
@@ -76,6 +76,7 @@ options:
   --ffn-expansion-factor FFN_EXPANSION_FACTOR, -ff FFN_EXPANSION_FACTOR
                         How much the MLP hidden size expands
 ```
+
 
 ### Calculating Memory Overhead
 
@@ -133,3 +134,8 @@ options:
   --vocab-size VOCAB_SIZE, -v VOCAB_SIZE
                         How many ways are the experts sharded across ranks
 ```
+
+
+### Notes
+
+Our scripts largely assume a standard transformer architecture as in GPT-NeoX or GPT-3, with parameter-free positional embeddings such as RoPE. Certain architectural choices may affect parameter counts, FLOPs, or memory overhead, such as positional embedding, multi-query attention (MQA), or other changes. These scripts should hold for models trained with SwiGLU activation functions such as Llama. 
