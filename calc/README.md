@@ -49,7 +49,7 @@ options:
 
 ### Calculating Parameters
 
-`calc_transformer_params.py` calculates the number of parameters present in a given model based on its hyperparams. Such calculations are important to determine memory overheads, FLOPs, or to determine the size of an unknown transformer model. We also found the following resource helpful: [How does GPT-3 spend its 175B parameters?](https://www.lesswrong.com/posts/3duR8CrvcHywrnhLo/how-does-gpt-3-spend-its-175b-parameters).
+`calc_transformer_params.py` calculates the number of parameters present in a given model based on its hyperparams. Such calculations are important to determine memory overheads, FLOPs, or to determine the size of an unknown transformer model. We also found the following resources helpful: [How does GPT-3 spend its 175B parameters?](https://www.lesswrong.com/posts/3duR8CrvcHywrnhLo/how-does-gpt-3-spend-its-175b-parameters) and [LLM Parameter Counting](https://kipp.ly/transformer-param-count/).
 
 ```
 Example with Fairseq-MoE 15B: python calc_transformer_params.py -l 12 -hs 768 --moe -e 512
@@ -77,9 +77,10 @@ options:
                         How much the MLP hidden size expands
 ```
 
+
 ### Calculating Memory Overhead
 
-`calc_transformer_mem.py` calculates the amount of device memory required to train or infer a model. See [Transformers Math 101](https://blog.eleuther.ai/transformer-math/) for more details on how memory overhead is calculated. Take this estimation with a grain of salt, because every implementation is different and these calculations were written to match the GPT-NeoX library as close as possible. Even for other training and inference libraries, however, we expect our script to give approximate memory estimations within acceptable error. Other good resources that we consulted are [the ZeRO Paper](https://arxiv.org/abs/1910.02054) and [Reducing Activation Recomputation in Large Transformer Models](https://arxiv.org/pdf/2205.05198.pdf).
+`calc_transformer_mem.py` calculates the amount of device memory required to train or infer a model. See [Transformers Math 101](https://blog.eleuther.ai/transformer-math/) for more details on how memory overhead is calculated. Take this estimation with a grain of salt, because every implementation is different and these calculations were written to match the GPT-NeoX library as close as possible. Even for other training and inference libraries, however, we expect our script to give approximate memory estimations within acceptable error. (Please see [LLM finetuning memory requirements](https://blog.scottlogic.com/2023/11/24/llm-mem.html) for a treatment of how specific memory costs may vary framework-to-framework). Other good resources that we consulted are [the ZeRO Paper](https://arxiv.org/abs/1910.02054) and [Reducing Activation Recomputation in Large Transformer Models](https://arxiv.org/pdf/2205.05198.pdf).
 
 ```
 Example with pythia 6.9B: python transformer_mem.py --num-layers=32 --sequence-length=2048 --num-attention-heads=32 --hidden-size=4096 --batch-size-per-gpu=8 --checkpoint-activations --zero-stage=1 --partition-activations --pipeline-parallel-size=1 --tensor-parallel-size=2 --num-gpus=128 --params=6900000000
@@ -133,3 +134,8 @@ options:
   --vocab-size VOCAB_SIZE, -v VOCAB_SIZE
                         How many ways are the experts sharded across ranks
 ```
+
+
+### Notes
+
+Our scripts largely assume a standard transformer architecture as in GPT-NeoX or GPT-3, with parameter-free positional embeddings such as RoPE. Certain architectural choices may affect parameter counts, FLOPs, or memory overhead, such as positional embedding, multi-query attention (MQA), or other changes. These scripts should hold for models trained with SwiGLU activation functions such as Llama. 
