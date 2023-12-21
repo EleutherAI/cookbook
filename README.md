@@ -10,6 +10,8 @@ Deep learning for dummies. All the practical details that go into working with r
 For training/inference calculations (e.g. FLOPs, memory overhead, and parameter count)
 - **[calc](./calc/)**
 
+### Benchmarks
+
 For benchmarks (e.g. communication)
 - **[benchmarks](./benchmarks/)**
 
