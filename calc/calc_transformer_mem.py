@@ -118,7 +118,7 @@ def calc_mem(args):
     embed_params = 2 * args.vocab_size * args.hidden_size
     positional_params = args.hidden_size * args.sequence_length
     ln_params = 8 * args.hidden_size * args.num_layers + (2 * args.hidden_size)
-    attention_params = 2 * (1 + int(args.num_attention_heads * args.kv_head_ratio)) * args.num_layers * args.hidden_size * args.hidden_size
+    attention_params = int(2 * (1 + args.kv_head_ratio) * args.num_layers * args.hidden_size * args.hidden_size)
     mlp_params = 2 * args.num_layers * args.hidden_size * args.ffn_expansion_factor * args.hidden_size
     total_params = embed_params + positional_params + ln_params + attention_params + mlp_params
     if args.num_experts > 0:
