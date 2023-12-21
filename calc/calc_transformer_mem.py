@@ -54,10 +54,6 @@ def config_parser():
                         type=int,
                         default=64,
                         help='Number of attention heads used in model')
-    parser.add_argument("--kv-head-ratio", "-kv",
-                        type=float,
-                        default=1.0,
-                        help='Ratio of query heads to key/value heads used in model)
     parser.add_argument("--sequence-length", "-s",
                         type=int,
                         default=2048,
@@ -118,7 +114,7 @@ def calc_mem(args):
     embed_params = 2 * args.vocab_size * args.hidden_size
     positional_params = args.hidden_size * args.sequence_length
     ln_params = 8 * args.hidden_size * args.num_layers + (2 * args.hidden_size)
-    attention_params = 2 * (1 + int(args.num_attention_heads * args.kv_head_ratio)) * args.num_layers * args.hidden_size * args.hidden_size
+    attention_params = 4 * args.num_layers * args.hidden_size * args.hidden_size
     mlp_params = 2 * args.num_layers * args.hidden_size * args.ffn_expansion_factor * args.hidden_size
     total_params = embed_params + positional_params + ln_params + attention_params + mlp_params
     if args.num_experts > 0:
@@ -203,3 +199,4 @@ if __name__ == "__main__":
     print('Example with default 20B: python transformer_mem.py --num-layers=44 --sequence-length=2048 --num-attention-heads=64 --hidden-size=6144 --batch-size-per-gpu=1 --checkpoint-activations --zero-stage=1 --partition-activations --pipeline-parallel-size=1 --tensor-parallel-size=1 --num-gpus=1 --params=20000000000\n')
     args = config_parser().parse_args()
     calc_mem(args)
+    
