@@ -100,6 +100,9 @@ def config_parser():
             type=int,
             default=51200,
             help='How many tokens are in the embedding layer')
+    parser.add_argument("--infer",
+                    action="store_true",
+                    help="whether we're doing inference")
     return parser
 
 # calculates the total memory necessary for training a model
@@ -168,15 +171,25 @@ def calc_mem(args):
 
     # Taken from Table 2 in https://arxiv.org/pdf/1910.02054.pdf
     # We find these don't perfectly match with experiment, but are good approximations
-    if args.checkpoint_activations:
+    if not args.infer and args.checkpoint_activations:
         activation_mem = bytes_per_param * args.sequence_length * args.batch_size_per_gpu * args.hidden_size * args.num_layers * (10 + (24 / args.tensor_parallel_size))
-    else:
+    elif not args.infer and not args.checkpoint_activations:
         activation_mem = bytes_per_param * args.sequence_length * args.batch_size_per_gpu * args.hidden_size * args.num_layers * (10 + (24 / args.tensor_parallel_size) + 5 * ((args.num_attention_heads * args.sequence_length) / (args.hidden_size * args.tensor_parallel_size)))
+    # If using inference, assume just a single layer's activation memory at peak
+    elif args.infer:
+        activation_mem = bytes_per_param * args.sequence_length * args.batch_size_per_gpu * args.hidden_size * (10 + (24 / args.tensor_parallel_size) + 5 * ((args.num_attention_heads * args.sequence_length) / (args.hidden_size * args.tensor_parallel_size)))
 
     # DeepSpeed's ZeRO-R partitions activation memory across tensor-parallel GPUs
     if args.partition_activations:
         activation_mem /= args.tensor_parallel_size
 
+
+    if args.infer:
+        if args.fp32_model:
+            bytes_per_param = 4
+        else:
+            bytes_per_param = 2
+        kv_cache_mem = bytes_per_param * 2 * args.num_layers * args.num_attention_heads * (args.hidden_size / args.num_attention_heads) * args.sequence_length
 
     # We include a "Miscellaneous Memory" term because we find some 3D-parallel frameworks add a constant memory overhead (~5GB in our experiments with Megatron-DeepSpeed) that we cannot explain. If you know the source of this, add a comment!
     gradient_mem_gb = gradient_mem / 1024**3
@@ -185,17 +198,32 @@ def calc_mem(args):
     optimizer_mem_gb = optimizer_mem / 1024**3
     communication_mem_gb = communication_mem / 1024**3
     total_mem_gb = activation_mem_gb + gradient_mem_gb + model_mem_gb + optimizer_mem_gb + communication_mem_gb + args.misc_mem_gb
+    if args.infer:
+        kv_cache_mem_gb = kv_cache_mem / 1024**3
+
+    if args.infer:
+        total_mem_gb = activation_mem_gb + kv_cache_mem_gb + model_mem_gb + args.misc_mem_gb
+    else:
+        total_mem_gb = activation_mem_gb + gradient_mem_gb + model_mem_gb + optimizer_mem_gb + communication_mem_gb + args.misc_mem_gb
+
     print(f'Calculating memory with training configuration: {vars(args)}\n')
     print(f'Number of Parameters: {convert_params(total_params)}')
     if args.num_experts > 0:
         print(f'Total Number of MoE Parameters: {convert_params(total_moe_params)}')
-    print(f'Gradient Memory: {gradient_mem_gb:.2f} GB')
     print(f'Activation Memory: {activation_mem_gb:.2f} GB')
     print(f'Model Memory: {model_mem_gb:.2f} GB')
-    print(f'Optimizer Memory: {optimizer_mem_gb:.2f} GB')
-    print(f'Communication Memory: {communication_mem_gb:.2f} GB')
-    print(f'Miscellaneous Memory: {args.misc_mem_gb:.2f} GB')
-    print(f'Total Memory Required for Training: {total_mem_gb:.2f} GB')
+    if args.infer:
+        print(f'KV Cache Memory: {kv_cache_mem_gb:.2f} GB')
+    else:
+        print(f'Gradient Memory: {gradient_mem_gb:.2f} GB')
+        print(f'Optimizer Memory: {optimizer_mem_gb:.2f} GB')
+        print(f'Communication Memory: {communication_mem_gb:.2f} GB')
+        print(f'Miscellaneous Memory: {args.misc_mem_gb:.2f} GB')
+    
+    if args.infer:
+        print(f'Total Memory Required for Inference: {total_mem_gb:.2f} GB')
+    else:
+        print(f'Total Memory Required for Training: {total_mem_gb:.2f} GB')
 
 if __name__ == "__main__":
     print('\nExample with pythia 6.9B: python transformer_mem.py --num-layers=32 --sequence-length=2048 --num-attention-heads=32 --hidden-size=4096 --batch-size-per-gpu=8 --checkpoint-activations --zero-stage=1 --partition-activations --pipeline-parallel-size=1 --tensor-parallel-size=2 --num-gpus=128 --params=6900000000')
