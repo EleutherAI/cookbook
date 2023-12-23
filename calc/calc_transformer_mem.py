@@ -99,7 +99,7 @@ def config_parser():
     parser.add_argument("--vocab-size", "-v",
             type=int,
             default=51200,
-            help='How many ways are the experts sharded across ranks')
+            help='How many tokens are in the embedding layer')
     return parser
 
 # calculates the total memory necessary for training a model
