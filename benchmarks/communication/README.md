@@ -28,6 +28,11 @@ or Slurm
 srun -n 16 python all_reduce.py --scan --dist="torch"
 </pre>
 
+or the DeepSpeed launcher
+<pre>
+deepspeed all_reduce.py --scan --dist="deepspeed"
+</pre>
+
 
 2. Run all available communication benchmarks:
 
@@ -43,6 +48,39 @@ Finally, users can choose specific communication operations to run in `run_all.p
 mpirun -np 16 --hostfile ${HOSTFILE} -x LD_LIBRARY_PATH -x PATH -x LD_PRELOAD python run_all.py --scan --all-reduce --all-to-all --broadcast
 </pre>
 
+
+There is a wide range of arguments available:
+
+```
+usage: run_all.py [-h] [--local_rank LOCAL_RANK] [--trials TRIALS] [--warmups WARMUPS] [--maxsize MAXSIZE]
+                  [--async-op] [--bw-unit {Gbps,GBps}] [--backend {nccl,ccl,mpi}] [--dist {deepspeed,torch}] [--scan]
+                  [--raw] [--all-reduce] [--all-gather] [--all-to-all] [--pt2pt] [--broadcast] [--dtype DTYPE]
+                  [--mem-factor MEM_FACTOR] [--debug]
+
+options:
+  -h, --help            show this help message and exit
+  --local_rank LOCAL_RANK
+  --trials TRIALS       Number of timed iterations
+  --warmups WARMUPS     Number of warmup (non-timed) iterations
+  --maxsize MAXSIZE     Max message size as a power of 2
+  --async-op            Enables non-blocking communication
+  --bw-unit {Gbps,GBps}
+  --backend {nccl,ccl,mpi}
+                        Communication library to use
+  --dist {deepspeed,torch}
+                        Distributed DL framework to use
+  --scan                Enables scanning all message sizes
+  --raw                 Print the message size and latency without units
+  --all-reduce          Run all_reduce
+  --all-gather          Run all_gather
+  --all-to-all          Run all_to_all
+  --pt2pt               Run pt2pt
+  --broadcast           Run broadcast
+  --dtype DTYPE         PyTorch tensor dtype
+  --mem-factor MEM_FACTOR
+                        Proportion of max available GPU memory to use for single-size evals
+  --debug               Enables all_to_all debug prints
+```
 
 # Adding Communication Benchmarks
 

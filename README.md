@@ -32,6 +32,7 @@ For benchmarks (e.g. communication)
 
 [Everything about Distributed Training and Efficient Finetuning](https://sumanthrh.com/post/distributed-and-efficient-finetuning/) by Sumanth R Hegde. High-level descriptions and links on parallelism and efficient finetuning.
 
+[Transformer Training and Inference VRAM Estimator](https://vram.asmirnov.xyz/) by Alexander Smirnov. User-friendly tool to estimate VRAM overhead.
 
 ## Minimal Repositories for Understanding
 
