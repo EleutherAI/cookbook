@@ -1,5 +1,3 @@
-from deepspeed.accelerator import get_accelerator
-
 DEFAULT_WARMUPS = 5
 DEFAULT_TRIALS = 50
 DEFAULT_TYPE = 'float'
