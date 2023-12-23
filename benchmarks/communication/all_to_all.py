@@ -71,8 +71,6 @@ def run_all_to_all(local_rank, args):
                 assert mat.numel() % world_size == 0, f"tensor cannot be divided in {world_size} chunks"
                 sync_all()
                 input = ((mat.mul_(float(global_rank))).view(-1))
-                del mat
-                torch.cuda.empty_cache()
                 output = (mat.clone().view(-1))
             except RuntimeError as e:
                 if 'out of memory' in str(e):
@@ -98,6 +96,8 @@ def run_all_to_all(local_rank, args):
             ) % world_size == 0, f"tensor with {mat.numel()} elements cannot be divided in {world_size} chunks"
             input = ((mat.mul_(float(global_rank))).view(-1))
             # Delete original mat to avoid OOM
+            del mat
+            torch.cuda.empty_cache()
             output = torch.zeros(elements_per_gpu,
                                  dtype=getattr(torch, args.dtype)).cuda(local_rank)
         except RuntimeError as e:
