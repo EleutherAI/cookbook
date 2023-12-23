@@ -4,11 +4,11 @@ import sys, os, time
 COMMS_BENCH_DIR = os.path.join(os.path.dirname(__file__), "../")
 sys.path.append(COMMS_BENCH_DIR)
 
-from .utils import *
-from .constants import *
+from communication.utils import *
+from communication.constants import *
 
 
-def timed_all_reduce(input, start_event, end_event, args):
+def timed_all_to_all(input, output, start_event, end_event, args):
     if args.dist == 'torch':
         import torch.distributed as dist
     elif args.dist == 'deepspeed':
@@ -17,13 +17,13 @@ def timed_all_reduce(input, start_event, end_event, args):
     sync_all()
     # Warmups, establish connections, etc.
     for i in range(args.warmups):
-        dist.all_reduce(input, async_op=args.async_op)
+        dist.all_to_all_single(output, input, async_op=args.async_op)
     sync_all()
 
     # time the actual comm op trials times and average it
     start_event.record()
     for i in range(args.trials):
-        dist.all_reduce(input, async_op=args.async_op)
+        dist.all_to_all_single(output, input, async_op=args.async_op)
     end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
@@ -32,7 +32,7 @@ def timed_all_reduce(input, start_event, end_event, args):
     avg_duration = duration / args.trials
     size = input.element_size() * input.nelement()
     n = dist.get_world_size()
-    tput, busbw = get_bw('all_reduce', size, avg_duration, args)
+    tput, busbw = get_bw('all_to_all', size, avg_duration, args)
     tput_str, busbw_str, duration_str = get_metric_strings(args, tput, busbw, avg_duration)
     desc = f'{input.nelement()}x{input.element_size()}'
 
@@ -42,17 +42,16 @@ def timed_all_reduce(input, start_event, end_event, args):
     print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
 
 
-def run_all_reduce(local_rank, args):
+def run_all_to_all(local_rank, args):
     if args.dist == 'torch':
         import torch.distributed as dist
     elif args.dist == 'deepspeed':
         import deepspeed.comm as dist
 
-    # Prepare benchmark header
-    print_header(args, 'all_reduce')
-
     world_size = dist.get_world_size()
     global_rank = dist.get_rank()
+    # Prepare benchmark header
+    print_header(args, 'all_to_all')
 
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
@@ -69,10 +68,12 @@ def run_all_reduce(local_rank, args):
             try:
                 mat = torch.ones(world_size, M,
                                  dtype=getattr(torch, args.dtype)).cuda(local_rank)
+                assert mat.numel() % world_size == 0, f"tensor cannot be divided in {world_size} chunks"
                 sync_all()
                 input = ((mat.mul_(float(global_rank))).view(-1))
                 del mat
                 torch.cuda.empty_cache()
+                output = (mat.clone().view(-1))
             except RuntimeError as e:
                 if 'out of memory' in str(e):
                     if dist.get_rank() == 0:
@@ -82,19 +83,23 @@ def run_all_reduce(local_rank, args):
                 else:
                     raise e
             sync_all()
-            timed_all_reduce(input, start_event, end_event, args)
+            timed_all_to_all(input, output, start_event, end_event, args)
     else:
         # Send the biggest message size our GPUs can fit. If you're facing OOM errors, reduce the mem_factor
-        # Don't need output tensor, so we double mem_factor
-        elements_per_gpu = max_numel(comm_op='all_reduce',
+        elements_per_gpu = max_numel(comm_op='all_to_all',
                                      dtype=getattr(torch, args.dtype),
-                                     mem_factor=args.mem_factor * 2,
+                                     mem_factor=args.mem_factor,
                                      local_rank=local_rank,
                                      args=args)
         try:
             mat = torch.ones(elements_per_gpu, dtype=getattr(torch,
                                                              args.dtype)).cuda(local_rank)
+            assert mat.numel(
+            ) % world_size == 0, f"tensor with {mat.numel()} elements cannot be divided in {world_size} chunks"
             input = ((mat.mul_(float(global_rank))).view(-1))
+            # Delete original mat to avoid OOM
+            output = torch.zeros(elements_per_gpu,
+                                 dtype=getattr(torch, args.dtype)).cuda(local_rank)
         except RuntimeError as e:
             if 'out of memory' in str(e):
                 if dist.get_rank() == 0:
@@ -104,11 +109,24 @@ def run_all_reduce(local_rank, args):
             else:
                 raise e
         sync_all()
-        timed_all_reduce(input, start_event, end_event, args)
+
+        if args.debug:
+            for i in range(world_size):
+                if i == global_rank:
+                    print(f"Before AllToAll Input List at rank {global_rank}: {input}")
+                dist.barrier()
+
+        timed_all_to_all(input, output, start_event, end_event, args)
+
+        if args.debug:
+            for i in range(world_size):
+                if i == global_rank:
+                    print(f"AllToAll Results at rank {global_rank}: {output}")
+                dist.barrier()
 
 
 if __name__ == "__main__":
     args = benchmark_parser().parse_args()
     rank = args.local_rank
     init_processes(local_rank=rank, args=args)
-    run_all_reduce(local_rank=rank, args=args)
+    run_all_to_all(local_rank=rank, args=args)

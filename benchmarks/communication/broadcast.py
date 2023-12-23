@@ -4,11 +4,11 @@ import sys, os, time
 COMMS_BENCH_DIR = os.path.join(os.path.dirname(__file__), "../")
 sys.path.append(COMMS_BENCH_DIR)
 
-from .utils import *
-from .constants import *
+from communication.utils import *
+from communication.constants import *
 
 
-def timed_pt2pt(input, start_event, end_event, args):
+def timed_broadcast(input, start_event, end_event, args):
     if args.dist == 'torch':
         import torch.distributed as dist
     elif args.dist == 'deepspeed':
@@ -17,32 +17,13 @@ def timed_pt2pt(input, start_event, end_event, args):
     sync_all()
     # Warmups, establish connections, etc.
     for i in range(args.warmups):
-        if dist.get_rank() == 0:
-            if args.async_op:
-                dist.isend(input, 1)
-            else:
-                dist.send(input, 1)
-        if dist.get_rank() == 1:
-            if args.async_op:
-                dist.irecv(input, src=0)
-            else:
-                dist.recv(input, src=0)
+        dist.broadcast(input, 0, async_op=args.async_op)
     sync_all()
 
     # time the actual comm op trials times and average it
     start_event.record()
     for i in range(args.trials):
-        if dist.get_rank() == 0:
-            if args.async_op:
-                dist.isend(input, 1)
-            else:
-                dist.send(input, 1)
-        if dist.get_rank() == 1:
-            if args.async_op:
-                dist.irecv(input, src=0)
-            else:
-                dist.recv(input, src=0)
-
+        dist.broadcast(input, 0, async_op=args.async_op)
     end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
@@ -51,7 +32,7 @@ def timed_pt2pt(input, start_event, end_event, args):
     avg_duration = duration / args.trials
     size = input.element_size() * input.nelement()
     n = dist.get_world_size()
-    tput, busbw = get_bw('pt2pt', size, avg_duration, args)
+    tput, busbw = get_bw('broadcast', size, avg_duration, args)
     tput_str, busbw_str, duration_str = get_metric_strings(args, tput, busbw, avg_duration)
     desc = f'{input.nelement()}x{input.element_size()}'
 
@@ -61,22 +42,22 @@ def timed_pt2pt(input, start_event, end_event, args):
     print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
 
 
-def run_pt2pt(local_rank, args):
+def run_broadcast(local_rank, args):
     if args.dist == 'torch':
         import torch.distributed as dist
     elif args.dist == 'deepspeed':
         import deepspeed.comm as dist
 
     # Prepare benchmark header
-    print_header(args, 'pt2pt')
-    global_rank = dist.get_rank()
+    print_header(args, 'broadcast')
+
     world_size = dist.get_world_size()
+    global_rank = dist.get_rank()
 
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
 
     if args.scan:
-        # Create list of message sizes
         M_LIST = []
         for x in (2**p for p in range(1, args.maxsize)):
             M_LIST.append(x)
@@ -101,11 +82,11 @@ def run_pt2pt(local_rank, args):
                 else:
                     raise e
             sync_all()
-            timed_pt2pt(input, start_event, end_event, args)
+            timed_broadcast(input, start_event, end_event, args)
     else:
         # Send the biggest message size our GPUs can fit. If you're facing OOM errors, reduce the mem_factor
-        # Don't need output tensor, so double mem_factor
-        elements_per_gpu = max_numel(comm_op='pt2pt',
+        # Don't need output tensor, so we double mem_factor
+        elements_per_gpu = max_numel(comm_op='broadcast',
                                      dtype=getattr(torch, args.dtype),
                                      mem_factor=args.mem_factor * 2,
                                      local_rank=local_rank,
@@ -121,11 +102,11 @@ def run_pt2pt(local_rank, args):
                 sync_all()
                 return
         sync_all()
-        timed_pt2pt(input, start_event, end_event, args)
+        timed_broadcast(input, start_event, end_event, args)
 
 
 if __name__ == "__main__":
     args = benchmark_parser().parse_args()
     rank = args.local_rank
     init_processes(local_rank=rank, args=args)
-    run_pt2pt(local_rank=rank, args=args)
+    run_broadcast(local_rank=rank, args=args)
