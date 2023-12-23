@@ -1,6 +1,7 @@
 # The Cookbook
-Deep learning for dummies. All the practical details that go into working with real models.
+Deep learning for dummies, by Quentin Anthony et al. 
 
+All the practical details that go into working with real models!
 
 
 ## Table of Contents
@@ -33,6 +34,8 @@ For benchmarks (e.g. communication)
 [Everything about Distributed Training and Efficient Finetuning](https://sumanthrh.com/post/distributed-and-efficient-finetuning/) by Sumanth R Hegde. High-level descriptions and links on parallelism and efficient finetuning.
 
 [Transformer Training and Inference VRAM Estimator](https://vram.asmirnov.xyz/) by Alexander Smirnov. User-friendly tool to estimate VRAM overhead.
+
+[Cerebras Model Lab](https://www.cerebras.net/model-lab/). User-friendly tool to apply Chinchilla scaling laws.
 
 ## Minimal Repositories for Understanding
 
