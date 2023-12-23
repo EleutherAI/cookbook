@@ -50,6 +50,10 @@ def config_parser():
                 type=int,
                 default=4,
                 help='How much the MLP hidden size expands')
+    parser.add_argument("--kv-size-ratio", "-kv",
+                type=float,
+                default=1.0,
+                help='What fraction of num. query heads is num. key/value heads')
     return parser
 
 # calculates the params of a model given their hparams
@@ -58,7 +62,8 @@ def calc_params(args):
     embedding_params = args.hidden_size * args.vocab_size
     position_embedding_params = args.hidden_size * args.sequence_length
     # Each QKVO matrix is (hxh)
-    attention_params = 4 * args.num_layers * args.hidden_size * args.hidden_size
+    # Unless using GQA/MQA which makes K/V smaller
+    attention_params = int(2 * (1 + args.kv_size_ratio) * args.num_layers * args.hidden_size * args.hidden_size)
     # (4*2)lh from the layernorm weights and biases for each of the QKV and mlp_in layernorms, 1h for the final layernorm.
     # the extra 4lh is a mystery but we include it here
     layernorm_params = 13 * args.num_layers * args.hidden_size

@@ -32,6 +32,10 @@ def config_parser():
                         type=int,
                         default=44,
                         help='Number of transformer layers used in model')
+    parser.add_argument("--kv-size-ratio", "-kv",
+                        type=float,
+                        default=1.0,
+                        help='Ratio of kv heads to query heads used in model. 1.0 for MHA')
     parser.add_argument("--moe",
                     action="store_true",
                     help='Whether our model is MoE')
@@ -76,7 +80,7 @@ def calc_params(args):
     if args.checkpoint_activations:
         iter_factor += 1
 
-    qkv_flops = iter_factor * 6 * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
+    qkv_flops = int(iter_factor * 2 * (1 + 2 * args.kv_size_ratio) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size)
     attention_matrix_flops = iter_factor * 2 * args.num_layers * args.tokens * args.sequence_length * args.hidden_size
     attention_over_values_flops = iter_factor * 2 * args.num_layers * args.tokens * args.sequence_length * args.hidden_size
     linear_projection_flops = iter_factor * 2 * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
