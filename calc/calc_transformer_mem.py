@@ -169,9 +169,9 @@ def calc_mem(args):
     # Taken from Table 2 in https://arxiv.org/pdf/1910.02054.pdf
     # We find these don't perfectly match with experiment, but are good approximations
     if args.checkpoint_activations:
-        activation_mem = args.sequence_length * args.batch_size_per_gpu * args.hidden_size * args.num_layers * (10 + (24 / args.tensor_parallel_size))
+        activation_mem = bytes_per_param * args.sequence_length * args.batch_size_per_gpu * args.hidden_size * args.num_layers * (10 + (24 / args.tensor_parallel_size))
     else:
-        activation_mem = args.sequence_length * args.batch_size_per_gpu * args.hidden_size * args.num_layers * (10 + (24 / args.tensor_parallel_size) + 5 * ((args.num_attention_heads * args.sequence_length) / (args.hidden_size * args.tensor_parallel_size)))
+        activation_mem = bytes_per_param * args.sequence_length * args.batch_size_per_gpu * args.hidden_size * args.num_layers * (10 + (24 / args.tensor_parallel_size) + 5 * ((args.num_attention_heads * args.sequence_length) / (args.hidden_size * args.tensor_parallel_size)))
 
     # DeepSpeed's ZeRO-R partitions activation memory across tensor-parallel GPUs
     if args.partition_activations:
