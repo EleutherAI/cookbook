@@ -1,0 +1,9 @@
+setup.py
+/fsx/quentin/jacob/gpt-neox-stuff/GEMMs_project/transformer_sizing/experiments/scripts/megatron/fused_kernels/scaled_masked_softmax.cpp
+/fsx/quentin/jacob/gpt-neox-stuff/GEMMs_project/transformer_sizing/experiments/scripts/megatron/fused_kernels/scaled_masked_softmax_cuda.cu
+/fsx/quentin/jacob/gpt-neox-stuff/GEMMs_project/transformer_sizing/experiments/scripts/megatron/fused_kernels/scaled_upper_triang_masked_softmax.cpp
+/fsx/quentin/jacob/gpt-neox-stuff/GEMMs_project/transformer_sizing/experiments/scripts/megatron/fused_kernels/scaled_upper_triang_masked_softmax_cuda.cu
+fused_kernels.egg-info/PKG-INFO
+fused_kernels.egg-info/SOURCES.txt
+fused_kernels.egg-info/dependency_links.txt
+fused_kernels.egg-info/top_level.txt
