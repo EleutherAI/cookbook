@@ -37,6 +37,8 @@ For benchmarks (e.g. communication)
 
 [Cerebras Model Lab](https://www.cerebras.net/model-lab/). User-friendly tool to apply Chinchilla scaling laws.
 
+[Common HParam Settings](https://docs.google.com/spreadsheets/d/14vbBbuRMEHoqeuMHkTfw3uiZVmyXNuoSp8s-aHvfvZk/edit?usp=sharing) by Stella Biderman records common settings for model training hyperparameters and her current recommendations for training new models.
+
 ## Minimal Repositories for Understanding
 
 GPT Inference
