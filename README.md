@@ -3,6 +3,8 @@ Deep learning for dummies, by Quentin Anthony, Hailey Schoelkopf, and Stella Bid
 
 All the practical details that go into working with real models! If you're just getting started, we recommend jumping ahead to [Basics](#basics) for some introductory resources on transformers.
 
+## Table of Contents
+
 - [The Cookbook](#the-cookbook)
   * [Calculations](#calculations)
   * [Benchmarks](#benchmarks)
