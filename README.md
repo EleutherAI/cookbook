@@ -6,17 +6,21 @@ All the practical details and utilities that go into working with real models! I
 ## Table of Contents
 
 - [The Cookbook](#the-cookbook)
-  * [Calculations](#calculations)
-  * [Benchmarks](#benchmarks)
+  * [Utilities](#utilites)
+    + [Calculations](#calculations)
+    + [Benchmarks](#benchmarks)
   * [Reading List](#reading-list)
     + [Basics](#basics)
     + [How to do LLM Calculations](#how-to-do-llm-calculations)
     + [Distributed Deep Learning](#distributed-deep-learning)
     + [Best Practices](#best-practices)
+    + [Data/Model Directories](#data-and-model-directories)
   * [Minimal Repositories for Educational Purposes](#minimal-repositories-for-educational-purposes)
   * [Contributing](#contributing)
 
-## Calculations
+## Utilities
+
+### Calculations
 
 For training/inference calculations (e.g. FLOPs, memory overhead, and parameter count)
 - **[calc](./calc/)**
@@ -27,7 +31,7 @@ Useful external calculators include
 
 [Transformer Training and Inference VRAM Estimator](https://vram.asmirnov.xyz/) by Alexander Smirnov. A user-friendly tool to estimate VRAM overhead.
 
-## Benchmarks
+### Benchmarks
 
 For benchmarks (e.g. communication)
 - **[benchmarks](./benchmarks/)**
@@ -58,11 +62,24 @@ For benchmarks (e.g. communication)
 
 [Efficient Training on Multiple GPUs](https://huggingface.co/docs/transformers/main/en/perf_train_gpu_many) by Hugging Face. Contains a detailed walk-through of model, tensor, and data parallelism along with the ZeRO optimizer.
 
+Papers
+- [Efficient Large-Scale Language Model Training on GPU Clusters Using Megatron-LM](https://arxiv.org/abs/2104.04473)
+- [Demystifying Parallel and Distributed Deep Learning: An In-Depth Concurrency Analysis](https://arxiv.org/abs/1802.09941)
+- [ZeRO: Memory Optimizations Toward Training Trillion Parameter Models](https://arxiv.org/abs/1910.02054)
+- [PyTorch FSDP: Experiences on Scaling Fully Sharded Data Parallel](https://arxiv.org/abs/2304.11277)
+- [PyTorch Distributed: Experiences on Accelerating Data Parallel Training](https://arxiv.org/abs/2006.15704)
+
 ### Best Practices
 
 [ML-Engineering Repository](https://github.com/stas00/ml-engineering). Containing community notes and practical details of everything deep learning training led by Stas Bekman
 
 [Common HParam Settings](https://docs.google.com/spreadsheets/d/14vbBbuRMEHoqeuMHkTfw3uiZVmyXNuoSp8s-aHvfvZk/edit?usp=sharing) by Stella Biderman. Records common settings for model training hyperparameters and her current recommendations for training new models.
+
+### Data and Model Directories
+
+[Directory of LLMs](https://docs.google.com/spreadsheets/d/1gc6yse74XCwBx028HV_cvdxwXkmXejVjkO-Mz2uwE0k/edit?usp=sharing) by Stella Biderman. Records details of trained LLMs including license, architecture type, and dataset.
+
+[Data Provenance Explorer](https://dataprovenance.org/) A tool for tracing and filtering on data provenance for the most popular open source finetuning data collections.
 
 ## Minimal Repositories for Educational Purposes
 

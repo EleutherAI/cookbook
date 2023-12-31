@@ -1,0 +1,1878 @@
+<style type="text/css">
+    .tg  {border-collapse:collapse;border-spacing:0;}
+    .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+      font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+    .tg .tg-zlo7{background-color:#EA4335;border-color:inherit;font-weight:bold;text-align:left;vertical-align:bottom}
+    .tg .tg-lr4c{background-color:#34A853;border-color:inherit;font-weight:bold;text-align:center;vertical-align:bottom}
+    .tg .tg-1f9o{background-color:#D5A6BD;border-color:inherit;font-weight:bold;text-align:left;vertical-align:bottom}
+    .tg .tg-oxe6{border-color:inherit;font-weight:bold;text-align:right;vertical-align:bottom}
+    .tg .tg-3b9d{background-color:#FBBC04;border-color:inherit;font-weight:bold;text-align:center;vertical-align:bottom}
+    .tg .tg-473x{border-color:inherit;color:#15C;text-align:left;text-decoration:underline;vertical-align:top}
+    .tg .tg-baum{background-color:#6FA8DC;border-color:inherit;font-weight:bold;text-align:left;vertical-align:bottom}
+    .tg .tg-yc8w{background-color:#C9DAF8;border-color:inherit;text-align:left;vertical-align:bottom}
+    .tg .tg-fll5{border-color:inherit;font-weight:bold;text-align:center;vertical-align:bottom}
+    .tg .tg-0thz{border-color:inherit;font-weight:bold;text-align:left;vertical-align:bottom}
+    .tg .tg-jkyp{border-color:inherit;text-align:right;vertical-align:bottom}
+    .tg .tg-za14{border-color:inherit;text-align:left;vertical-align:bottom}
+    .tg .tg-gzgk{background-color:#93C47D;border-color:inherit;font-weight:bold;text-align:left;vertical-align:bottom}
+    .tg .tg-zo3f{background-color:#EA4335;border-color:inherit;font-weight:bold;text-align:center;vertical-align:bottom}
+    .tg .tg-a1eg{background-color:#F6B26B;border-color:inherit;font-weight:bold;text-align:left;vertical-align:bottom}
+    .tg .tg-y02l{border-color:inherit;color:#00E;text-align:left;text-decoration:underline;vertical-align:top}
+    .tg .tg-js59{background-color:#B7E1CD;border-color:inherit;text-align:left;vertical-align:bottom}
+    .tg .tg-ld3d{background-color:#F4CCCC;border-color:inherit;text-align:left;vertical-align:bottom}
+    .tg .tg-6lmu{background-color:#93C47D;border-color:inherit;font-weight:bold;text-align:left;vertical-align:top}
+    </style>
+    <table class="tg">
+    <thead>
+      <tr>
+        <th class="tg-fll5"><span style="font-weight:bold">Model</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Date</span></th>
+        <th class="tg-0thz"><span style="font-weight:bold">Parameters</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Organizaton</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Organization Type</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Author Location</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Language</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Model Accessibility</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Data Accessibility</span></th>
+        <th class="tg-0thz"><span style="font-weight:bold">Architecture</span></th>
+        <th class="tg-fll5"><span style="font-weight:bold">Sources</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-2</span></td>
+        <td class="tg-jkyp">February 14, 2019</td>
+        <td class="tg-jkyp">1.5B</td>
+        <td class="tg-za14">OpenAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (MIT)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Externally Replicated</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Megatron-BERT</span></td>
+        <td class="tg-jkyp">September 17, 2019</td>
+        <td class="tg-jkyp">3.9B</td>
+        <td class="tg-za14">NVIDIA</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-a1eg"><span style="font-weight:bold;background-color:#F6B26B">Encoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/1909.08053">Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Megatron-LM</span></td>
+        <td class="tg-jkyp">September 17, 2019</td>
+        <td class="tg-jkyp">8.3B</td>
+        <td class="tg-za14">NVIDIA</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/1909.08053">Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">T5</span></td>
+        <td class="tg-jkyp">October 23, 2019</td>
+        <td class="tg-jkyp">11.0B</td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (C4)</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Meena</span></td>
+        <td class="tg-jkyp">January 27, 2020</td>
+        <td class="tg-jkyp">2.6B</td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder (Evolved)</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Turing NLG</span></td>
+        <td class="tg-jkyp">February 13, 2020</td>
+        <td class="tg-jkyp">17.2B</td>
+        <td class="tg-za14">Microsoft</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://www.microsoft.com/en-us/research/blog/turing-nlg-a-17-billion-parameter-language-model-by-microsoft/">Turing-NLG: A 17-billion-parameter language model by Microsoft</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-3</span></td>
+        <td class="tg-jkyp">May 28, 2020</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">175.0B</span></td>
+        <td class="tg-za14">OpenAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">DeBERTa</span></td>
+        <td class="tg-jkyp">June 5, 2020</td>
+        <td class="tg-jkyp">1.5B</td>
+        <td class="tg-za14">Microsoft</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (MIT)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + OWT + BC</span></td>
+        <td class="tg-a1eg"><span style="font-weight:bold;background-color:#F6B26B">Encoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2006.03654">DeBERTa: Decoding-enhanced BERT with Disentangled Attention</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">mT5</span></td>
+        <td class="tg-jkyp">October 22, 2020</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (mC4)</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2010.11934">mT5: A massively multilingual pre-trained text-to-text transformer</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">AlphaFold2</span></td>
+        <td class="tg-jkyp">November 30, 2020</td>
+        <td class="tg-jkyp">93.0M</td>
+        <td class="tg-za14">DeepMind</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Protein Structure</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">Custom</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CPM</span></td>
+        <td class="tg-jkyp">December 1, 2020</td>
+        <td class="tg-jkyp">2.6B</td>
+        <td class="tg-za14">Tsinghua University</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2012.00413">CPM: A Large-scale Generative Chinese Pre-trained Language Model</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">AraGPT2</span></td>
+        <td class="tg-jkyp">December 31, 2020</td>
+        <td class="tg-jkyp">1.5B</td>
+        <td class="tg-za14">American University of Beirut</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-za14">Lebanon</td>
+        <td class="tg-za14">Arabic</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Custom)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released (OSCAR)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://aclanthology.org/2021.wanlp-1.21/">AraGPT2: Pre-Trained Transformer for Arabic Language Generation</a><span style="font-style:normal">, </span><a href="https://huggingface.co/aubmindlab/aragpt2-mega">Checkpoint</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Switch-C</span></td>
+        <td class="tg-jkyp">January 11, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">1.5T</span></td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (C4)</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder MoE</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2101.03961">Switch Transformers: Scaling to Trillion Parameter Models with Simple and Efficient Sparsity</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Wu Dao 1.0</span></td>
+        <td class="tg-jkyp">March 20, 2021</td>
+        <td class="tg-jkyp">2.6B</td>
+        <td class="tg-za14">BAAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only MoE</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-Neo</span></td>
+        <td class="tg-jkyp">March 22, 2021</td>
+        <td class="tg-jkyp">2.7B</td>
+        <td class="tg-za14">EleutherAI</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Germany, Canada, USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (MIT)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">PanGu-α</span></td>
+        <td class="tg-jkyp">April 26, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">200.0B</span></td>
+        <td class="tg-za14">Huawei</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">Chinese</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2104.12369">PanGu-$α$: Large-scale Autoregressive Pretrained Chinese Language Models with Auto-parallel Computation</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">ByT5</span></td>
+        <td class="tg-jkyp">May 28, 2021</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (C4)</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2105.13626">ByT5: Towards a token-free future with pre-trained byte-to-byte models</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Wu Dao 2.0</span></td>
+        <td class="tg-jkyp">June 1, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">1.8T</span></td>
+        <td class="tg-za14">BAAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only MoE</span></td>
+        <td class="tg-y02l"><a href="https://en.pingwest.com/a/8693">Chinese AI lab challenges Google, OpenAI with a model of 1.75 trillion parameters - PingWest</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-J</span></td>
+        <td class="tg-jkyp">June 8, 2021</td>
+        <td class="tg-jkyp">6.0B</td>
+        <td class="tg-za14">EleutherAI</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Australia, USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CPM-2.1</span></td>
+        <td class="tg-jkyp">June 20, 2021</td>
+        <td class="tg-jkyp">11.0B</td>
+        <td class="tg-za14">Tsinghua University</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Codex</span></td>
+        <td class="tg-jkyp">August 10, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">OpenAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Jurassic-1</span></td>
+        <td class="tg-jkyp">August 11, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">178.0B</span></td>
+        <td class="tg-za14">AI21 Labs</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Israel</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://uploads-ssl.webflow.com/60fd4503684b466578c0d307/61138924626a6981ee09caf6_jurassic_tech_paper.pdf">White paper</a><span style="font-style:normal">, data discovered via adversarial attacks and confirmed via personal communication</span></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Wu Dao-GLM-XXL</span></td>
+        <td class="tg-jkyp">August 24, 2021</td>
+        <td class="tg-jkyp">10.0B</td>
+        <td class="tg-za14">BAAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">Chinese</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder (Autoregressive)</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Wu Dao-GLM-XXL</span></td>
+        <td class="tg-jkyp">August 24, 2021</td>
+        <td class="tg-jkyp">10.0B</td>
+        <td class="tg-za14">BAAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder (Autoregressive)</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CodeT5</span></td>
+        <td class="tg-jkyp">September 2, 2021</td>
+        <td class="tg-jkyp">16.0B</td>
+        <td class="tg-za14">Salesforce</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Code, English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (BSD 3-Clause)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2109.00859">arXiv</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">HyperCLOVA</span></td>
+        <td class="tg-jkyp">September 10, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">204.0B</span></td>
+        <td class="tg-za14">NAVER</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Korea</td>
+        <td class="tg-za14">Korean</td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2112.12731">arXiv</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">NTT Dialog</span></td>
+        <td class="tg-jkyp">September 17, 2021</td>
+        <td class="tg-jkyp">1.6B</td>
+        <td class="tg-za14">NTT</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Japan</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Plato-XL</span></td>
+        <td class="tg-jkyp">September 20, 2021</td>
+        <td class="tg-jkyp">11.0B</td>
+        <td class="tg-za14">Baidu</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only PrefixLM</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Zidong Taichu</span></td>
+        <td class="tg-jkyp">September 27, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">100.0B</span></td>
+        <td class="tg-za14">Chinese Academy of Sciences</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-za14"></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-y02l"><a href="https://www.lwxsd.com/pcen/info_view.php?tab=mynews&VID=39572">https://www.lwxsd.com/pcen/info_view.php?tab=mynews&amp;VID=39572</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Yuan 1.0</span></td>
+        <td class="tg-jkyp">October 10, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">245.0B</span></td>
+        <td class="tg-za14">Inspur AI Research</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Limited Access</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2110.04725">arXiv</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Megatron-Turing</span></td>
+        <td class="tg-jkyp">October 11, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">530.0B</span></td>
+        <td class="tg-za14">Microsoft, NVIDIA</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">PAGnol</span></td>
+        <td class="tg-jkyp">October 16, 2021</td>
+        <td class="tg-jkyp">1.5B</td>
+        <td class="tg-za14">LightOn</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">France</td>
+        <td class="tg-za14">French</td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + OSCAR</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://aclanthology.org/2022.lrec-1.455/">PAGnol: An Extra-Large French Generative Model</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Anthropic LM</span></td>
+        <td class="tg-jkyp">December 1, 2021</td>
+        <td class="tg-jkyp">52.0B</td>
+        <td class="tg-za14">Anthropic</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">ERNIE 3.0</span></td>
+        <td class="tg-jkyp">December 8, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">260.0B</span></td>
+        <td class="tg-za14">Baidu</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder w/ KGs</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Gopher</span></td>
+        <td class="tg-jkyp">December 8, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">280.0B</span></td>
+        <td class="tg-za14">DeepMind</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + C4</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GLaM</span></td>
+        <td class="tg-jkyp">December 13, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">1.2T</span></td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only MoE</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2112.06905">GLaM: Efficient Scaling of Language Models with Mixture-of-Experts</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Exaone</span></td>
+        <td class="tg-jkyp">December 14, 2021</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">300.0B</span></td>
+        <td class="tg-za14">LG</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Korea</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Korean</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">XGLM</span></td>
+        <td class="tg-jkyp">December 20, 2021</td>
+        <td class="tg-jkyp">7.5B</td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">USA, UK, Germany</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2201.11990">https://arxiv.org/abs/2112.10668</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">FairSeq Dense</span></td>
+        <td class="tg-jkyp">December 20, 2021</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">USA, UK, Germany</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Ambiguous)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">LaMDA</span></td>
+        <td class="tg-jkyp">January 20, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">137.0B</span></td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + C4</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2201.08239">LaMDA: Language Models for Dialog Applications</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-NeoX-20B</span></td>
+        <td class="tg-jkyp">February 2, 2022</td>
+        <td class="tg-jkyp">20.0B</td>
+        <td class="tg-za14">EleutherAI</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-SW3</span></td>
+        <td class="tg-jkyp">February 15, 2022</td>
+        <td class="tg-jkyp">3.5B</td>
+        <td class="tg-za14">AI Sweden</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-za14">Sweden</td>
+        <td class="tg-za14">Swedish</td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Limited Access</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile + OSCSAR + mC4</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2305.12987">GPT-SW3: An Autoregressive Language Model for the Nordic Languages</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">PolyCoder</span></td>
+        <td class="tg-jkyp">February 26, 2022</td>
+        <td class="tg-jkyp">2.7B</td>
+        <td class="tg-za14">Carnegie Mellon University</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Code</td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Released (Unlicensed)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/NinedayWang/PolyCoder-2.7B">NinedayWang/PolyCoder-2.7B · Hugging Face</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CodeGen</span></td>
+        <td class="tg-jkyp">March 25, 2022</td>
+        <td class="tg-jkyp">16.1B</td>
+        <td class="tg-za14">Salesforce</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Code, English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (BSD 3-Clause)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2203.13474">arXiv</a><span style="font-style:normal"> , </span><a href="https://huggingface.co/Salesforce/codegen-16B-multi">https://huggingface.co/Salesforce/codegen-16B-multi</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Chinchilla</span></td>
+        <td class="tg-jkyp">March 29, 2022</td>
+        <td class="tg-jkyp">70.0B</td>
+        <td class="tg-za14">DeepMind</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + C4</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2203.15556">Training Compute-Optimal Large Language Models</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">PaLM</span></td>
+        <td class="tg-jkyp">April 4, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">540.0B</span></td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2204.02311">PaLM: Scaling Language Modeling with Pathways</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">NOOR</span></td>
+        <td class="tg-jkyp">April 11, 2022</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Technology Innovation Institute, LightOn</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">UAE, France</span></td>
+        <td class="tg-za14">Arabic</td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-473x"><a href="https://aclanthology.org/2022.bigscience-1.8.pdf">https://aclanthology.org/2022.bigscience-1.8.pdf</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">InCoder-6B</span></td>
+        <td class="tg-jkyp">April 12, 2022</td>
+        <td class="tg-jkyp">6.0B</td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Code</td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Lyra-fr</span></td>
+        <td class="tg-jkyp">April 12, 2022</td>
+        <td class="tg-jkyp">10.0B</td>
+        <td class="tg-za14">LightOn</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">France</td>
+        <td class="tg-za14">French</td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">OPT</span></td>
+        <td class="tg-jkyp">May 2, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">175.0B</span></td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2205.01068">OPT: Open Pre-trained Transformer Language Models</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">UL2</span></td>
+        <td class="tg-jkyp">May 10, 2022</td>
+        <td class="tg-jkyp">20.0B</td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (C4)</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">YaLM</span></td>
+        <td class="tg-jkyp">May 23, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">100.0B</span></td>
+        <td class="tg-za14">Yandex</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Russia</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Russian, English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">BLOOM</span></td>
+        <td class="tg-jkyp">May 26, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">176.0B</span></td>
+        <td class="tg-za14">BigScience</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Limited Access + S2ORC + OSCAR</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">NeMo Megatron</span></td>
+        <td class="tg-jkyp">September 14, 2022</td>
+        <td class="tg-jkyp">20.0B</td>
+        <td class="tg-za14">NVIDIA</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (CC-BY-4.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GLM-130B</span></td>
+        <td class="tg-jkyp">October 5, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">130.0B</span></td>
+        <td class="tg-za14">Tsinghua University</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GenSLMs</span></td>
+        <td class="tg-jkyp">October 11, 2022</td>
+        <td class="tg-jkyp">25.0B</td>
+        <td class="tg-za14">Argone National Lab</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Genomics</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (MIT)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">Custom</span></td>
+        <td class="tg-y02l"><a href="https://www.biorxiv.org/content/10.1101/2022.10.10.511571v2">GenSLMs: Genome-scale language models reveal SARS-CoV-2 evolutionary dynamics | bioRxiv</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Galactica</span></td>
+        <td class="tg-jkyp">November 16, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">120.0B</span></td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + S2ORC</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-3.5</span></td>
+        <td class="tg-jkyp">November 19, 2022</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">OpenAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">OpenFold</span></td>
+        <td class="tg-jkyp">November 24, 2022</td>
+        <td class="tg-jkyp">93.0M</td>
+        <td class="tg-za14">Multilateral Colaboration</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Protein Structure</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">Custom</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Pythia</span></td>
+        <td class="tg-jkyp">December 10, 2022</td>
+        <td class="tg-jkyp">12.0B</td>
+        <td class="tg-za14">EleutherAI</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Pythia-deduped</span></td>
+        <td class="tg-jkyp">December 10, 2022</td>
+        <td class="tg-jkyp">12.0B</td>
+        <td class="tg-za14">EleutherAI</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">BioMedGPT</span></td>
+        <td class="tg-jkyp">December 15, 2022</td>
+        <td class="tg-jkyp">2.7B</td>
+        <td class="tg-za14">Stanford CRFM</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-Profit</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English (Medical Texts)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Palmyra</span></td>
+        <td class="tg-jkyp">January 5, 2023</td>
+        <td class="tg-jkyp">20.0B</td>
+        <td class="tg-za14">Writer</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">SantaCoder</span></td>
+        <td class="tg-jkyp">January 9, 2023</td>
+        <td class="tg-jkyp">1.1B</td>
+        <td class="tg-za14">BigCode Project</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-za14">Code</td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Stack)</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">MusicLM</span></td>
+        <td class="tg-jkyp">January 26, 2023</td>
+        <td class="tg-jkyp">1.4B</td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Music</td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released (FMA)</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">Custom</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2301.11325">https://arxiv.org/abs/2301.11325</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Anthropic 175B LM</span></td>
+        <td class="tg-jkyp">February 15, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">175.0B</span></td>
+        <td class="tg-za14">Anthropic</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14"></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-3-Finnish</span></td>
+        <td class="tg-jkyp">February 16, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">University of Turku</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Finland</span></td>
+        <td class="tg-za14">Finnish</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Reproducible + ROOTS</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">LLaMA</span></td>
+        <td class="tg-jkyp">February 24, 2023</td>
+        <td class="tg-jkyp">65.0B</td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Externally Replicated</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-SW3 40B</span></td>
+        <td class="tg-jkyp">March 1, 2023</td>
+        <td class="tg-jkyp">40.0B</td>
+        <td class="tg-za14">AI Sweden, RISE</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-za14">Sweden</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Nordic Languages and English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Limited Access</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile + mC4 + OSCAR</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Jurassic-2</span></td>
+        <td class="tg-jkyp">March 9, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">AI21</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Israel</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual (7)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">ChatGLM</span></td>
+        <td class="tg-jkyp">March 13, 2023</td>
+        <td class="tg-jkyp">6.0B</td>
+        <td class="tg-za14">Tsinghua University</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Claude-1</span></td>
+        <td class="tg-jkyp">March 14, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">Anthropic</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">GPT-4</span></td>
+        <td class="tg-jkyp">March 14, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">OpenAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">ESM-2</span></td>
+        <td class="tg-jkyp">March 16, 2023</td>
+        <td class="tg-jkyp">15.0B</td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Protein</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (MIT)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open</span></td>
+        <td class="tg-a1eg"><span style="font-weight:bold;background-color:#F6B26B">Encoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CerebrasGPT</span></td>
+        <td class="tg-jkyp">March 28, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Cerebras</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">USA, Canada</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">BloombergGPT</span></td>
+        <td class="tg-jkyp">March 30, 2023</td>
+        <td class="tg-jkyp">50.6B</td>
+        <td class="tg-za14">Bloomberg</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile + C4</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2303.17564">BloombergGPT: A Large Language Model for Finance</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">RedPajamas-INCITE</span></td>
+        <td class="tg-jkyp">April 17, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">TogetherAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (RP)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">StableLM</span></td>
+        <td class="tg-jkyp">April 19, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Stability AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (CC-BY-SA-4.0)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CodeGen2</span></td>
+        <td class="tg-jkyp">May 3, 2023</td>
+        <td class="tg-jkyp">16.0B</td>
+        <td class="tg-za14">Salesforce</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Code</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Stack)</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">MPT-7B</span></td>
+        <td class="tg-jkyp">May 5, 2023</td>
+        <td class="tg-jkyp">6.7B</td>
+        <td class="tg-za14">MosaicML</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (C4, RP, S2ORC, Stack, Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">StarCoder</span></td>
+        <td class="tg-jkyp">May 9, 2023</td>
+        <td class="tg-jkyp">15.0B</td>
+        <td class="tg-za14">BigCode Project</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-za14">Code</td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Stack)</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">PaLM-2</span></td>
+        <td class="tg-jkyp">May 10, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CodeT5+</span></td>
+        <td class="tg-jkyp">May 13, 2023</td>
+        <td class="tg-jkyp">16.0B</td>
+        <td class="tg-za14">Salesforce</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Code, English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (BSD 3-Clause)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-baum"><span style="font-weight:bold;background-color:#6FA8DC">Encoder-Decoder</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">OpenCALM</span></td>
+        <td class="tg-jkyp">May 15, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">CyberAgent</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Japan</td>
+        <td class="tg-za14">Japanese</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (CC BY-SA 4.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">RWKV v4</span></td>
+        <td class="tg-jkyp">May 22, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">EleutherAI and GenAI Commons</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">RNN</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Falcon-40B</span></td>
+        <td class="tg-jkyp">May 25, 2023</td>
+        <td class="tg-jkyp">40.0B</td>
+        <td class="tg-za14">Technology Innovation Institute, LightOn</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">UAE, France</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">StellarX</span></td>
+        <td class="tg-jkyp">May 27, 2023</td>
+        <td class="tg-jkyp">4.0B</td>
+        <td class="tg-za14">Arkane Industries</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Undisclosed</td>
+        <td class="tg-za14"></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">CC-BY-NC-SA-4.0</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (RP)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/Dampish/StellarX-4B-V0.2">Dampish/StellarX-4B-V0.2</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Polyglot-Ko</span></td>
+        <td class="tg-jkyp">June 4, 2023</td>
+        <td class="tg-jkyp">12.8B</td>
+        <td class="tg-za14">EleutherAI</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-za14">Korea</td>
+        <td class="tg-za14">Korean</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">PULI-GPTrio</span></td>
+        <td class="tg-jkyp">June 8, 2023</td>
+        <td class="tg-jkyp">7.7B</td>
+        <td class="tg-za14">Hungarian Research Centre for Linguistics</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-za14">Hungary</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Hungarian, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">CC-BY-NC</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/NYTK/PULI-GPTrio">NYTK/PULI-GPTrio</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Baichuan-1 7B</span></td>
+        <td class="tg-jkyp">June 15, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Baichuan AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/baichuan-inc/Baichuan-7B">baichuan-inc/Baichuan-7B</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Zidong Taichu 2.0</span></td>
+        <td class="tg-jkyp">June 16, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">100.0B</span></td>
+        <td class="tg-za14">Chinese Academy of Sciences</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-za14"></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Phi-1</span></td>
+        <td class="tg-jkyp">June 20, 2023</td>
+        <td class="tg-jkyp">1.3B</td>
+        <td class="tg-za14">Microsoft</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">MPT-30B</span></td>
+        <td class="tg-jkyp">June 22, 2023</td>
+        <td class="tg-jkyp">30.0B</td>
+        <td class="tg-za14">MosaicML</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (C4, RP, S2ORC, Stack, Pile)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Inflection-1</span></td>
+        <td class="tg-jkyp">June 23, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">Inflection</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14"></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">ChatGLM2</span></td>
+        <td class="tg-jkyp">June 25, 2023</td>
+        <td class="tg-jkyp">6.0B</td>
+        <td class="tg-za14">Tsinghua University</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">OpenLLaMA</span></td>
+        <td class="tg-jkyp">June 30, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">UC Berkeley</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (RP)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Codegen2.5</span></td>
+        <td class="tg-jkyp">July 6, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Salesforce</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-za14">Code</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Stack)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only (Autoregressive Span Corruption)</span></td>
+        <td class="tg-y02l"><a href="https://blog.salesforceairesearch.com/codegen25/">CodeGen2.5: Small, but mighty</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Baichuan-1 13B</span></td>
+        <td class="tg-jkyp">July 10, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Baichuan AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/baichuan-inc/Baichuan-7B">https://huggingface.co/baichuan-inc/Baichuan-13B</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Claude-2</span></td>
+        <td class="tg-jkyp">July 11, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">Anthropic</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">LLaMA 2</span></td>
+        <td class="tg-jkyp">July 18, 2023</td>
+        <td class="tg-jkyp">70.0B</td>
+        <td class="tg-za14">Meta</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Exaone</span></td>
+        <td class="tg-jkyp">July 19, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">LG</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Korea</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Korean</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">BTLM-3B-8k-base </span></td>
+        <td class="tg-jkyp">July 24, 2023</td>
+        <td class="tg-jkyp">3.0B</td>
+        <td class="tg-za14">Cerebras</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">USA, Canada, UAE</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (RP)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">bilingual-gpt-neox-4b</span></td>
+        <td class="tg-jkyp">July 30, 2023</td>
+        <td class="tg-jkyp">3.8B</td>
+        <td class="tg-za14">Rinna</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Japan</td>
+        <td class="tg-za14">Japanese</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (MIT)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile + mC4 + RP)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Jiang</span></td>
+        <td class="tg-jkyp">August 1, 2023</td>
+        <td class="tg-jkyp">30.0B</td>
+        <td class="tg-za14">KDF</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">Chinese</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Baichuan-1 53B</span></td>
+        <td class="tg-jkyp">August 8, 2023</td>
+        <td class="tg-jkyp">53.0B</td>
+        <td class="tg-za14">Baichuan AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://www.sohu.com/a/709930750_118778">百川智能发布旗下第三代大模型产品Baichuan-53B</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">StableLM Japanese</span></td>
+        <td class="tg-jkyp">August 10, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Stability AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">USA, Japan</span></td>
+        <td class="tg-za14">Japanese</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Composite)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">DeciCoder</span></td>
+        <td class="tg-jkyp">August 16, 2023</td>
+        <td class="tg-jkyp">1.0B</td>
+        <td class="tg-za14">Deci</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Israel</td>
+        <td class="tg-za14">Code</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (StarCoder)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/Deci/DeciCoder-1b">Deci/DeciCoder-1b · Hugging Face</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Dou Bao</span></td>
+        <td class="tg-jkyp">August 18, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">ByteDance</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-za14"></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">API</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Jais</span></td>
+        <td class="tg-jkyp">August 30, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Technology Innovation Institute, LightOn</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">USA, Canada, UAE</span></td>
+        <td class="tg-za14">Arabic</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + Pile + mC4</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Falcon-180B</span></td>
+        <td class="tg-jkyp">September 6, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">180.0B</span></td>
+        <td class="tg-za14">Technology Innovation Institute, LightOn</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">UAE, France</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Persimmon-8B</span></td>
+        <td class="tg-jkyp">September 7, 2023</td>
+        <td class="tg-jkyp">8.0B</td>
+        <td class="tg-za14">Adept AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://www.adept.ai/blog/persimmon-8b">Releasing Persimmon-8B</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">XGen</span></td>
+        <td class="tg-jkyp">September 7, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Salesforce</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Code</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + RP + Stack</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/Salesforce/xgen-7b-8k-base">Salesforce/xgen-7b-8k-base · Hugging Face</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Phi-1.5</span></td>
+        <td class="tg-jkyp">September 11, 2023</td>
+        <td class="tg-jkyp">1.3B</td>
+        <td class="tg-za14">Microsoft</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">FLM-101B</span></td>
+        <td class="tg-jkyp">September 17, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">101.0B</span></td>
+        <td class="tg-za14">Multilateral, lead by BAAI</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2309.03852">FLM-101B: An Open LLM and How to Train It with $100K Budget</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Baichuan-2</span></td>
+        <td class="tg-jkyp">September 19, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Baichuan AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2309.10305">Baichuan 2: Open Large-scale Language Models</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">InternLM</span></td>
+        <td class="tg-jkyp">September 20, 2023</td>
+        <td class="tg-jkyp">20.0B</td>
+        <td class="tg-za14">Shanghai AI Laboratory</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/internlm/internlm-20b">https://huggingface.co/internlm/internlm-20b</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Unnamed Model</span></td>
+        <td class="tg-jkyp">September 26, 2023</td>
+        <td class="tg-jkyp">3.6B</td>
+        <td class="tg-za14">Line Corporation</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">Japan</td>
+        <td class="tg-za14">Japanese</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Mistral-7B-v0.1</span></td>
+        <td class="tg-jkyp">September 27, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Mistral AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">France</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://mistral.ai/news/announcing-mistral-7b/">https://mistral.ai/news/announcing-mistral-7b/</a><span style="font-style:normal"> , </span><a href="https://arxiv.org/abs/2310.06825">https://arxiv.org/abs/2310.06825</a><span style="font-style:normal"> </span></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">RWKV v4 World</span></td>
+        <td class="tg-jkyp">October 10, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">EleutherAI and GenAI Commons</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (incl. Pile)</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">RNN</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CodeFuse</span></td>
+        <td class="tg-jkyp">October 10, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Ant Group</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Chinese, English, Code</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Custom)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Qwen-14B</span></td>
+        <td class="tg-jkyp">October 13, 2023</td>
+        <td class="tg-jkyp">14.0B</td>
+        <td class="tg-za14">Alibaba Group</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://arxiv.org/abs/2309.16609">arXiv</a><span style="font-style:normal"> , </span><a href="https://huggingface.co/Qwen/Qwen-14B/blob/main/LICENSE">https://huggingface.co/Qwen/Qwen-14B/blob/main/LICENSE</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">ChatGLM3</span></td>
+        <td class="tg-jkyp">October 27, 2023</td>
+        <td class="tg-jkyp">6.0B</td>
+        <td class="tg-za14">Tsinghua University</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-6lmu">Decoder-only (Autoregressive Span Corruption)</td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Skywork</span></td>
+        <td class="tg-jkyp">October 30, 2023</td>
+        <td class="tg-jkyp">13.0B</td>
+        <td class="tg-za14">Kunlun</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Partially Released</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">DeepSeek-Coder</span></td>
+        <td class="tg-jkyp">November 2, 2023</td>
+        <td class="tg-jkyp">33.0B</td>
+        <td class="tg-za14">DeepSeek</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Code, English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://deepseekcoder.github.io/">DeepSeek Coder</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">FinGPT-3</span></td>
+        <td class="tg-jkyp">November 3, 2023</td>
+        <td class="tg-jkyp">13.3B</td>
+        <td class="tg-za14">The University of Turku, Hugging Face, the Finish National Library, and AMD</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Finland, USA</span></td>
+        <td class="tg-za14">Finish</td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Closed + mC4</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Grok-0</span></td>
+        <td class="tg-jkyp">November 5, 2023</td>
+        <td class="tg-jkyp">33.0B</td>
+        <td class="tg-za14">xAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-y02l"><a href="https://x.ai/">https://x.ai/</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Grok-1</span></td>
+        <td class="tg-jkyp">November 5, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">xAI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-y02l"><a href="https://x.ai/">https://x.ai/</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Yi</span></td>
+        <td class="tg-jkyp">November 5, 2023</td>
+        <td class="tg-jkyp">34.0B</td>
+        <td class="tg-y02l"><a href="http://01.ai/">01.AI</a></td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/01-ai/Yi-34B">https://huggingface.co/01-ai/Yi-34B</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">XVERSE</span></td>
+        <td class="tg-jkyp">November 8, 2023</td>
+        <td class="tg-jkyp">65.0B</td>
+        <td class="tg-za14">Shenzhen Yuanxiang Technology</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual (40)</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Downloadable (Unknown)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-y02l"><a href="https://huggingface.co/xverse/XVERSE-65B">https://huggingface.co/xverse/XVERSE-65B</a></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">FORGE</span></td>
+        <td class="tg-jkyp">November 12, 2023</td>
+        <td class="tg-jkyp">26.0B</td>
+        <td class="tg-za14">Oak Ridge National Lab</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">RWKV v5</span></td>
+        <td class="tg-jkyp">November 14, 2023</td>
+        <td class="tg-jkyp">3.0B</td>
+        <td class="tg-za14">EleutherAI and GenAI Commons</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multinational</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">RNN</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Phi-2</span></td>
+        <td class="tg-jkyp">November 16, 2023</td>
+        <td class="tg-jkyp">2.7B</td>
+        <td class="tg-za14">Microsoft</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Inflection-2</span></td>
+        <td class="tg-jkyp">November 22, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">Inflection</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-zlo7"><span style="font-weight:bold;background-color:#EA4335">Undisclosed</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Qwen-72B</span></td>
+        <td class="tg-jkyp">November 30, 2023</td>
+        <td class="tg-jkyp">72.0B</td>
+        <td class="tg-za14">Alibaba</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Chinese</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Commercial Use</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Mamba</span></td>
+        <td class="tg-jkyp">December 1, 2023</td>
+        <td class="tg-jkyp">2.8B</td>
+        <td class="tg-za14">Carnegie Mellon University and Princeton</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">Non-profit</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Pile)</span></td>
+        <td class="tg-1f9o"><span style="font-weight:bold;background-color:#D5A6BD">State Space Model</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Gemini</span></td>
+        <td class="tg-jkyp">December 6, 2023</td>
+        <td class="tg-oxe6"><span style="font-weight:bold">Undisclosed</span></td>
+        <td class="tg-za14">Google</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">ChatBot</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Mixtral</span></td>
+        <td class="tg-jkyp">December 11, 2023</td>
+        <td class="tg-jkyp">12.0B</td>
+        <td class="tg-za14">Mistral AI</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-za14">France</td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual (5) + Code</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-zo3f"><span style="font-weight:bold;background-color:#EA4335">Closed</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only MoE 8x7B</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">Amber</span></td>
+        <td class="tg-jkyp">December 11, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Petuum, MBZUAI, USC, CMU, UIUC, and UCSD</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA and Saudi Arabia</span></td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">English</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (RW, StarCoder, RP-1)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">CrystalCoder</span></td>
+        <td class="tg-jkyp">December 11, 2023</td>
+        <td class="tg-jkyp">7.0B</td>
+        <td class="tg-za14">Petuum, MBZUAI, USC, CMU, UIUC, and UCSD</td>
+        <td class="tg-za14">Multilateral colaboration</td>
+        <td class="tg-yc8w"><span style="background-color:#C9DAF8">USA and Saudi Arabia</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">English, Code</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (Apache 2.0)</span></td>
+        <td class="tg-lr4c"><span style="font-weight:bold;background-color:#34A853">Open (SlimPJ, StarCoder)</span></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">SHAI</span></td>
+        <td class="tg-jkyp">December 25, 2023</td>
+        <td class="tg-jkyp">10.0B</td>
+        <td class="tg-za14"></td>
+        <td class="tg-za14"></td>
+        <td class="tg-za14"></td>
+        <td class="tg-za14"></td>
+        <td class="tg-za14"></td>
+        <td class="tg-za14"></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+      <tr>
+        <td class="tg-0thz"><span style="font-weight:bold">YAYI</span></td>
+        <td class="tg-jkyp">December 25, 2023</td>
+        <td class="tg-jkyp">30.0B</td>
+        <td class="tg-za14">Wenge Research</td>
+        <td class="tg-za14">Company</td>
+        <td class="tg-ld3d"><span style="background-color:#F4CCCC">China</span></td>
+        <td class="tg-js59"><span style="background-color:#B7E1CD">Multilingual</span></td>
+        <td class="tg-3b9d"><span style="font-weight:bold;background-color:#FBBC04">Non-Commercial</span></td>
+        <td class="tg-za14"></td>
+        <td class="tg-gzgk"><span style="font-weight:bold;background-color:#93C47D">Decoder-only</span></td>
+        <td class="tg-za14"></td>
+      </tr>
+    </tbody>
+    </table>
