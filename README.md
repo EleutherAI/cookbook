@@ -6,7 +6,7 @@ All the practical details and utilities that go into working with real models! I
 ## Table of Contents
 
 - [The Cookbook](#the-cookbook)
-  * [Utilities](#utilites)
+  * [Utilities](#utilities)
     + [Calculations](#calculations)
     + [Benchmarks](#benchmarks)
   * [Reading List](#reading-list)
