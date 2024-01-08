@@ -33,7 +33,7 @@ if __name__ == '__main__':
     arch = "a100"
 
     # Try to determine the effect of b on throughput with square individual MMs.
-    with open(f'../results/gemm_data/bmm/bsweep/{arch}.out', 'w') as sys.stdout:
+    with open(f'results/gemm_data/bmm/bsweep/{arch}.out', 'w') as sys.stdout:
         for log_b in range(7):
             b = 2**log_b
             benchmark_bmm(b, m=1024, n=1024, k=1024)
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     
     # Try to determine the effect of b and outer_dim on throughput with non-square
     # individual MMs.
-    with open(f'../results/gemm_data/bmm/msweep/{arch}.out', 'w') as sys.stdout:
+    with open(f'results/gemm_data/bmm/msweep/{arch}.out', 'w') as sys.stdout:
         for log_b in range(7):
             b = 2**log_b
             for log_outer_dim in range(5, 14):
