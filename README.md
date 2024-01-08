@@ -103,3 +103,17 @@ Architecture-Specific Examples
 ## Contributing
 
 If you found a bug, typo, or would like to propose an improvement please don't hesitate to open an [Issue](https://github.com/EleutherAI/cookbook/issues) or contribute a [PR](https://github.com/EleutherAI/cookbook/pulls).
+
+## Cite As
+
+If you found this repository helpful, please consider citing it using
+
+```bibtex
+@misc{anthony2024cookbook,
+    title = {{The EleutherAI Model Training Cookbook}},
+    author = {Anthony, Quentin and Schoelkopf, Hailey and Biderman, Stella},
+    howpublished = {GitHub Repo},
+    url = {https://github.com/EleutherAI/cookbook},
+    year = {2024}
+}
+```
