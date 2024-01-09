@@ -1,6 +1,6 @@
 # Transformer Sizing Guidelines
 
-To run benchmarks, run:
+To run the benchmarks, run:
 
 `bash run_all.sh`
 
