@@ -21,7 +21,7 @@ for tensor_mp_size in [1]:
                                            (tensor_mp_size, 1, 1), num_attention_heads,v))
 
 
-with open(f'results/transformer_data/{arch}/vocab_v_sweep.out', 'w') as sys.stdout:
+with open(f'../results/transformer_data/{arch}/vocab_v_sweep.out', 'w') as sys.stdout:
     megatron_wrapper.initialize_megatron(configurations[0])
     for configuration in configurations:
         (microbatch_size, hidden_size,
@@ -53,7 +53,7 @@ for tensor_mp_size in [1]:
                         configurations.append((batch_size, h,
                                            (tensor_mp_size, 1, 1), num_attention_heads,v))
 
-with open(f'results/transformer_data/{arch}/vocab_h_sweep.out', 'w') as sys.stdout:
+with open(f'../results/transformer_data/{arch}/vocab_h_sweep.out', 'w') as sys.stdout:
     megatron_wrapper.initialize_megatron(configurations[0])
     for configuration in configurations:
         (microbatch_size, hidden_size,
