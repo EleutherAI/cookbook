@@ -48,4 +48,4 @@ if __name__ == '__main__':
         for M in m:
             for N in n:
                 for K in k:
-                    benchmark_mm(M,N,K, args.num_iterations, args.num_warmup_iterations)
+                    benchmark_mm(M, N, K, args.num_iterations, args.num_warmup_iterations)
