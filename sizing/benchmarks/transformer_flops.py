@@ -9,11 +9,18 @@ from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask
 import sys
 from utils import *
 import argparse
+from megatron.model import LayerNorm
+from megatron.model.fused_softmax import FusedScaleMaskSoftmax, SoftmaxFusionTypes
+from megatron.model.transformer import ParallelSelfAttention, ParallelMLP, ParallelTransformerLayer
+from megatron.model.transformer import bias_dropout_add_fused_train
+from megatron.model.activations import bias_gelu_impl
+from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask_func
+from megatron.model.word_embeddings import Embedding
 
 # benchmarks the individual components of the transformer.  Will only be used if --layers is specified and will only benchmark the layers specified
 def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, global_batch_size, num_iterations, num_warmup_iterations):
 
-    (microbatch_size, hidden_size, (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size) = configuration
+    (microbatch_size, hidden_size, (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
     print("\n\nEstimate")
     print("--------")
     elapsed_attention_time = 0.0
@@ -21,72 +28,72 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
     elapsed_add_bias_dropout_time = 0.0
     elapsed_layer_norm_time = 0.0
     
-    if 'qkv_transform' in args.layers or 'all' in args.layers:
+    if 'qkv_transform' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_mm_b(
             microbatch_size, hidden_size,
             3 * hidden_size // tensor_mp_size,
             'qkv_transform',
-            b=seq_length, num_iterations=num_iterations)
-    if 'attention_score' in args.layers or 'all' in args.layers:
+            seq_length, num_iterations, num_warmup_iterations)
+    if 'attention_score' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_bmm(
             microbatch_size * num_attention_heads // tensor_mp_size,
             seq_length, hidden_size // num_attention_heads,
             seq_length, 'attention_score',
             num_iterations, num_warmup_iterations)
-    if 'attention_over_value' in args.layers or 'all' in args.layers:
+    if 'attention_over_value' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_bmm(
             microbatch_size * num_attention_heads // tensor_mp_size,
             seq_length, seq_length, hidden_size // num_attention_heads,
             'attention_over_value',
             num_iterations, num_warmup_iterations)
-    if 'dropout' in args.layers or 'all' in args.layers:
+    if 'dropout' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_dropout(
             (microbatch_size, num_attention_heads // tensor_mp_size, seq_length, seq_length),
             'attention_dropout',
             num_iterations, num_warmup_iterations)
-    if 'softmax' in args.layers or 'all' in args.layers:
+    if 'softmax' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_softmax(
             (microbatch_size, num_attention_heads // tensor_mp_size, seq_length, seq_length),
             seq_length, 'attention_softmax',
             num_iterations, num_warmup_iterations)
-    if 'attention_linear_projection' in args.layers or 'all' in args.layers:
+    if 'attention_linear_projection' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_mm_b(
             microbatch_size, hidden_size // tensor_mp_size,
             hidden_size, 'attention_linear_projection',
             seq_length,
             num_iterations, num_warmup_iterations)
-    if 'mlp_h_to_4h' in args.layers or 'all' in args.layers:
+    if 'mlp_h_to_4h' in args.blocks or 'all' in args.blocks:
         elapsed_mlp_time += benchmark_mm_b(
             microbatch_size, hidden_size,
             4 * hidden_size // tensor_mp_size, 'mlp_h_to_4h',
             seq_length,
             num_iterations, num_warmup_iterations)
-    if 'gelu' in args.layers or 'all' in args.layers:
+    if 'gelu' in args.blocks or 'all' in args.blocks:
         elapsed_mlp_time += benchmark_fused_gelu(
             (seq_length, microbatch_size, 4 * hidden_size // tensor_mp_size),
             (4 * hidden_size // tensor_mp_size,),
             'mlp_fused_gelu', num_iterations, num_warmup_iterations)
-    if 'mlp_4h_to_h' in args.layers or 'all' in args.layers:
+    if 'mlp_4h_to_h' in args.blocks or 'all' in args.blocks:
         elapsed_mlp_time += benchmark_mm_b(
             microbatch_size, 4 * hidden_size // tensor_mp_size,
             hidden_size, 'mlp_4h_to_h',
             seq_length,
             num_iterations, num_warmup_iterations)
-    if 'add_bias_dropout' in args.layers or 'all' in args.layers:
+    if 'add_bias_dropout' in args.blocks or 'all' in args.blocks:
         elapsed_add_bias_dropout_time = 2 * benchmark_add_bias_dropout(
             (seq_length, microbatch_size, hidden_size),
             'transformer_add_bias_dropout',
             num_iterations, num_warmup_iterations)
-    if 'layer_norm' in args.layers or 'all' in args.layers:
+    if 'layer_norm' in args.blocks or 'all' in args.blocks:
         elapsed_layer_norm_time = 2 * benchmark_layer_norm(
             (seq_length, microbatch_size, hidden_size),
             hidden_size,
             'transformer_layer_norm',
             num_iterations, num_warmup_iterations)
-    if 'logit_layer' in args.layers or 'all' in args.layers:
+    if 'logit_block' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_mm_b(
             microbatch_size, vocab_size,
-            hidden_size, 'logit_layer',
+            hidden_size, 'logit_block',
             seq_length,
             num_iterations, num_warmup_iterations)
     
@@ -118,14 +125,14 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
     pipeline_bubble_fraction = (pipeline_mp_size - 1) / num_microbatches_in_pipeline
     elapsed_time *= (1 + pipeline_bubble_fraction)
     # Throughput if considering pipeline bubble.
-    throughput = num_total_floating_point_operations / (elapsed_time * 10**12)
+    throughput = num_total_floating_point_operations / (elapsed_time * 10**12 / 10**3)
 
 # benchmarks the entire transformer using megatron
-def benchmark_transformer(configuration, seq_length, global_batch_size, num_iterations,num_warmup_iterations):
+def benchmark_transformer(c_args,configuration, seq_length, global_batch_size, num_iterations,num_warmup_iterations):
     start = torch.cuda.Event(enable_timing=True)
     end = torch.cuda.Event(enable_timing=True)
     (microbatch_size, hidden_size,
-     (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size) = configuration
+     (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
     print("\n\nActual")
     print("------")
 
@@ -133,7 +140,8 @@ def benchmark_transformer(configuration, seq_length, global_batch_size, num_iter
     fn_args = [megatron.model.init_functions.init_method_normal(args.init_method_std),
                megatron.model.init_functions.init_method_normal(args.init_method_std)]
     init_method = megatron.model.init_functions.init_method_normal(args.init_method_std)
-    args.attention_config=["flash","global"]
+    if c_args.use_flash:
+        args.attention_config=["flash","global"]
     attention_layer = ParallelSelfAttention(args,attention_mask_func=attention_mask_func, init_method=init_method,output_layer_init_method=init_method, layer_number=0).half().to("cuda")
     mlp_layer = ParallelMLP(args,init_method=init_method,output_layer_init_method=init_method).half().to("cuda")
     transformer_layer = ParallelTransformerLayer(args,attention_mask_func=attention_mask_func,init_method=init_method,output_layer_init_method=init_method,layer_number=0).half().to("cuda")
@@ -152,8 +160,7 @@ def benchmark_transformer(configuration, seq_length, global_batch_size, num_iter
         16 * microbatch_size * seq_length * hidden_size * hidden_size / tensor_mp_size
     num_total_floating_point_operations = num_attention_floating_point_operations + \
         num_mlp_floating_point_operations
-
-    allTimes = []
+    
     for layer, label, need_attention_mask, num_floating_point_operations in \
         zip([ attention_layer, mlp_layer, transformer_layer],
             [ "Attention", "MLP", "Transformer"],
@@ -161,7 +168,7 @@ def benchmark_transformer(configuration, seq_length, global_batch_size, num_iter
             [num_attention_floating_point_operations, num_mlp_floating_point_operations,
              num_total_floating_point_operations]):
         layer.train()
-
+        
         times = np.zeros(num_iterations+num_warmup_iterations)
         for i in range(num_warmup_iterations + num_iterations):
             with torch.no_grad():
@@ -176,9 +183,8 @@ def benchmark_transformer(configuration, seq_length, global_batch_size, num_iter
             times[i] = start.elapsed_time(end)
 
         times = times[num_warmup_iterations:]
-        elapsed_time = np.amax(times) 
+        elapsed_time = np.amax(times)/1000 # get to seconds from milliseconds
 
-        allTimes.append(median_time)
         throughput = num_floating_point_operations / (elapsed_time * 10**12)
         print(f"{label} duration (in seconds): {elapsed_time:.4f}")
         print(f"{label} throughput (in TFLOP/s): {throughput:.3f}")
@@ -214,45 +220,42 @@ if __name__ == '__main__':
     t_group.add_argument("--tensor_mp_size", nargs="+", type=int, help='The tensor parallel size, enter any number of arguments')
     t_group.add_argument("--tensor_mp_size_range", nargs='+', type=int, help="The tensor parallel size, [start,stop,step]")
 
-    gb_group.add_argument("--layers", nargs="+", type=str, help='The transformer layers to benchmark, enter "all" or any number of [qkv_transform, attention_score, \
-                          attention_over_value, attention_linear_projection, mlp_h_to_4h, mlp_4h_to_h, logit_layer, layer_norm, dropout, add_bias_dropout, softmax, gelu]')
+    parser.add_argument("--blocks", nargs="+", type=str, help='The transformer blocks to benchmark, enter "all" or any number of [qkv_transform, attention_score, \
+                          attention_over_value, attention_linear_projection, mlp_h_to_4h, mlp_4h_to_h, logit_block, layer_norm, dropout, add_bias_dropout, softmax, gelu]')
 
+    parser.add_argument("--use_flash", action="store_true", help="Use flash  attention")
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
     parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
-    parser.add_argument("--output_file", type=str, default="../results/gemm_data/bmm.out")
+    parser.add_argument("--output_file", type=str, default="../results/transformer.out")
     args = parser.parse_args()
 
-    hidden_size = args.hidden_size
-    num_attention_heads = args.num_attention_heads
-    vocab_size = args.vocab_size
-    seq_length = args.seq_length
-    tensor_mp_size = args.tensor_mp_size
-    num_attention_heads = args.num_attention_heads
-    microbatch_size = args.microbatch_size
+    h = args.hidden_size
+    a = args.num_attention_heads
+    v = args.vocab_size
+    s = args.seq_length
+    t = args.tensor_mp_size
+    b = args.microbatch_size
     global_batch_size = args.global_batch_size
 
-    if hidden_size is None:
+    if h is None:
         start,stop,step = args.hidden_size_range
-        hidden_size = np.arange(start,stop,step)
-    if num_attention_heads is None:
+        h = np.arange(start,stop,step)
+    if a is None:
         start,stop,step = args.num_attention_heads_range
-        num_attention_heads = np.arange(start,stop,step)
-    if vocab_size is None:
+        a = np.arange(start,stop,step)
+    if v is None:
         start,stop,step = args.vocab_size_range
-        vocab_size = np.arange(start,stop,step)
-    if seq_length is None:
+        v = np.arange(start,stop,step)
+    if s is None:
         start,stop,step = args.seq_length_range
-        seq_length = np.arange(start,stop,step)
-    if tensor_mp_size is None:
+        s = np.arange(start,stop,step)
+    if t is None:
         start,stop,step = args.tensor_mp_size_range
-        tensor_mp_size = np.arange(start,stop,step)
-    if num_attention_heads is None:
-        start,stop,step = args.num_attention_heads_range
-        num_attention_heads = np.arange(start,stop,step)
-    if microbatch_size is None:
+        t = np.arange(start,stop,step)
+    if b is None:
         start,stop,step = args.microbatch_size_range
-        microbatch_size = np.arange(start,stop,step)
+        b = np.arange(start,stop,step)
     if global_batch_size is None:
         start,stop,step = args.global_batch_size_range
         global_batch_size = np.arange(start,stop,step)
@@ -269,22 +272,24 @@ if __name__ == '__main__':
                             for microbatch_size in b:
                                 for vocab_size in v:
                                     configurations.append((microbatch_size, hidden_size,
-                                            (tensor_mp_size, 1, 1), num_attention_heads,vocab_size))
-        megatron_wrapper.initialize_megatron(configurations[0])
-        for configuration in configurations:
-            (microbatch_size, hidden_size,
-                    (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size) = configuration
-            label = {'num_attention_heads': num_attention_heads,
-                    'hidden_size': hidden_size,
-                    'train_micro_batch_size_per_gpu': microbatch_size,
-                    'tensor_mp_size': tensor_mp_size,
-                    'pipeline_mp_size': pipeline_mp_size,
-                    'dp_size': dp_size}
-            label_str = ", ".join([f"{k}: {v}" for (k, v) in label.items()])
-            print(label_str)
-            if args.layers is None:
-                benchmark_transformer(configuration, seq_length, train_batch_size, num_iterations, num_warmup_iterations)
-                
-            else:
-                benchmark_transformer_from_mm_and_bmm(args,configuration, seq_length, train_batch_size, num_iterations, num_warmup_iterations)
-            print("=" * 120)
+                                            (tensor_mp_size, 1, 1), num_attention_heads,vocab_size,seq_length,train_batch_size))
+            megatron_wrapper.initialize_megatron(configurations[0])
+            for configuration in configurations:
+                (microbatch_size, hidden_size,
+                        (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
+                label = {'num_attention_heads': num_attention_heads,
+                        'hidden_size': hidden_size,
+                        'train_micro_batch_size_per_gpu': microbatch_size,
+                        'seq_length': seq_length,
+                        'vocab_size': vocab_size,
+                        'train_batch_size': train_batch_size,
+                        'tensor_mp_size': tensor_mp_size,
+                        'pipeline_mp_size': pipeline_mp_size,
+                        'dp_size': dp_size}
+                label_str = ", ".join([f"{k}: {v}" for (k, v) in label.items()])
+                print(label_str)
+                if args.blocks is None:
+                    benchmark_transformer(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
+                else:
+                    benchmark_transformer_from_mm_and_bmm(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
+                print("=" * 120)

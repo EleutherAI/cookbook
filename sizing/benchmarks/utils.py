@@ -27,10 +27,11 @@ def benchmark_mm(m, n, k, num_iterations, num_warmup_iterations):
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    elapsed_time = np.amax(times)
+    elapsed_time = np.amax(times)/1000 
     print(f"Elapsed time for {m}x{n}x{k}: {elapsed_time:.3f}")
     print(f"Throughput (in TFLOP/s) for {m}x{n}x{k}: {(2 * m * n * k) / (elapsed_time * 10**12):.3f}")
     print("-" * 80)
+    return elapsed_time
 
 # Benchmark of a GEMM with a single batched operator
 def benchmark_mm_b(m, n, k, label, b, num_iterations,num_warmup_iterations):
@@ -53,12 +54,13 @@ def benchmark_mm_b(m, n, k, label, b, num_iterations,num_warmup_iterations):
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    median_time = np.amax(times)
-    print(f"Elapsed time for {label} ({m}x{n}x{k}, b={b}): {median_time:.4f}")
+    elapsed_time = np.amax(times)/1000 
+    print(f"Elapsed time for {label} ({m}x{n}x{k}, b={b}): {elapsed_time :.4f}")
     print(f"Throughput (in TFLOP/s) for {label} ({m}x{n}x{k}, b={b}): "
-          f"{(2 * b * m * n * k) / (median_time * 10**12):.3f}")
+          f"{(2 * b * m * n * k) / (elapsed_time * 10**12):.3f}")
+    return elapsed_time
 
-def benchmark_bmm(b, m, n, k, num_iterations, num_warmup_iterations):
+def benchmark_bmm(b, m, n, k, label,num_iterations, num_warmup_iterations):
     start = torch.cuda.Event(enable_timing=True)
     end = torch.cuda.Event(enable_timing=True)
     A = torch.randn((b, m, n)).half().to("cuda")
@@ -73,12 +75,11 @@ def benchmark_bmm(b, m, n, k, num_iterations, num_warmup_iterations):
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    elapsed_time = np.amax(times)
-    print(f"Elapsed time for {b}x{m}x{n}x{k}: {elapsed_time:.3f}")
-    print(f"Throughput (in TFLOP/s) for {b}x{m}x{n}x{k}: {(2 * b * m * n * k) / (elapsed_time * 10**12):.3f}")
-    flops = (2 * b * m * n * k) / (elapsed_time * 10**12)
-    print("-" * 80)
-    return flops
+    elapsed_time = np.amax(times)/1000 
+    print(f"Elapsed time for {label} ({b}x{m}x{n}x{k}): {elapsed_time :.4f}")
+    print(f"Throughput (in TFLOP/s) for {label} ({b}x{m}x{n}x{k}): "
+          f"{(2 * b * m * n * k) / (elapsed_time * 10**12):.3f}")
+    return elapsed_time
 
 def benchmark_dropout(A_dim, label, num_iterations, num_warmup_iterations):
     start = torch.cuda.Event(enable_timing=True)
@@ -95,8 +96,8 @@ def benchmark_dropout(A_dim, label, num_iterations, num_warmup_iterations):
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    elapsed_time = np.amax(times)
-    print(f"Elapsed time for {label} ({display(A_dim)}): {elapsed_time:.4f}")
+    elapsed_time = np.amax(times)/1000 
+    print(f"Elapsed time for {label} ({display(A_dim)}): {elapsed_time :.4f}")
     return elapsed_time
 
 def benchmark_softmax(scores_shape, seq_length, label, num_iterations,num_warmup_iterations):
@@ -120,8 +121,8 @@ def benchmark_softmax(scores_shape, seq_length, label, num_iterations,num_warmup
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    elapsed_time = np.amax(times)
-    print(f"Elapsed time for {label} ({display(scores_shape)}): {elapsed_time:.4f}")
+    elapsed_time = np.amax(times)/1000 
+    print(f"Elapsed time for {label} ({display(scores_shape)}): {elapsed_time :.4f}")
     return elapsed_time
 
 def benchmark_fused_gelu(A_dim, b_dim, label, num_iterations, num_warmup_iterations):
@@ -138,8 +139,8 @@ def benchmark_fused_gelu(A_dim, b_dim, label, num_iterations, num_warmup_iterati
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    elapsed_time = np.amax(times)
-    print(f"Elapsed time for {label} ({display(A_dim)}): {elapsed_time:.4f}")
+    elapsed_time = np.amax(times)/1000 
+    print(f"Elapsed time for {label} ({display(A_dim)}): {elapsed_time :.4f}")
     return elapsed_time
 
 def benchmark_layer_norm(A_dim, normalized_shape, label, num_iterations, num_warmup_iterations):
@@ -156,8 +157,8 @@ def benchmark_layer_norm(A_dim, normalized_shape, label, num_iterations, num_war
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    elapsed_time = np.amax(times)
-    print(f"Elapsed time for {label} ({display(A_dim)}): {elapsed_time:.4f}")
+    elapsed_time = np.amax(times)/1000 
+    print(f"Elapsed time for {label} ({display(A_dim)}): {elapsed_time :.4f}")
     return elapsed_time
 
 def benchmark_add_bias_dropout(shape, label, num_iterations, num_warmup_iterations):
@@ -175,6 +176,6 @@ def benchmark_add_bias_dropout(shape, label, num_iterations, num_warmup_iteratio
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
     times = times[num_warmup_iterations:]
-    elapsed_time = np.amax(times)
-    print(f"Elapsed time for {label} ({display(shape)}): {elapsed_time:.4f}")
+    elapsed_time = np.amax(times)/1000 
+    print(f"Elapsed time for {label} ({display(shape)}): {elapsed_time :.4f}")
     return elapsed_time

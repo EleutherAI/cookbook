@@ -98,7 +98,7 @@ def initialize_megatron(configuration):
 
 
 def get_megatron_args(configuration, override_tensor_mp_size=False):
-    (microbatch_size, hidden_size, (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size) = configuration
+    (microbatch_size, hidden_size, (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
     args = Arguments()
     args.params_dtype = torch.half
     if not override_tensor_mp_size:
