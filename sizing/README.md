@@ -122,3 +122,11 @@ options:
                         The cuda device to run the benchmark on
   --output_file OUTPUT_FILE
 ```
+
+## Output Files
+The output files will be in a text based format, and can be read into a `Pandas.dataframe`. An example of this is found in `plotting/transformer_figures.ipynb`. Alternatively, users can convert this output file into a csv using the `plotting/convert_to_csv` script.
+Example:
+```
+python convert_to_csv.py --file_name ../results/bmm.out --output_file ../results/bmm.csv
+```
+
