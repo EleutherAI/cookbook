@@ -1,5 +1,5 @@
 # The Cookbook
-Deep learning for dummies, by Quentin Anthony, Hailey Schoelkopf, and Stella Biderman
+Deep learning for dummies, by Quentin Anthony, Jacob Hatef, Hailey Schoelkopf, and Stella Biderman
 
 All the practical details and utilities that go into working with real models! If you're just getting started, we recommend jumping ahead to [Basics](#basics) for some introductory resources on transformers.
 
@@ -33,8 +33,11 @@ Useful external calculators include
 
 ### Benchmarks
 
-For benchmarks (e.g. communication)
-- **[benchmarks](./benchmarks/)**
+Communication benchmarks
+- **[benchmarks/communication](./benchmarks/communication)**
+
+Transformer sizing and GEMM benchmarks
+- **[benchmarks/sizing](./benchmarks/sizing)**
 
 ## Reading List
 
@@ -111,7 +114,7 @@ If you found this repository helpful, please consider citing it using
 ```bibtex
 @misc{anthony2024cookbook,
     title = {{The EleutherAI Model Training Cookbook}},
-    author = {Anthony, Quentin and Schoelkopf, Hailey and Biderman, Stella},
+    author = {Anthony, Quentin and Hatef, Jacob and Schoelkopf, Hailey and Biderman, Stella},
     howpublished = {GitHub Repo},
     url = {https://github.com/EleutherAI/cookbook},
     year = {2024}
