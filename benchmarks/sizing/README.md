@@ -4,7 +4,7 @@ The intent of these benchmarks is to measure the throughput of Generalized Matri
 - The performance characteristics of GEMMs and BMMs on their GPU architecture.
 - How these GEMMs and BMMs form transformer layers.
 
-There are three scripts within `benchmarks` that can be run:
+There are three scripts within `benchmarks/sizing` that can be run:
 
 ## GEMM Benchmarks
 `mm_flops.py` measures throughput of GEMMs of shape $(m, n) \times (n, k)$.
