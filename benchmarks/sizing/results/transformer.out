@@ -1,0 +1,33 @@
+num_attention_heads: 16, hidden_size: 4096, train_micro_batch_size_per_gpu: 4, seq_length: 2048, vocab_size: 51200, train_batch_size: 256, tensor_mp_size: 1, pipeline_mp_size: 1, dp_size: 1
+
+
+Estimate
+--------
+Elapsed time for qkv_transform (4x4096x12288, b=2048): 0.0034
+Throughput (in TFLOP/s) for qkv_transform (4x4096x12288, b=2048): 241.616
+Elapsed time for attention_score (64x2048x256x2048): 0.0011
+Throughput (in TFLOP/s) for attention_score (64x2048x256x2048): 130.182
+Elapsed time for attention_over_value (64x2048x2048x256): 0.0006
+Throughput (in TFLOP/s) for attention_over_value (64x2048x2048x256): 218.952
+Elapsed time for attention_dropout (4x16x2048x2048): 0.0012
+Elapsed time for attention_softmax (4x16x2048x2048): 0.0076
+Elapsed time for attention_linear_projection (4x4096x4096, b=2048): 0.0012
+Throughput (in TFLOP/s) for attention_linear_projection (4x4096x4096, b=2048): 234.852
+Elapsed time for mlp_h_to_4h (4x4096x16384, b=2048): 0.0046
+Throughput (in TFLOP/s) for mlp_h_to_4h (4x4096x16384, b=2048): 241.128
+Elapsed time for mlp_fused_gelu (2048x4x16384): 0.0005
+Elapsed time for mlp_4h_to_h (4x16384x4096, b=2048): 0.0043
+Throughput (in TFLOP/s) for mlp_4h_to_h (4x16384x4096, b=2048): 252.764
+Elapsed time for transformer_add_bias_dropout (2048x4x4096): 0.0003
+Elapsed time for transformer_layer_norm (2048x4x4096): 0.0001
+Elapsed time for logit_block (4x51200x4096, b=2048): 0.0135
+Throughput (in TFLOP/s) for logit_block (4x51200x4096, b=2048): 255.380
+
+Attention duration (in seconds): 0.0285
+Attention throughput (in TFLOP/s): 48.167
+MLP duration (in seconds): 0.0094
+MLP throughput (in TFLOP/s): 234.186
+Transformer duration (in seconds): 0.0388
+Transformer throughput (in TFLOP/s): 91.991
+Transformer - MLP - Attention (in seconds): 0.0009
+========================================================================================================================
