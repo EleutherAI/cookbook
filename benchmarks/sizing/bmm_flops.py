@@ -30,7 +30,7 @@ if __name__ == '__main__':
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
     parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
-    parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/mm.out")
+    parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/bmm.out")
     args = parser.parse_args()
 
     b = args.b
