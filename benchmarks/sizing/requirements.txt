@@ -1,8 +1,8 @@
-numpy
-torch
-deepspeed
-pyyaml
-tokenizers
-transformers
-sentencepiece
 
+deepspeed
+numpy
+pyyaml
+sentencepiece
+tokenizers
+torch
+transformers
