@@ -4,6 +4,14 @@ The intent of these benchmarks is to measure the throughput of Generalized Matri
 - The performance characteristics of GEMMs and BMMs on their GPU architecture.
 - How these GEMMs and BMMs form transformer layers.
 
+## Dependencies
+
+First, install the required packages:
+```
+pip install -r requirements.txt
+```
+
+
 There are three scripts within `benchmarks/sizing` that can be run:
 
 ## GEMM Benchmarks
