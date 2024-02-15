@@ -2,3 +2,7 @@ numpy
 torch
 deepspeed
 pyyaml
+tokenizers
+transformers
+sentencepiece
+
