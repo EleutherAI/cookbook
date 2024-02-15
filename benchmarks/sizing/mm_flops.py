@@ -5,9 +5,9 @@ import numpy as np
 import argparse
 import os
 
-file_dir = os.path.abspath(os.path.dirname(__file__))
-
 from utils import benchmark_mm
+
+file_dir = os.path.abspath(os.path.dirname(__file__))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

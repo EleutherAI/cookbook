@@ -3,9 +3,11 @@ import torch
 import numpy as np
 import sys
 import argparse
+import os
 
 from utils import benchmark_bmm
 
+file_dir = os.path.abspath(os.path.dirname(__file__))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -28,7 +30,7 @@ if __name__ == '__main__':
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
     parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
-    parser.add_argument("--output_file", type=str, default="../results/bmm.out")
+    parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/mm.out")
     args = parser.parse_args()
 
     b = args.b
