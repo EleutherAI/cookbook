@@ -3,9 +3,11 @@ import torch
 import numpy as np
 import sys
 import argparse
+import os
 
-from utils import benchmark_bmm
+from utils import Tee, benchmark_bmm
 
+file_dir = os.path.abspath(os.path.dirname(__file__))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -28,7 +30,8 @@ if __name__ == '__main__':
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
     parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
-    parser.add_argument("--output_file", type=str, default="../results/bmm.out")
+    parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/bmm.out")
+    parser.add_argument("--verbose", default=True, action=argparse.BooleanOptionalAction, help='log to stdout besides output_file?')
     args = parser.parse_args()
 
     b = args.b
@@ -52,11 +55,12 @@ if __name__ == '__main__':
     # set cuda device
     torch.cuda.set_device(f"cuda:{args.cuda_device}")
 
+    sys.stdout = Tee(args.output_file, args.verbose)
+
     # loop through all sizes to benchmark
-    with open(args.output_file, 'w') as sys.stdout:
-        for B in b:
-            for M in m:
-                for N in n:
-                    for K in k:
-                        benchmark_bmm(B, M, N, K, "bmm", args.num_iterations, args.num_warmup_iterations)
-                        print("-" * 80)
+    for B in b:
+        for M in m:
+            for N in n:
+                for K in k:
+                    benchmark_bmm(B, M, N, K, "bmm", args.num_iterations, args.num_warmup_iterations)
+                    print("-" * 80)

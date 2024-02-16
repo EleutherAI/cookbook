@@ -17,6 +17,8 @@ from megatron.model.activations import bias_gelu_impl
 from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask_func
 from megatron.model.word_embeddings import Embedding
 
+file_dir = os.path.abspath(os.path.dirname(__file__))
+
 # benchmarks the individual components of the transformer.  Will only be used if --layers is specified and will only benchmark the layers specified
 def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, global_batch_size, num_iterations, num_warmup_iterations):
 
@@ -233,7 +235,8 @@ if __name__ == '__main__':
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
     parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
-    parser.add_argument("--output_file", type=str, default="results/transformer.out")
+    parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/mm.out")
+    parser.add_argument("--verbose", default=True, action=argparse.BooleanOptionalAction, help='log to stdout besides output_file?')
     args = parser.parse_args()
 
     h = args.hidden_size
@@ -267,36 +270,36 @@ if __name__ == '__main__':
         global_batch_size = np.arange(start,stop,step)
 
     torch.cuda.set_device(f"cuda:{args.cuda_device}")
-    with open(args.output_file, 'w') as sys.stdout:
 
-        configurations = []
-        for train_batch_size in global_batch_size:
-            for seq_length in s:
-                for tensor_mp_size in t:
-                    for num_attention_heads in a:
-                        for hidden_size in h:
-                            for microbatch_size in b:
-                                for vocab_size in v:
-                                    configurations.append((microbatch_size, hidden_size,
-                                            (tensor_mp_size, 1, 1), num_attention_heads,vocab_size,seq_length,train_batch_size))
-            print(configurations[0])
-            #megatron_wrapper.initialize_megatron(configurations[0])
-            for configuration in configurations:
-                (microbatch_size, hidden_size,
-                        (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
-                label = {'num_attention_heads': num_attention_heads,
-                        'hidden_size': hidden_size,
-                        'train_micro_batch_size_per_gpu': microbatch_size,
-                        'seq_length': seq_length,
-                        'vocab_size': vocab_size,
-                        'train_batch_size': train_batch_size,
-                        'tensor_mp_size': tensor_mp_size,
-                        'pipeline_mp_size': pipeline_mp_size,
-                        'dp_size': dp_size}
-                label_str = ", ".join([f"{k}: {v}" for (k, v) in label.items()])
-                print(label_str)
-                if args.blocks is None:
-                    benchmark_transformer(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
-                else:
-                    benchmark_transformer_from_mm_and_bmm(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
-                print("=" * 120)
+    sys.stdout = Tee(args.output_file, args.verbose)
+
+    configurations = []
+    for train_batch_size in global_batch_size:
+        for seq_length in s:
+            for tensor_mp_size in t:
+                for num_attention_heads in a:
+                    for hidden_size in h:
+                        for microbatch_size in b:
+                            for vocab_size in v:
+                                configurations.append((microbatch_size, hidden_size,
+                                        (tensor_mp_size, 1, 1), num_attention_heads,vocab_size,seq_length,train_batch_size))
+        #megatron_wrapper.initialize_megatron(configurations[0])
+        for configuration in configurations:
+            (microbatch_size, hidden_size,
+                    (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
+            label = {'num_attention_heads': num_attention_heads,
+                    'hidden_size': hidden_size,
+                    'train_micro_batch_size_per_gpu': microbatch_size,
+                    'seq_length': seq_length,
+                    'vocab_size': vocab_size,
+                    'train_batch_size': train_batch_size,
+                    'tensor_mp_size': tensor_mp_size,
+                    'pipeline_mp_size': pipeline_mp_size,
+                    'dp_size': dp_size}
+            label_str = ", ".join([f"{k}: {v}" for (k, v) in label.items()])
+            print(label_str)
+            if args.blocks is None:
+                benchmark_transformer(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
+            else:
+                benchmark_transformer_from_mm_and_bmm(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
+            print("=" * 120)
