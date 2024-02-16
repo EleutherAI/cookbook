@@ -72,6 +72,8 @@ options:
   --output_file OUTPUT_FILE
 ```
 
+Note that `bmm` with `b=1` performs about the same as `mm` starting from largish dimensions [see](https://gist.github.com/malfet/6a17156d7f5663b8b12054a1beff3fe1).
+
 ## Transformer Layer Benchmarks
 `transformer_flops.py` measures throughput of a transformer layer or of each block of a transformer layer.
 ```
