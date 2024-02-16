@@ -1,3 +1,4 @@
+import sys
 import torch
 import numpy as np
 from megatron.model import LayerNorm
@@ -7,6 +8,24 @@ from megatron.model.transformer import bias_dropout_add_fused_train
 from megatron.model.activations import bias_gelu_impl
 from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask_func
 from megatron.model.word_embeddings import Embedding
+
+class Tee(object):
+    def __init__(self, filename, verbose):
+        self.file = open(filename, "w")
+        self.verbose = verbose
+        if self.verbose:
+            self.stdout = sys.stdout
+
+    def write(self, message):
+        self.file.write(message)
+        if self.verbose:
+            self.stdout.write(message)
+
+    def flush(self):
+        self.file.flush()
+        if self.verbose:
+            self.stdout.flush()
+
 
 def display(shape):
     return "x".join([str(dim) for dim in shape])

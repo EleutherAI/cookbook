@@ -4,6 +4,14 @@ The intent of these benchmarks is to measure the throughput of Generalized Matri
 - The performance characteristics of GEMMs and BMMs on their GPU architecture.
 - How these GEMMs and BMMs form transformer layers.
 
+## Dependencies
+
+First, install the required packages:
+```
+pip install -r requirements.txt
+```
+
+
 There are three scripts within `benchmarks/sizing` that can be run:
 
 ## GEMM Benchmarks
@@ -32,6 +40,8 @@ options:
   --cuda_device CUDA_DEVICE
                         The cuda device to run the benchmark on
   --output_file OUTPUT_FILE
+  --verbose, --no-verbose
+                        log to stdout besides output_file? (default: True)
 ```
 
 ## BMM Benchmarks
@@ -62,7 +72,11 @@ options:
   --cuda_device CUDA_DEVICE
                         The cuda device to run the benchmark on
   --output_file OUTPUT_FILE
+  --verbose, --no-verbose
+                        log to stdout besides output_file? (default: True)
 ```
+
+Note that `bmm` with `b=1` performs about the same as `mm` starting from largish dimensions [see](https://gist.github.com/malfet/6a17156d7f5663b8b12054a1beff3fe1).
 
 ## Transformer Layer Benchmarks
 `transformer_flops.py` measures throughput of a transformer layer or of each block of a transformer layer.
@@ -121,6 +135,8 @@ options:
   --cuda_device CUDA_DEVICE
                         The cuda device to run the benchmark on
   --output_file OUTPUT_FILE
+  --verbose, --no-verbose
+                        log to stdout besides output_file? (default: True)
 ```
 
 ## Output Files
