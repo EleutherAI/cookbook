@@ -13,7 +13,8 @@ class Tee(object):
     def __init__(self, filename, verbose):
         self.file = open(filename, "w")
         self.verbose = verbose
-        self.stdout = sys.stdout
+        if self.verbose:
+            self.stdout = sys.stdout
 
     def write(self, message):
         self.file.write(message)
