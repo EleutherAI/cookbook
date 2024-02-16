@@ -37,13 +37,15 @@ def benchmark_mm(m, n, k, num_iterations, num_warmup_iterations):
     start = torch.cuda.Event(enable_timing=True)
     end = torch.cuda.Event(enable_timing=True)
     A = torch.randn(m, n).half().to("cuda")
-    B = torch.randn(n, k).half().to("cuda")
+    B = torch.randn(k, n).half().to("cuda")
+    #B = torch.randn(n, k).half().to("cuda")
     C = torch.empty(m, k).half().to("cuda")
     times = np.zeros(num_iterations+num_warmup_iterations)
     for i in range(num_warmup_iterations + num_iterations):
         with torch.no_grad():
             start.record()
-            torch.mm(A, B, out=C)
+            torch.nn.functional.linear(A, B, out=C)
+            #torch.mm(A, B, out=C)
             end.record()
         torch.cuda.synchronize()
         times[i] = start.elapsed_time(end)
