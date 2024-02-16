@@ -12,8 +12,8 @@ from megatron.model.word_embeddings import Embedding
 class Tee(object):
     def __init__(self, filename, verbose):
         self.file = open(filename, "w")
-        self.stdout = sys.stdout
         self.verbose = verbose
+        self.stdout = sys.stdout
 
     def write(self, message):
         self.file.write(message)
@@ -30,7 +30,7 @@ def display(shape):
     return "x".join([str(dim) for dim in shape])
 
 # Benchmark of a basic GEMM
-def benchmark_mm(m, n, k, num_iterations, num_warmup_iterations, verbose=False):
+def benchmark_mm(m, n, k, num_iterations, num_warmup_iterations):
     start = torch.cuda.Event(enable_timing=True)
     end = torch.cuda.Event(enable_timing=True)
     A = torch.randn(m, n).half().to("cuda")
