@@ -283,7 +283,7 @@ if __name__ == '__main__':
                             for vocab_size in v:
                                 configurations.append((microbatch_size, hidden_size,
                                         (tensor_mp_size, 1, 1), num_attention_heads,vocab_size,seq_length,train_batch_size))
-        #megatron_wrapper.initialize_megatron(configurations[0])
+        megatron_wrapper.initialize_megatron(configurations[0])
         for configuration in configurations:
             (microbatch_size, hidden_size,
                     (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
