@@ -29,6 +29,9 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
     elapsed_mlp_time = 0.0
     elapsed_add_bias_dropout_time = 0.0
     elapsed_layer_norm_time = 0.0
+    attention_throughput = 0.0
+    mlp_throughput = 0.0
+    total_throughput = 0.0
     
     if 'qkv_transform' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_mm_b(
@@ -109,9 +112,12 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
         16 * microbatch_size * seq_length * hidden_size * hidden_size / tensor_mp_size
     num_total_floating_point_operations = num_attention_floating_point_operations + \
         num_mlp_floating_point_operations
-    attention_throughput = num_attention_floating_point_operations / (elapsed_attention_time * 10**12)
-    mlp_throughput = num_mlp_floating_point_operations / (elapsed_mlp_time * 10**12)
-    total_throughput = num_total_floating_point_operations / (elapsed_total_time * 10**12)
+    if elapsed_attention_time > 0:
+        attention_throughput = num_attention_floating_point_operations / (elapsed_attention_time * 10**12)
+    if elapsed_mlp_time > 0:
+        mlp_throughput = num_mlp_floating_point_operations / (elapsed_mlp_time * 10**12)
+    if elapsed_total_time > 0:
+        total_throughput = num_total_floating_point_operations / (elapsed_total_time * 10**12)
 
     print()
     for (elapsed_time, throughput, label) in \
