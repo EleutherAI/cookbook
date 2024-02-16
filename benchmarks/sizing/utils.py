@@ -1,3 +1,4 @@
+import sys
 import torch
 import numpy as np
 from megatron.model import LayerNorm
@@ -8,11 +9,28 @@ from megatron.model.activations import bias_gelu_impl
 from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask_func
 from megatron.model.word_embeddings import Embedding
 
+class Tee(object):
+    def __init__(self, filename, verbose):
+        self.file = open(filename, "w")
+        self.stdout = sys.stdout
+        self.verbose = verbose
+
+    def write(self, message):
+        self.file.write(message)
+        if self.verbose:
+            self.stdout.write(message)
+
+    def flush(self):
+        self.file.flush()
+        if self.verbose:
+            self.stdout.flush()
+
+
 def display(shape):
     return "x".join([str(dim) for dim in shape])
 
 # Benchmark of a basic GEMM
-def benchmark_mm(m, n, k, num_iterations, num_warmup_iterations):
+def benchmark_mm(m, n, k, num_iterations, num_warmup_iterations, verbose=False):
     start = torch.cuda.Event(enable_timing=True)
     end = torch.cuda.Event(enable_timing=True)
     A = torch.randn(m, n).half().to("cuda")
