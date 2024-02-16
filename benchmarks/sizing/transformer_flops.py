@@ -27,6 +27,9 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
     elapsed_mlp_time = 0.0
     elapsed_add_bias_dropout_time = 0.0
     elapsed_layer_norm_time = 0.0
+    attention_throughput = 0.0
+    mlp_throughput = 0.0
+    total_throughput = 0.0
     
     if 'qkv_transform' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_mm_b(
@@ -107,9 +110,12 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
         16 * microbatch_size * seq_length * hidden_size * hidden_size / tensor_mp_size
     num_total_floating_point_operations = num_attention_floating_point_operations + \
         num_mlp_floating_point_operations
-    attention_throughput = num_attention_floating_point_operations / (elapsed_attention_time * 10**12)
-    mlp_throughput = num_mlp_floating_point_operations / (elapsed_mlp_time * 10**12)
-    total_throughput = num_total_floating_point_operations / (elapsed_total_time * 10**12)
+    if elapsed_attention_time > 0:
+        attention_throughput = num_attention_floating_point_operations / (elapsed_attention_time * 10**12)
+    if elapsed_mlp_time > 0:
+        mlp_throughput = num_mlp_floating_point_operations / (elapsed_mlp_time * 10**12)
+    if elapsed_total_time > 0:
+        total_throughput = num_total_floating_point_operations / (elapsed_total_time * 10**12)
 
     print()
     for (elapsed_time, throughput, label) in \
@@ -227,7 +233,7 @@ if __name__ == '__main__':
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
     parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
-    parser.add_argument("--output_file", type=str, default="../results/transformer.out")
+    parser.add_argument("--output_file", type=str, default="results/transformer.out")
     args = parser.parse_args()
 
     h = args.hidden_size
@@ -273,7 +279,8 @@ if __name__ == '__main__':
                                 for vocab_size in v:
                                     configurations.append((microbatch_size, hidden_size,
                                             (tensor_mp_size, 1, 1), num_attention_heads,vocab_size,seq_length,train_batch_size))
-            megatron_wrapper.initialize_megatron(configurations[0])
+            print(configurations[0])
+            #megatron_wrapper.initialize_megatron(configurations[0])
             for configuration in configurations:
                 (microbatch_size, hidden_size,
                         (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
