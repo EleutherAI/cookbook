@@ -1,6 +1,7 @@
 import sys
 import torch
 import numpy as np
+from pathlib import Path
 from megatron.model import LayerNorm
 from megatron.model.fused_softmax import FusedScaleMaskSoftmax, SoftmaxFusionTypes
 from megatron.model.transformer import ParallelSelfAttention, ParallelMLP, ParallelTransformerLayer
@@ -11,6 +12,7 @@ from megatron.model.word_embeddings import Embedding
 
 class Tee(object):
     def __init__(self, filename, verbose):
+        Path(filename).resolve().parent.mkdir(parents=True, exist_ok=True)           
         self.file = open(filename, "w")
         self.verbose = verbose
         if self.verbose:
