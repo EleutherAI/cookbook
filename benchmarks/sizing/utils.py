@@ -12,7 +12,7 @@ from megatron.model.word_embeddings import Embedding
 
 class Tee(object):
     def __init__(self, filename, verbose):
-        Path(filename).resolve().parent.mkdir(parents=True, exist_ok=True)           
+        Path(filename).resolve().parent.mkdir(parents=True, exist_ok=True)
         self.file = open(filename, "w")
         self.verbose = verbose
         if self.verbose:
