@@ -110,6 +110,8 @@ def get_megatron_args(configuration, override_tensor_mp_size=False):
     args.kv_channels = args.hidden_size // args.num_attention_heads
     args.padded_vocab_size=vocab_size
     args.attention_config = [[["flash"], 0]]
+    args.train_batch_size = train_batch_size
     #megatron.global_vars._GLOBAL_ARGS = args
+    os.sys.stdout.flush()
     neox_args = megatron.NeoXArgs.from_dict(asdict(args))
     return neox_args
