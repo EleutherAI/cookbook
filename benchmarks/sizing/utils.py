@@ -1,4 +1,6 @@
 import sys
+import shlex
+import time
 import torch
 import numpy as np
 from pathlib import Path
@@ -9,6 +11,24 @@ from megatron.model.transformer import bias_dropout_add_fused_train
 from megatron.model.activations import bias_gelu_impl
 from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask_func
 from megatron.model.word_embeddings import Embedding
+
+def print_benchmark_header(notes="None"):
+    
+    print(f"""
+Benchmark started on {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}
+
+** Command line:
+{sys.executable} {" ".join(map(shlex.quote, sys.argv))}
+
+** Critical components:
+torch={torch.__version__}, cuda={torch.version.cuda}, nccl={torch.cuda.nccl.version()}
+
+** Additional notes: 
+{notes}
+
+{"-" * 80}
+
+""")
 
 class Tee(object):
     def __init__(self, filename, verbose):

@@ -21,6 +21,7 @@ Example for mm_flops.py: python mm_flops.py -m 1024 -k 1024 -n 1024 2048
 Example for mm_flops.py with range option: python mm_flops.py -m 1024 -k 1024 --n_range 1024 2048 256
 usage: mm_flops.py [-h] (-m M [M ...] | --m_range M_RANGE [M_RANGE ...]) (-n [N ...] | --n_range N_RANGE [N_RANGE ...])(-k [K ...] | --k_range K_RANGE [K_RANGE ...]) [--num_iterations NUM_ITERATIONS]
 [--num_warmup_iterations NUM_WARMUP_ITERATIONS] [--cuda_device CUDA_DEVICE] [--output_file OUTPUT_FILE]
+[--notes NOTES] [--verbose | --no-verbose]
 
 options:
   -h, --help            show this help message and exit
@@ -40,6 +41,7 @@ options:
   --cuda_device CUDA_DEVICE
                         The cuda device to run the benchmark on
   --output_file OUTPUT_FILE
+  --notes NOTES         benchmark-specific notes to add to the output_file's header
   --verbose, --no-verbose
                         log to stdout besides output_file? (default: True)
 ```
@@ -50,6 +52,7 @@ options:
 Example for bmm_flops.py: python bmm_flops.py -m 1024 -k 1024 -n 1024 2048 -b 128
 usage: bmm_flops.py [-h] (-b B [B ...] | --b_range B_RANGE [B_RANGE ...]) (-m M [M ...] | --m_range M_RANGE [M_RANGE ...])(-n [N ...] | --n_range N_RANGE [N_RANGE ...]) (-k [K ...] | --k_range K_RANGE [K_RANGE ...])
 [--num_iterations NUM_ITERATIONS] [--num_warmup_iterations NUM_WARMUP_ITERATIONS] [--cuda_device CUDA_DEVICE][--output_file OUTPUT_FILE]
+[--notes NOTES] [--verbose | --no-verbose]
 
 options:
   -h, --help            show this help message and exit
@@ -72,6 +75,7 @@ options:
   --cuda_device CUDA_DEVICE
                         The cuda device to run the benchmark on
   --output_file OUTPUT_FILE
+  --notes NOTES         benchmark-specific notes to add to the output_file's header
   --verbose, --no-verbose
                         log to stdout besides output_file? (default: True)
 ```
@@ -92,6 +96,7 @@ usage: transformer_flops.py [-h]
                             (--tensor_mp_size TENSOR_MP_SIZE [TENSOR_MP_SIZE ...] | --tensor_mp_size_range TENSOR_MP_SIZE_RANGE [TENSOR_MP_SIZE_RANGE ...])
                             [--blocks BLOCKS [BLOCKS ...]] [--use_flash] [--num_iterations NUM_ITERATIONS]
                             [--num_warmup_iterations NUM_WARMUP_ITERATIONS] [--cuda_device CUDA_DEVICE] [--output_file OUTPUT_FILE]
+                            [--notes NOTES] [--verbose | --no-verbose]
 
 options:
   -h, --help            show this help message and exit
@@ -135,6 +140,7 @@ options:
   --cuda_device CUDA_DEVICE
                         The cuda device to run the benchmark on
   --output_file OUTPUT_FILE
+  --notes NOTES         benchmark-specific notes to add to the output_file's header
   --verbose, --no-verbose
                         log to stdout besides output_file? (default: True)
 ```
