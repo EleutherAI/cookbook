@@ -20,7 +20,7 @@ Benchmark started on {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}
 ** Command line:
 {sys.executable} {" ".join(map(shlex.quote, sys.argv))}
 
-** Critical components:
+** Critical component versions:
 torch={torch.__version__}, cuda={torch.version.cuda}, nccl={torch.cuda.nccl.version()}
 
 ** Additional notes: 
