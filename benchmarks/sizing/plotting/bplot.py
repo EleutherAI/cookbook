@@ -44,7 +44,6 @@ if __name__ == '__main__':
     dim_notes = ", ".join(fixed_dim)
 
     plt.figure(dpi=500)
-    # print df to see which columns are available
     plt.plot(df[range_cols[0]], df[throughput_col])
     plt.xlabel(f"{range_cols[0]} ({dim_notes})")
     plt.ylabel("Throughput \n (TFLOP/s)")
