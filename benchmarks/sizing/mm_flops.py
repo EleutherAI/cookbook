@@ -5,7 +5,7 @@ import numpy as np
 import argparse
 import os
 
-from utils import Tee, benchmark_mm
+from utils import Tee, benchmark_mm, print_benchmark_header
 
 file_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,6 +27,7 @@ if __name__ == '__main__':
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
     parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
     parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/mm.out")
+    parser.add_argument("--notes", type=str, default="", help="benchmark-specific notes to add to the output_file's header")
     parser.add_argument("--verbose", default=True, action=argparse.BooleanOptionalAction, help='log to stdout besides output_file?')
     args = parser.parse_args()
 
@@ -48,6 +49,7 @@ if __name__ == '__main__':
     torch.cuda.set_device(f"cuda:{args.cuda_device}")
 
     sys.stdout = Tee(args.output_file, args.verbose)
+    print_benchmark_header(args.notes)
 
     # loop through all sizes to benchmark
     for M in m:
