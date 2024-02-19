@@ -11,6 +11,11 @@ First, install the required packages:
 pip install -r requirements.txt
 ```
 
+## Plotting
+
+Once you run the benchmark you can [plot the results](plotting).
+
+## Benchmarks
 
 There are three scripts within `benchmarks/sizing` that can be run:
 
@@ -145,4 +150,3 @@ Example:
 ```
 python convert_to_csv.py --file_name ../results/bmm.out --output_file ../results/bmm.csv
 ```
-
