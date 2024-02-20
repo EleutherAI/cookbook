@@ -82,7 +82,7 @@ def calc_params(args):
     if args.checkpoint_activations:
         iter_factor += 1
     # If inference-only, no bwd pass or activation ckpting necessary
-    # This assumes simply running a single forward pass ('prefill' stage of decoding) and no generated tokens.
+    # This assumes simply running a single forward pass ('prefill' stage of decoding) and no subsequent autoregressively generated tokens.
     if args.infer:
         iter_factor = 1
 
