@@ -83,7 +83,6 @@ def calc_params(args):
         iter_factor += 1
     # If inference-only, no bwd pass or activation ckpting necessary
     # This assumes simply running a single forward pass ('prefill' stage of decoding) and no generated tokens.
-    # Or, if using a KV cache, this flop count will also be accurate.
     if args.infer:
         iter_factor = 1
 
