@@ -70,7 +70,6 @@ def config_parser():
 
 # calculates the flops of a model given its hparams
 def calc_params(args):
-    print(args)
     assert args.topk <= args.num_experts, "You cannot route to more experts than you have!"
     assert args.num_layers % args.expert_interval == 0, "Require for simplicity that we don't have hanging dense layers"
 
@@ -83,6 +82,8 @@ def calc_params(args):
     if args.checkpoint_activations:
         iter_factor += 1
     # If inference-only, no bwd pass or activation ckpting necessary
+    # This assumes simply running a single forward pass ('prefill' stage of decoding) and no generated tokens.
+    # Or, if using a KV cache, this flop count will also be accurate.
     if args.infer:
         iter_factor = 1
 
