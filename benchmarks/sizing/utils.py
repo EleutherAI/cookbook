@@ -23,6 +23,7 @@ Benchmark started on {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}
 
 ** Platform:
 {" ".join(platform.uname())}
+{torch.cuda.get_device_properties(torch.device('cuda'))}
 
 ** Critical component versions:
 torch={torch.__version__}, cuda={torch.version.cuda}, nccl={torch.cuda.nccl.version()}
