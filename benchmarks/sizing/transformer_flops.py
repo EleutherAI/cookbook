@@ -191,7 +191,7 @@ def benchmark_transformer(c_args,configuration, seq_length, global_batch_size, n
             times[i] = start.elapsed_time(end)
 
         times = times[num_warmup_iterations:]
-        elapsed_time = np.amax(times)/1000 # get to seconds from milliseconds
+        elapsed_time = np.amin(times)/1000 # get to seconds from milliseconds
 
         throughput = num_floating_point_operations / (elapsed_time * 10**12)
         print(f"{label} duration (in seconds): {elapsed_time:.4f}")
