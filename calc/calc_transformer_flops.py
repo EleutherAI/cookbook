@@ -97,9 +97,9 @@ def calc_params(args):
     attention_matrix_flops = iter_factor * 2 * args.num_layers * args.tokens * args.sequence_length * args.hidden_size
     attention_over_values_flops = iter_factor * 2 * args.num_layers * args.tokens * args.sequence_length * args.hidden_size
     linear_projection_flops = iter_factor * 2 * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
-    ffn_flops = iter_factor * 2 * (2 * args.ffn_expansion_factor) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
+    ffn_flops = int(iter_factor * 2 * (2 * args.ffn_expansion_factor) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size)
     if args.swiglu:
-        ffn_flops = 3/2 * ffn_flops
+        ffn_flops = int(3/2 * ffn_flops)
     # no activation checkpointing for embeddings
     embedding_flops = 6 * args.tokens * args.hidden_size * args.vocab_size
 
