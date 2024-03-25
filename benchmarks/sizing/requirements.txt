@@ -1,0 +1,9 @@
+deepspeed
+matplotlib
+numpy
+pandas
+pyyaml
+sentencepiece
+tokenizers
+torch
+transformers
