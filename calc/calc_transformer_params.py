@@ -32,28 +32,32 @@ def config_parser():
                         default=44,
                         help='Number of transformer layers used in model')
     parser.add_argument("--moe",
-                    action="store_true",
-                    help='Whether our model is MoE')
+                        action="store_true",
+                        help='Whether our model is MoE')
     parser.add_argument("--num-experts", "-e",
-                    type=int,
-                    default=8,
-                    help='Number of experts for MoE')
+                        type=int,
+                        default=8,
+                        help='Number of experts for MoE')
     parser.add_argument("--expert-interval", "-ei",
-                    type=int,
-                    default=1,
-                    help='Expert interval for MoE')
+                        type=int,
+                        default=1,
+                        help='Expert interval for MoE')
     parser.add_argument("--topk", "-t",
                         type=int,
                         default=1,
                         help='Top k routing for MoE')
     parser.add_argument("--ffn-expansion-factor", "-ff",
-                type=int,
-                default=4,
-                help='How much the MLP hidden size expands')
+                        type=int,
+                        default=4,
+                        help='How much the MLP hidden size expands')
+    parser.add_argument("--num-mlp-linears", "-nl",
+                        type=int,
+                        default=2,
+                        help='How many linear layers per MLP block')
     parser.add_argument("--kv-size-ratio", "-kv",
-                type=float,
-                default=1.0,
-                help='What fraction of num. query heads is num. key/value heads')
+                        type=float,
+                        default=1.0,
+                        help='What fraction of num. query heads is num. key/value heads')
     return parser
 
 # calculates the params of a model given their hparams
@@ -73,15 +77,15 @@ def calc_params(args):
         # the number of layers that are MoE. (e.g. interval is 2 for GShard)
         num_expert_layers = args.num_layers / args.expert_interval
         # the number of FFN params for each MoE layer
-        ffn_expert_params = 2 * args.ffn_expansion_factor * num_expert_layers * args.num_experts * args.hidden_size * args.hidden_size
+        ffn_expert_params = args.num_mlp_linears * args.ffn_expansion_factor * num_expert_layers * args.num_experts * args.hidden_size * args.hidden_size
         # the number of FFN params for every dense layer
-        ffn_dense_params = 2 * args.ffn_expansion_factor * (args.num_layers - num_expert_layers) * args.hidden_size * args.hidden_size
+        ffn_dense_params = args.num_mlp_linears * args.ffn_expansion_factor * (args.num_layers - num_expert_layers) * args.hidden_size * args.hidden_size
         ffn_params = ffn_expert_params + ffn_dense_params
         # the number of gating layer params assuming it's implemented as a simple linear layer
         gating_params = num_expert_layers * args.hidden_size * args.num_experts
     else:
-        # two (h x [ffn_expansion_factor * h]) FFN matrices
-        ffn_params = 2 * args.ffn_expansion_factor * args.num_layers * args.hidden_size * args.hidden_size
+        # num_mlp_layers * (h x [ffn_expansion_factor * h]) FFN matrices
+        ffn_params = args.num_mlp_linears * args.ffn_expansion_factor * args.num_layers * args.hidden_size * args.hidden_size
 
     total_params = embedding_params + attention_params + ffn_params + position_embedding_params + layernorm_params
 
