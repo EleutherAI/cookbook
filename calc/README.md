@@ -56,13 +56,14 @@ options:
 ```
 Example with Fairseq-MoE 15B: python calc_transformer_params.py -l 12 -hs 768 --moe -e 512
 Example with GPT-3 175B: python calc_transformer_params.py -l 96 -hs 12288
-usage: calc_transformer_params.py [-h] [--vocab-size VOCAB_SIZE] [--hidden-size HIDDEN_SIZE] [--sequence-length SEQUENCE_LENGTH] [--num-layers NUM_LAYERS] [--moe] [--num-experts NUM_EXPERTS] [--expert-interval EXPERT_INTERVAL]
-                                  [--topk TOPK] [--ffn-expansion-factor FFN_EXPANSION_FACTOR]
+usage: calc_transformer_params.py [-h] [--vocab-size VOCAB_SIZE] [--tied-embeddings] [--hidden-size HIDDEN_SIZE] [--sequence-length SEQUENCE_LENGTH] [--num-layers NUM_LAYERS] [--moe] [--num-experts NUM_EXPERTS]
+                                  [--expert-interval EXPERT_INTERVAL] [--topk TOPK] [--ffn-expansion-factor FFN_EXPANSION_FACTOR] [--kv-size-ratio KV_SIZE_RATIO]
 
 options:
   -h, --help            show this help message and exit
   --vocab-size VOCAB_SIZE, -v VOCAB_SIZE
                         Size of the vocab
+  --tied-embeddings     Whether embeddings are tied (shared between input and output)
   --hidden-size HIDDEN_SIZE, -hs HIDDEN_SIZE
                         Dimension of the model's hidden size
   --sequence-length SEQUENCE_LENGTH, -s SEQUENCE_LENGTH
@@ -77,6 +78,8 @@ options:
   --topk TOPK, -t TOPK  Top k routing for MoE
   --ffn-expansion-factor FFN_EXPANSION_FACTOR, -ff FFN_EXPANSION_FACTOR
                         How much the MLP hidden size expands
+  --kv-size-ratio KV_SIZE_RATIO, -kv KV_SIZE_RATIO
+                        What fraction of num. query heads is num. key/value heads
 ```
 
 
