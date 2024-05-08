@@ -3,6 +3,8 @@
 import argparse
 import math
 
+from transformers import AutoConfig
+
 # Helper function to pretty-print message sizes
 def convert_params(params):
     if params == 0:
@@ -16,6 +18,10 @@ def convert_params(params):
 def config_parser():
     parser = argparse.ArgumentParser()
     # Distributed Settings
+    parser.add_argument("--hf_model_name_or_path", 
+                        type=str, 
+                        default=None, 
+                        help="Name of the HuggingFace Hub respository or the local file path for it")
     parser.add_argument("--num-gpus",
                         type=int,
                         default=1,
@@ -126,6 +132,32 @@ def config_parser():
                         help='Miscellaneous memory overhead per GPU by DL framework(s), communication libraries, etc')
 
     return parser
+
+# TODO: A function that gets the HuggingFace Model config, takes the required values from it
+# Updates the args
+def get_hf_model_args(args):
+    # Check if the name is not None
+    # Check if it exists at all
+    if args.hf_model_name_or_path is not None:
+        try: 
+            config = AutoConfig.from_pretrained(args.hf_model_name_or_path)
+        except OSError:
+            print("Model Repository name or path not found. Are you sure it exists?")
+            print("Reverting with default values instead")
+            return args
+        
+        # Now that config has been retrieved, we update the args with the config values
+        # NOTE: Different Model configs have different nomenclature in HuggingFace, would need to support them individually
+
+        arch = config.architectures[0]
+        if 'phi' in arch.lower():
+            ... # Phi style nomenclature
+        elif 'llama' in arch.lower():
+            ... # llama style nomenclature
+        else:
+            ...
+
+    return args
 
 
 # Calculates the total memory necessary for model training or inference
