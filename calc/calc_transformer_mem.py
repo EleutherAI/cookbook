@@ -132,7 +132,8 @@ def get_hf_model_args(args):
     # Check if it exists at all
     if args.hf_model_name_or_path is not None:
         try: 
-            config = AutoConfig.from_pretrained(args.hf_model_name_or_path)
+            config = AutoConfig.from_pretrained(args.hf_model_name_or_path, 
+                                                trust_remote_code=True).to_dict()
         except OSError:
             print("Model Repository name or path not found. Are you sure it exists?")
             print("Reverting with default values instead")
@@ -141,19 +142,31 @@ def get_hf_model_args(args):
         # Now that config has been retrieved, we update the args with the config values
         # NOTE: Different Model configs have different nomenclature in HuggingFace, would need to support them individually
 
-        arch = config.architectures[0]
-        if 'phi' in arch.lower():
-            ... # Phi style nomenclature
-        elif 'llama' in arch.lower():
-            ... # llama style nomenclature
-        else:
-            ...
+        arch = config['model_type']
 
+       # Seperate handling for gpt2 because they named everything differently 
+        if arch.lower()=='gpt2': 
+            args.num_layers = config.get("n_layer", args.num_layers) # Set Phi Default
+            args.num_attention_heads = config.get("n_head", args.num_attention_heads)
+            args.hidden_size = config.get("n_embd", args.hidden_size)
+            args.vocab_size = config.get("vocab_size", args.vocab_size)
+
+        else: 
+            args.num_layers = config.get("num_hidden_layers", args.num_layers) # Set Phi Default
+            args.num_attention_heads = config.get("num_attention_heads", args.num_attention_heads)
+            args.hidden_size = config.get("hidden_size", args.hidden_size)
+            args.ffn_expansion_factor = config.get("intermediate_size")/ args.hidden_size
+            args.kv_size_ratio = config.get("num_key_value_heads", args.num_attention_heads)/ args.num_attention_heads
+            args.vocab_size = config.get("vocab_size", args.vocab_size)
+        
     return args
 
 
 # Calculates the total memory necessary for model training or inference
 def calc_mem(args):
+
+    # set the hf_args if hf model is provided
+    args = get_hf_model_args(args)
 
     dp_degree = args.num_gpus / (args.tensor_parallel_size * args.pipeline_parallel_size)
 
