@@ -133,11 +133,9 @@ def config_parser():
 
     return parser
 
-# TODO: A function that gets the HuggingFace Model config, takes the required values from it
-# Updates the args
+# Updates the args with HuggingFace model config values
 def get_hf_model_args(args):
     # Check if the name is not None
-    # Check if it exists at all
     if args.hf_model_name_or_path is not None:
         try: 
             config = AutoConfig.from_pretrained(args.hf_model_name_or_path, 
@@ -148,7 +146,6 @@ def get_hf_model_args(args):
             return args
         
         # Now that config has been retrieved, we update the args with the config values
-        # NOTE: Different Model configs have different nomenclature in HuggingFace, would need to support them individually
 
         arch = config['model_type']
 
