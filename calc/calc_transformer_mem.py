@@ -60,28 +60,28 @@ def config_parser():
                         help='Batch size per GPU')
     parser.add_argument("--sequence-length", "-s",
                         type=int,
-                        default=2048,
+                        default=None,
                         help='Sequence length used for training')
     parser.add_argument("--vocab-size", "-v",
                         type=int,
-                        default=51200,
+                        default=None,
                         help='How many tokens are in the embedding layer')
     # Model settings
     parser.add_argument("--hidden-size", "-hs",
                         type=int,
-                        default=6144,
+                        default=None,
                         help='Dimension of the model\'s hidden size')
     parser.add_argument("--num-attention-heads", "-a",
                         type=int,
-                        default=64,
+                        default=None,
                         help='Number of attention heads used in model')
     parser.add_argument("--num-layers", "-l",
                         type=int,
-                        default=44,
+                        default=None,
                         help='Number of transformer layers used in model')
     parser.add_argument("--ffn-expansion-factor", "-ff",
                         type=int,
-                        default=4,
+                        default=None,
                         help='How much the MLP hidden size expands')
     parser.add_argument("--num-mlp-linears", "-nl",
                         type=int,
@@ -133,6 +133,52 @@ def config_parser():
 
     return parser
 
+DEFAULTS = {
+    "num_layers" : 44,
+    "sequence_length" : 2048,
+    "num_attention_heads" : 64,
+    "hidden_size" : 6144,
+    "ffn_expansion_factor" : 4,
+    "kv_size_ratio" : 1.0,
+    "vocab_size" : 51200,
+    "num_gpus" : 1,
+    "tensor_parallel_size" : 1,
+    "pipeline_parallel_size" : 1,
+    "partition_activations" : False,
+    "zero_stage" : 1,
+    "zero_allgather_bucket_size" : 5e8,
+    "zero3_max_live_params" : 1e9,
+    "checkpoint_activations" : False,
+    "batch_size_per_gpu" : 1,
+    "is_mixed_precision" : True,
+    "high_prec_bytes_per_val" : 4,
+    "low_prec_bytes_per_val" : 2,
+    "bytes_per_grad_ele" : 4,
+    "num_experts" : 0,
+    "expert_parallelism" : 1,
+    "infer" : False,
+    "misc_mem_gib" : 0
+}
+
+def set_defaults(args):
+    '''
+    Sets the default values for the arguments that are not provided
+    '''
+    for key, value in DEFAULTS.items():
+        if getattr(args, key) is None:
+            setattr(args, key, value)
+    return args
+
+def set_if_none(args, key, config, config_key):
+    '''
+    Sets the value of the argument to the default value if it is not provided
+    '''
+    if getattr(args, key) is None:
+        setattr(args, key, config.get(config_key, DEFAULTS[key]))
+    else:
+        print(f"overriding HF {config_key} config value ({config[config_key]}) with provided value ({getattr(args, key)})")
+    return args
+
 # Updates the args with HuggingFace model config values
 def get_hf_model_args(args):
     # Check if the name is not None
@@ -151,19 +197,28 @@ def get_hf_model_args(args):
 
        # Seperate handling for gpt2 because they named everything differently 
         if arch.lower()=='gpt2': 
-            args.num_layers = config.get("n_layer", args.num_layers) # Set Phi Default
+            args.num_layers = config.get("n_layer", args.num_layers) 
             args.num_attention_heads = config.get("n_head", args.num_attention_heads)
             args.hidden_size = config.get("n_embd", args.hidden_size)
             args.vocab_size = config.get("vocab_size", args.vocab_size)
 
-        else: 
-            args.num_layers = config.get("num_hidden_layers", args.num_layers) # Set Phi Default
-            args.num_attention_heads = config.get("num_attention_heads", args.num_attention_heads)
-            args.hidden_size = config.get("hidden_size", args.hidden_size)
-            args.ffn_expansion_factor = config.get("intermediate_size")/ args.hidden_size
-            args.kv_size_ratio = config.get("num_key_value_heads", args.num_attention_heads)/ args.num_attention_heads
-            args.vocab_size = config.get("vocab_size", args.vocab_size)
-        
+        else:  
+            set_if_none(args, "num_layers", config, "num_hidden_layers")
+            set_if_none(args, "num_attention_heads", config, "num_attention_heads")
+            set_if_none(args, "hidden_size", config, "hidden_size")
+
+            config["ffn_expansion_factor"] = config.get("intermediate_size", args.hidden_size) / args.hidden_size
+            set_if_none(args, "ffn_expansion_factor", config, "ffn_expansion_factor")
+
+            # config["num_key_value_heads"] = config.get("num_key_value_heads", config["num_attention_heads"])
+            # set_if_none(args, "num_key_value_heads", config, "num_key_value_heads")
+
+            set_if_none(args, "vocab_size", config, "vocab_size")
+            set_if_none(args, "sequence_length", config, "max_position_embeddings")
+            
+    # Set the default values regardless
+    set_defaults(args)
+
     return args
 
 
