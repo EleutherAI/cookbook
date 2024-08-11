@@ -85,6 +85,10 @@ def config_parser():
                         type=float,
                         default=1.0,
                         help='Ratio of total query heads to key/value heads. 1.0 for MHA, 1/num_attention_heads for MQA.')
+    parser.add_argument("--output-tokens", "-o",
+                        type=int,
+                        default=1,
+                        help='Number of tokens to autoregressively generate.')
     # Precision settings
     parser.add_argument("--disable-mixed-precision",
                         action="store_false",
@@ -211,7 +215,7 @@ def calc_mem(args):
     if args.infer:
         # See https://kipp.ly/transformer-inference-arithmetic/ for details
         bytes_per_param = args.low_prec_bytes_per_val
-        per_gpu_kv_cache_mem = bytes_per_param * 2 * args.num_layers * args.num_attention_heads * (args.hidden_size / args.num_attention_heads) * args.sequence_length
+        per_gpu_kv_cache_mem = bytes_per_param * args.hidden_size * args.num_layers * (args.sequence_length + args.output_tokens) * (args.batch_size_per_gpu)
         kv_cache_mem = args.num_gpus * per_gpu_kv_cache_mem
 
     gradient_mem_gib = gradient_mem / 1024**3
