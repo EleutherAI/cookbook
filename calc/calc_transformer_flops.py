@@ -36,10 +36,6 @@ def config_parser():
                         type=float,
                         default=1.0,
                         help='Ratio of kv heads to query heads used in model. 1.0 for MHA')
-    parser.add_argument("--ffn-expansion-factor", "-ff",
-                        type=int,
-                        default=4,
-                        help='How much the MLP hidden size expands')
     parser.add_argument("--moe",
                     action="store_true",
                     help='Whether our model is MoE')
