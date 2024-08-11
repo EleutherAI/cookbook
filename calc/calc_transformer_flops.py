@@ -70,13 +70,21 @@ def config_parser():
                         action='store_false',
                         help='Whether Megatron-style activation checkpointing is being used',
                         dest='checkpoint_activations')
+    parser.add_argument("--ffn-expansion-factor", "-ff",
+                        type=int,
+                        default=4,
+                        help='How much the MLP hidden size expands')
+    parser.add_argument("--num-mlp-linears", "-nl",
+                        type=int,
+                        default=2,
+                        help='How many linear layers per MLP block')
     parser.add_argument("--infer", "-i", 
                         action='store_true',
                         help='Pass to calculate FLOPs for inference-only workload (no backward pass)')
     return parser
 
 # calculates the flops of a model given its hparams
-def calc_params(args):
+def calc_flops(args):
     assert args.topk <= args.num_experts, "You cannot route to more experts than you have!"
     assert args.num_layers % args.expert_interval == 0, "Require for simplicity that we don't have hanging dense layers"
 
@@ -93,11 +101,12 @@ def calc_params(args):
     if args.infer:
         iter_factor = 1
 
+    # The factor of 2 from all these terms comes from the multiply + accumulate
     qkv_flops = int(iter_factor * 2 * (1 + 2 * args.kv_size_ratio) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size)
     attention_matrix_flops = iter_factor * 2 * args.num_layers * args.tokens * args.sequence_length * args.hidden_size
     attention_over_values_flops = iter_factor * 2 * args.num_layers * args.tokens * args.sequence_length * args.hidden_size
     linear_projection_flops = iter_factor * 2 * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
-    ffn_flops = int(iter_factor * 2 * (2 * args.ffn_expansion_factor) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size)
+    ffn_flops = int(iter_factor * 2 * args.num_mlp_linears * args.ffn_expansion_factor) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
     if args.swiglu:
         ffn_flops = int(3/2 * ffn_flops)
     # no activation checkpointing for embeddings
@@ -130,4 +139,4 @@ if __name__ == "__main__":
     print('Example with GPT-3 175B: python calc_transformer_flops.py -l 96 -hs 12288')
     
     args = config_parser().parse_args()
-    calc_params(args)
+    calc_flops(args)
