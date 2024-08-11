@@ -20,7 +20,8 @@ Currently, scripts are entirely self-contained. This is for the dual purpose of:
 ```
 Example with Fairseq-MoE 15B: python calc_transformer_flops.py -l 12 -hs 768 --moe -e 512
 Example with GPT-3 175B: python calc_transformer_flops.py -l 96 -hs 12288
-usage: calc_transformer_flops.py [-h] [--vocab-size VOCAB_SIZE] [--hidden-size HIDDEN_SIZE] [--sequence-length SEQUENCE_LENGTH] [--num-layers NUM_LAYERS] [--kv-size-ratio KV_SIZE_RATIO] [--moe] [--num-experts NUM_EXPERTS] [--expert-interval EXPERT_INTERVAL] [--topk TOPK] [--swiglu] [--batch-size BATCH_SIZE] [--tokens TOKENS] [--no-checkpoint-activations]
+usage: calc_transformer_flops.py [-h] [--vocab-size VOCAB_SIZE] [--hidden-size HIDDEN_SIZE] [--sequence-length SEQUENCE_LENGTH] [--num-layers NUM_LAYERS] [--kv-size-ratio KV_SIZE_RATIO] [--moe] [--num-experts NUM_EXPERTS] [--expert-interval EXPERT_INTERVAL]
+                                 [--topk TOPK] [--swiglu] [--batch-size BATCH_SIZE] [--tokens TOKENS] [--no-checkpoint-activations] [--ffn-expansion-factor FFN_EXPANSION_FACTOR] [--num-mlp-linears NUM_MLP_LINEARS] [--infer]
 
 options:
   -h, --help            show this help message and exit
@@ -46,6 +47,11 @@ options:
   --tokens TOKENS       Number of tokens you are training over
   --no-checkpoint-activations, -ca
                         Whether Megatron-style activation checkpointing is being used
+  --ffn-expansion-factor FFN_EXPANSION_FACTOR, -ff FFN_EXPANSION_FACTOR
+                        How much the MLP hidden size expands
+  --num-mlp-linears NUM_MLP_LINEARS, -nl NUM_MLP_LINEARS
+                        How many linear layers per MLP block
+  --infer, -i           Pass to calculate FLOPs for inference-only workload (no backward pass)
 ```
 
 
@@ -56,8 +62,8 @@ options:
 ```
 Example with Fairseq-MoE 15B: python calc_transformer_params.py -l 12 -hs 768 --moe -e 512
 Example with GPT-3 175B: python calc_transformer_params.py -l 96 -hs 12288
-usage: calc_transformer_params.py [-h] [--vocab-size VOCAB_SIZE] [--tied-embeddings] [--hidden-size HIDDEN_SIZE] [--sequence-length SEQUENCE_LENGTH] [--num-layers NUM_LAYERS] [--moe] [--num-experts NUM_EXPERTS]
-                                  [--expert-interval EXPERT_INTERVAL] [--topk TOPK] [--ffn-expansion-factor FFN_EXPANSION_FACTOR] [--kv-size-ratio KV_SIZE_RATIO]
+usage: calc_transformer_params.py [-h] [--vocab-size VOCAB_SIZE] [--tied-embeddings] [--hidden-size HIDDEN_SIZE] [--sequence-length SEQUENCE_LENGTH] [--num-layers NUM_LAYERS] [--moe] [--num-experts NUM_EXPERTS] [--expert-interval EXPERT_INTERVAL] [--topk TOPK]
+                                  [--ffn-expansion-factor FFN_EXPANSION_FACTOR] [--num-mlp-linears NUM_MLP_LINEARS] [--kv-size-ratio KV_SIZE_RATIO]
 
 options:
   -h, --help            show this help message and exit
@@ -78,6 +84,8 @@ options:
   --topk TOPK, -t TOPK  Top k routing for MoE
   --ffn-expansion-factor FFN_EXPANSION_FACTOR, -ff FFN_EXPANSION_FACTOR
                         How much the MLP hidden size expands
+  --num-mlp-linears NUM_MLP_LINEARS, -nl NUM_MLP_LINEARS
+                        How many linear layers per MLP block
   --kv-size-ratio KV_SIZE_RATIO, -kv KV_SIZE_RATIO
                         What fraction of num. query heads is num. key/value heads
 ```
@@ -94,9 +102,9 @@ Example with default 20B: python calc_transformer_mem.py --num-layers=44 --seque
 
 usage: calc_transformer_mem.py [-h] [--num-gpus NUM_GPUS] [--tensor-parallel-size TENSOR_PARALLEL_SIZE] [--pipeline-parallel-size PIPELINE_PARALLEL_SIZE] [--partition-activations] [--zero-stage {0,1,2,3}] [--zero-allgather-bucket-size ZERO_ALLGATHER_BUCKET_SIZE]
                                [--zero3-max-live-params ZERO3_MAX_LIVE_PARAMS] [--checkpoint-activations] [--batch-size-per-gpu BATCH_SIZE_PER_GPU] [--sequence-length SEQUENCE_LENGTH] [--vocab-size VOCAB_SIZE] [--hidden-size HIDDEN_SIZE]
-                               [--num-attention-heads NUM_ATTENTION_HEADS] [--num-layers NUM_LAYERS] [--ffn-expansion-factor FFN_EXPANSION_FACTOR] [--infer] [--kv-size-ratio KV_SIZE_RATIO] [--output-tokens OUTPUT_TOKENS] [--disable-mixed-precision]
-                               [--high-prec-bytes-per-val HIGH_PREC_BYTES_PER_VAL] [--low-prec-bytes-per-val LOW_PREC_BYTES_PER_VAL] [--bytes-per-grad-ele BYTES_PER_GRAD_ELE] [--num-experts NUM_EXPERTS] [--expert-parallelism EXPERT_PARALLELISM]
-                               [--misc-mem-gib MISC_MEM_GIB]
+                               [--num-attention-heads NUM_ATTENTION_HEADS] [--num-layers NUM_LAYERS] [--ffn-expansion-factor FFN_EXPANSION_FACTOR] [--num-mlp-linears NUM_MLP_LINEARS] [--infer] [--kv-size-ratio KV_SIZE_RATIO] [--output-tokens OUTPUT_TOKENS]
+                               [--disable-mixed-precision] [--high-prec-bytes-per-val HIGH_PREC_BYTES_PER_VAL] [--low-prec-bytes-per-val LOW_PREC_BYTES_PER_VAL] [--bytes-per-grad-ele BYTES_PER_GRAD_ELE] [--num-experts NUM_EXPERTS]
+                               [--expert-parallelism EXPERT_PARALLELISM] [--misc-mem-gib MISC_MEM_GIB]
 
 options:
   -h, --help            show this help message and exit
@@ -129,6 +137,8 @@ options:
                         Number of transformer layers used in model
   --ffn-expansion-factor FFN_EXPANSION_FACTOR, -ff FFN_EXPANSION_FACTOR
                         How much the MLP hidden size expands
+  --num-mlp-linears NUM_MLP_LINEARS, -nl NUM_MLP_LINEARS
+                        How many linear layers per MLP block
   --infer               whether we're doing inference
   --kv-size-ratio KV_SIZE_RATIO, -kv KV_SIZE_RATIO
                         Ratio of total query heads to key/value heads. 1.0 for MHA, 1/num_attention_heads for MQA.

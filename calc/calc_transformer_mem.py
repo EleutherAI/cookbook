@@ -77,6 +77,10 @@ def config_parser():
                         type=int,
                         default=4,
                         help='How much the MLP hidden size expands')
+    parser.add_argument("--num-mlp-linears", "-nl",
+                        type=int,
+                        default=2,
+                        help='How many linear layers per MLP block')
     # Inference settings
     parser.add_argument("--infer",
                         action="store_true",
@@ -134,7 +138,7 @@ def calc_mem(args):
     positional_params = args.hidden_size * args.sequence_length
     ln_params = 8 * args.hidden_size * args.num_layers + (2 * args.hidden_size)
     attention_params = int(2 * (1 + args.kv_size_ratio) * args.num_layers * args.hidden_size * args.hidden_size)
-    mlp_params = 2 * args.num_layers * args.hidden_size * args.ffn_expansion_factor * args.hidden_size
+    mlp_params = args.num_mlp_linears * args.num_layers * args.hidden_size * args.ffn_expansion_factor * args.hidden_size
     total_params = embed_params + positional_params + ln_params + attention_params + mlp_params
 
     # --- MODEL MEMORY ---
