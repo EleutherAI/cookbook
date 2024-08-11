@@ -19,6 +19,9 @@ def config_parser():
                         type=int,
                         default=51200,
                         help='Size of the vocab')
+    parser.add_argument("--tied-embeddings",
+                    action="store_true",
+                    help='Whether embeddings are tied (shared between input and output)')
     parser.add_argument("--hidden-size", "-hs",
                         type=int,
                         default=6144,
@@ -62,8 +65,11 @@ def config_parser():
 
 # calculates the params of a model given their hparams
 def calc_params(args):
-    # Assumes that the embedding and unembedding are tied
-    embedding_params = args.hidden_size * args.vocab_size
+    # Calculate embedding and unembedding params. If tied, re-use the same params
+    if args.tied_embeddings:
+        embedding_params = args.hidden_size * args.vocab_size
+    else:
+        embedding_params = 2 * args.hidden_size * args.vocab_size
     position_embedding_params = args.hidden_size * args.sequence_length
     # Each QKVO matrix is (hxh)
     # Unless using GQA/MQA which makes K/V smaller
