@@ -50,10 +50,7 @@ def config_parser():
     parser.add_argument("--topk", "-t",
                         type=int,
                         default=1,
-                        help='Top k routing for MoE')
-    parser.add_argument("--swiglu",
-                action="store_true",
-                help='Use swiglu MLP. If set, ffn-hidden-size is defined as the inner dimension of each of the three MLP weights.')    
+                        help='Top k routing for MoE')  
     parser.add_argument("--batch-size", "-b",
                         type=int,
                         default=1,
@@ -70,10 +67,16 @@ def config_parser():
                         type=int,
                         default=4,
                         help='How much the MLP hidden size expands')
+    parser.add_argument("--ffn-hidden-size",
+                        type=int,
+                        default=None,
+                        help='Dimension of the model\'s intermediate dimension of each MLP linear layer. If set, ',
+                        '\'-ff\' will be ignored in favor of this custom MLP width.
+    )
     parser.add_argument("--num-mlp-linears", "-nl",
                         type=int,
                         default=2,
-                        help='How many linear layers per MLP block')
+                        help='How many linear layers per MLP block. Set to 3 for SwiGLU or GEGLU Llama-style gated MLPs.')
     parser.add_argument("--infer", "-i", 
                         action='store_true',
                         help='Pass to calculate FLOPs for inference-only workload (no backward pass)')
@@ -83,6 +86,7 @@ def config_parser():
 def calc_flops(args):
     assert args.topk <= args.num_experts, "You cannot route to more experts than you have!"
     assert args.num_layers % args.expert_interval == 0, "Require for simplicity that we don't have hanging dense layers"
+    assert not args.ffn_hidden_size or (args.ffn_expansion_factor == 4), "both '--ffn-hidden-size' and non-default '-ff' values were specified, these cannot conflict"
 
     # An A_(m x k) X B_(k x n) matrix multiplication requires 2m x k x n FLOPs (factor of 2 needed to account for multiplies and adds)
 
@@ -103,8 +107,7 @@ def calc_flops(args):
     attention_over_values_flops = iter_factor * 2 * args.num_layers * args.tokens * args.sequence_length * args.hidden_size
     linear_projection_flops = iter_factor * 2 * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
     ffn_flops = int(iter_factor * 2 * args.num_mlp_linears * args.ffn_expansion_factor) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
-    if args.swiglu:
-        ffn_flops = int(3/2 * ffn_flops)
+
     # no activation checkpointing for embeddings
     embedding_flops = 6 * args.tokens * args.hidden_size * args.vocab_size
 
