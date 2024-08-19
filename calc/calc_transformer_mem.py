@@ -1,4 +1,4 @@
-# By Quentin Anthony and Hailey Schoelkopf
+# By Quentin Anthony, Hailey Schoelkopf, Bhavnick Minhas
 
 import argparse
 import math
