@@ -51,6 +51,8 @@ Transformer sizing and GEMM benchmarks
 
 [The Annotated Transformer](https://nlp.seas.harvard.edu/annotated-transformer/) by Sasha Rush, Austin Huang, Suraj Subramanian, Jonathan Sum, Khalid Almubarak, and Stella Biderman. A walk through of the seminal paper "Attention is All You Need" along with in-line implementations in PyTorch.
 
+[Transformer Explainer](https://poloclub.github.io/transformer-explainer/) by Aeree Cho, Grace C. Kim, Alexander Karpekov, Alec Helbling, Jay Wang, Seongmin Lee, Benjamin Hoover, and Polo Chau. It runs a gpt-2 model live in your browser, with visualization and customization options.
+
 ### How to do LLM Calculations
 
 [Transformers Math 101](https://blog.eleuther.ai/transformer-math/). A blog post from EleutherAI on training/inference memory estimations, parallelism, FLOP calculations, and deep learning datatypes.
