@@ -57,7 +57,7 @@ Transformer sizing and GEMM benchmarks
 
 [Transformers Math 101](https://blog.eleuther.ai/transformer-math/). A blog post from EleutherAI on training/inference memory estimations, parallelism, FLOP calculations, and deep learning datatypes.
 
-[Transformer Inference Arithmetic](https://kipp.ly/transformer-inference-arithmetic/). A breakdown on the memory overhead, FLOPs, and latency of transformer inference
+[Transformer Inference Arithmetic](https://kipp.ly/transformer-inference-arithmetic/) by Carol Chen. A breakdown on the memory overhead, FLOPs, and latency of transformer inference
 
 [LLM Finetuning Memory Requirements](https://blog.scottlogic.com/2023/11/24/llm-mem.html) by Alex Birch. A practical guide on the memory overhead of finetuning models.
 
