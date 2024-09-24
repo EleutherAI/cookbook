@@ -80,6 +80,8 @@ Papers
 
 [Common HParam Settings](https://docs.google.com/spreadsheets/d/14vbBbuRMEHoqeuMHkTfw3uiZVmyXNuoSp8s-aHvfvZk/edit?usp=sharing) by Stella Biderman. Records common settings for model training hyperparameters and her current recommendations for training new models.
 
+[The Practitioner's Guide to muP](https://blog.eleuther.ai/mutransfer/) is a joint project by [Cerebras](https://cerebras.ai/) and EleutherAI. Provides a clear picture of muP basics, with an accompanying basic implementation in [nanoGPT](https://github.com/EleutherAI/nanoGPT-mup)
+
 ### Data and Model Directories
 
 [Directory of LLMs](https://docs.google.com/spreadsheets/d/1gc6yse74XCwBx028HV_cvdxwXkmXejVjkO-Mz2uwE0k/edit?usp=sharing) by Stella Biderman. Records details of trained LLMs including license, architecture type, and dataset.
