@@ -74,10 +74,8 @@ def calc_params(args):
     # Each QKVO matrix is (hxh)
     # Unless using GQA/MQA which makes K/V smaller
     attention_params = int(2 * (1 + args.kv_size_ratio) * args.num_layers * args.hidden_size * args.hidden_size)
-    # (4*2)lh from the layernorm weights and biases for each of the QKV and mlp_in layernorms, 1h for the final layernorm.
-    # the extra 4lh is a mystery but we include it here
-    layernorm_params = 13 * args.num_layers * args.hidden_size
-    #ffn_params = 12 * args.num_layers * args.hidden_size * args.hidden_size
+    # (4*2)lh from the layernorm weights and biases for each of the QKV and mlp_in layernorms, 2h for the final layernorm.
+    layernorm_params = 8 * args.num_layers * args.hidden_size + 2 * args.hidden_size
 
     if args.moe:
         # the number of layers that are MoE. (e.g. interval is 2 for GShard)
