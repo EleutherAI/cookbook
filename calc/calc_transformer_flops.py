@@ -12,7 +12,13 @@ def convert_flops(params):
     i = int(math.floor(math.log(params, 1000)))
     p = math.pow(1000, i)
     s = round(params / p, 2)
-    return "%s %s" % (s, size_name[i])
+    
+    # Calculate scientific notation
+    sci_exp = int(math.floor(math.log10(params)))
+    sci_coeff = round(params / (10 ** sci_exp), 2)
+    sci_notation = f"{sci_coeff} × 10^{sci_exp}"
+    
+    return f"{s} {size_name[i]} ({sci_notation} FLOPs)"
 
 def config_parser():
     parser = argparse.ArgumentParser()
@@ -56,7 +62,7 @@ def config_parser():
                         default=1,
                         help='Global batch size in units of samples')
     parser.add_argument("--tokens",
-                        type=int,
+                        type=float,
                         default=300e9,
                         help='Number of tokens you are training over')
     parser.add_argument("--no-checkpoint-activations", "-ca",
@@ -70,8 +76,7 @@ def config_parser():
     parser.add_argument("--ffn-hidden-size",
                         type=int,
                         default=None,
-                        help='Dimension of the model\'s intermediate dimension of each MLP linear layer. If set, ',
-                        '\'-ff\' will be ignored in favor of this custom MLP width.
+                        help="Dimension of the model\'s intermediate dimension of each MLP linear layer. If set, '-ff' will be ignored in favor of this custom MLP width."
     )
     parser.add_argument("--num-mlp-linears", "-nl",
                         type=int,
