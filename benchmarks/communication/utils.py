@@ -113,8 +113,8 @@ def get_bw(comm_op, size, duration, args):
         tput = (size * 2 / duration)
         busbw = (size / duration) * (2 * (n - 1) / n)
     elif comm_op == "reduce_scatter":
-        tput = (size * 2 / duration)
-        busbw = (size / duration) * (2 * (n - 1) / n)
+        tput = (size / duration)
+        busbw = (size / duration) * ((n - 1) / n)
     elif comm_op == "pt2pt" or comm_op == "broadcast":
         tput = (size / duration)
         busbw = tput
@@ -155,7 +155,6 @@ def max_numel(comm_op, dtype, mem_factor, local_rank, args):
     if comm_op == 'all_reduce' or comm_op == 'pt2pt' or comm_op == 'broadcast':
         elements_per_gpu = int(max_memory_per_gpu // dtype_size)
     elif comm_op == 'reduce_scatter':
-        # reduce_scatter output size scales with 1/world_size
         elements_per_gpu = int(max_memory_per_gpu // dtype_size)
         # Ensure divisibility by world_size
         elements_per_gpu = int(dist.get_world_size() * round(elements_per_gpu / dist.get_world_size()))
