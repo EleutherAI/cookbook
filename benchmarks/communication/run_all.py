@@ -9,6 +9,7 @@ from communication.all_gather import run_all_gather
 from communication.all_to_all import run_all_to_all
 from communication.pt2pt import run_pt2pt
 from communication.broadcast import run_broadcast
+from communication.reduce_scatter import run_reduce_scatter
 from communication.constants import *
 
 
@@ -28,9 +29,11 @@ def main(args, rank):
         ops_to_run.append('pt2pt')
     if args.all_to_all:
         ops_to_run.append('all_to_all')
+    if args.reduce_scatter:
+        ops_to_run.append('reduce_scatter')
 
     if len(ops_to_run) == 0:
-        ops_to_run = ['all_reduce', 'all_gather', 'all_to_all', 'broadcast', 'pt2pt']
+        ops_to_run = ['all_reduce', 'all_gather', 'all_to_all', 'broadcast', 'reduce_scatter', 'pt2pt']
 
     for comm_op in ops_to_run:
         if comm_op == 'all_reduce':
@@ -43,6 +46,8 @@ def main(args, rank):
             run_pt2pt(local_rank=rank, args=args)
         if comm_op == 'broadcast':
             run_broadcast(local_rank=rank, args=args)
+        if comm_op == 'reduce_scatter':
+            run_reduce_scatter(local_rank=rank, args=args)
 
 
 # For directly calling benchmark
