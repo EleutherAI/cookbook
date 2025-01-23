@@ -21,13 +21,13 @@ def timed_reduce_scatter(input, start_event, end_event, args):
     sync_all()
     # Warmups, establish connections, etc.
     for i in range(args.warmups):
-        dist.reduce_scatter(output, input, async_op=args.async_op)
+        dist.reduce_scatter_tensor(output, input, async_op=args.async_op)
     sync_all()
 
     # time the actual comm op trials times and average it
     start_event.record()
     for i in range(args.trials):
-        dist.reduce_scatter(output, input, async_op=args.async_op)
+        dist.reduce_scatter_tensor(output, input, async_op=args.async_op)
     end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
