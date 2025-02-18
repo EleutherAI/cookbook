@@ -35,7 +35,15 @@ def timed_reduce_scatter(input, start_event, end_event, args):
     # time the actual comm op trials times and average it
     start_event.record()
     for i in range(args.trials):
-        dist.reduce_scatter_tensor(output, input, async_op=args.async_op)
+        if hasattr(torch.distributed, "reduce_scatter_tensor"):
+            dist.reduce_scatter_tensor(output, input, async_op=args.async_op)
+        elif hasattr(torch.distributed, "_reduce_scatter_base"):
+            dist._reduce_scatter_base(output, input, async_op=args.async_op)
+        else:
+            input_tensors = list(
+                torch.chunk(input,
+                            dist.get_world_size()))
+            dist.reduce_scatter(output, input_tensors, async_op=args.async_op)
     end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
