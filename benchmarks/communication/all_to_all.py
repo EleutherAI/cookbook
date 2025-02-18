@@ -14,16 +14,29 @@ def timed_all_to_all(input, output, start_event, end_event, args):
     elif args.dist == 'deepspeed':
         import deepspeed.comm as dist
 
+    world_size = dist.get_world_size()
     sync_all()
+
+    if args.alltoallv:
+        # Split input and output into lists of tensors
+        input_list = list(input.chunk(world_size))
+        output_list = list(output.chunk(world_size))
+
     # Warmups, establish connections, etc.
     for i in range(args.warmups):
-        dist.all_to_all_single(output, input, async_op=args.async_op)
+        if args.alltoallv:
+            dist.all_to_all(output_list, input_list, async_op=args.async_op)
+        else:
+            dist.all_to_all_single(output, input, async_op=args.async_op)
     sync_all()
 
     # time the actual comm op trials times and average it
     start_event.record()
     for i in range(args.trials):
-        dist.all_to_all_single(output, input, async_op=args.async_op)
+        if args.alltoallv:
+            dist.all_to_all(output_list, input_list, async_op=args.async_op)
+        else:
+            dist.all_to_all_single(output, input, async_op=args.async_op)
     end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
@@ -39,7 +52,8 @@ def timed_all_to_all(input, output, start_event, end_event, args):
     if not args.raw:
         size = convert_size(size)
 
-    print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
+    op_name = "alltoallv" if args.alltoallv else "alltoall"
+    print_rank_0(f"{op_name:<10} {size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
 
 
 def run_all_to_all(local_rank, args):
@@ -51,7 +65,8 @@ def run_all_to_all(local_rank, args):
     world_size = dist.get_world_size()
     global_rank = dist.get_rank()
     # Prepare benchmark header
-    print_header(args, 'all_to_all')
+    op_name = "alltoallv" if args.alltoallv else "alltoall"
+    print_header(args, op_name)
 
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
@@ -113,15 +128,23 @@ def run_all_to_all(local_rank, args):
         if args.debug:
             for i in range(world_size):
                 if i == global_rank:
-                    print(f"Before AllToAll Input List at rank {global_rank}: {input}")
+                    if args.alltoallv:
+                        input_list = list(input.chunk(world_size))
+                        print(f"Before AllToAllv Input List at rank {global_rank}: {input_list}")
+                    else:
+                        print(f"Before AllToAll Input List at rank {global_rank}: {input}")
                 dist.barrier()
-
+    
         timed_all_to_all(input, output, start_event, end_event, args)
-
+    
         if args.debug:
             for i in range(world_size):
                 if i == global_rank:
-                    print(f"AllToAll Results at rank {global_rank}: {output}")
+                    if args.alltoallv:
+                        output_list = list(output.chunk(world_size))
+                        print(f"AllToAllv Results at rank {global_rank}: {output_list}")
+                    else:
+                        print(f"AllToAll Results at rank {global_rank}: {output}")
                 dist.barrier()
 
 
