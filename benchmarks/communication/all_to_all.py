@@ -52,8 +52,7 @@ def timed_all_to_all(input, output, start_event, end_event, args):
     if not args.raw:
         size = convert_size(size)
 
-    op_name = "alltoallv" if args.alltoallv else "alltoall"
-    print_rank_0(f"{op_name:<10} {size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
+    print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
 
 
 def run_all_to_all(local_rank, args):
