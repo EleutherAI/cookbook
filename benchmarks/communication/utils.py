@@ -112,6 +112,9 @@ def get_bw(comm_op, size, duration, args):
     elif comm_op == "all_reduce":
         tput = (size * 2 / duration)
         busbw = (size / duration) * (2 * (n - 1) / n)
+    elif comm_op == "reduce_scatter":
+        tput = (size / duration)
+        busbw = (size / duration) * ((n - 1) / n)
     elif comm_op == "pt2pt" or comm_op == "broadcast":
         tput = (size / duration)
         busbw = tput
@@ -151,14 +154,14 @@ def max_numel(comm_op, dtype, mem_factor, local_rank, args):
     max_memory_per_gpu = torch.cuda.get_device_properties(local_rank).total_memory * mem_factor
     if comm_op == 'all_reduce' or comm_op == 'pt2pt' or comm_op == 'broadcast':
         elements_per_gpu = int(max_memory_per_gpu // dtype_size)
+    elif comm_op == 'reduce_scatter':
+        elements_per_gpu = int(max_memory_per_gpu // dtype_size)
+        # Ensure divisibility by world_size
+        elements_per_gpu = int(dist.get_world_size() * round(elements_per_gpu / dist.get_world_size()))
     elif comm_op == 'all_gather':
-        # all_gather performance is lower for non-powers of two, and the output buffer size scales with world size
-        # Therefore, divide by world size and round down to nearest power of 2
         elements_per_gpu = int(max_memory_per_gpu // dtype_size // dist.get_world_size())
         elements_per_gpu = int(pow(2, int(math.log(elements_per_gpu, 2))))
     elif comm_op == 'all_to_all':
-        # Number of elements must be divisible by world_size
-        # all_to_all performance is lower for non-powers of two. Round down like all_gather.
         elements_per_gpu = int(max_memory_per_gpu // dtype_size)
         elements_per_gpu = int(dist.get_world_size() * round(elements_per_gpu / dist.get_world_size()))
         elements_per_gpu = int(pow(2, int(math.log(elements_per_gpu, 2))))
@@ -219,6 +222,7 @@ def benchmark_parser():
     parser.add_argument("--scan", action="store_true", help='Enables scanning all message sizes')
     parser.add_argument("--raw", action="store_true", help='Print the message size and latency without units')
     parser.add_argument("--all-reduce", action="store_true", help='Run all_reduce')
+    parser.add_argument("--reduce-scatter", action="store_true", help='Run reduce_scatter')
     parser.add_argument("--all-gather", action="store_true", help='Run all_gather')
     parser.add_argument("--all-to-all", action="store_true", help='Run all_to_all')
     parser.add_argument("--pt2pt", action="store_true", help='Run pt2pt')

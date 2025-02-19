@@ -19,12 +19,14 @@ def timed_all_gather(input, output, start_event, end_event, args):
     # Warmups, establish connections, etc.
     for i in range(args.warmups):
         if args.dist == 'torch':
-            if hasattr(torch.distributed, "_all_gather_base"):
+            if hasattr(torch.distributed, "all_gather_into_tensor"):
+                dist.all_gather_into_tensor(output, input, group=None, async_op=args.async_op)
+            elif hasattr(torch.distributed, "_all_gather_base"):
                 dist._all_gather_base(output, input, group=None, async_op=args.async_op)
             else:
                 output_tensors = list(
-                    torch.chunk(output_tensor,
-                                cdb.get_world_size(group)))
+                    torch.chunk(output,
+                                dist.get_world_size()))
                 dist.all_gather(output_tensors, input, group=None, async_op=True)
         elif args.dist == 'deepspeed':
             dist.allgather_fn(output, input, group=None, async_op=args.async_op)
@@ -38,8 +40,8 @@ def timed_all_gather(input, output, start_event, end_event, args):
                 dist._all_gather_base(output, input, group=None, async_op=args.async_op)
             else:
                 output_tensors = list(
-                    torch.chunk(output_tensor,
-                                cdb.get_world_size(group)))
+                    torch.chunk(output,
+                                dist.get_world_size()))
                 dist.all_gather(output_tensors, input, group=None, async_op=True)
         elif args.dist == 'deepspeed':
             dist.allgather_fn(output, input, group=None, async_op=args.async_op)
