@@ -233,4 +233,6 @@ def benchmark_parser():
                         default=.3,
                         help='Proportion of max available GPU memory to use for single-size evals')
     parser.add_argument("--debug", action="store_true", help='Enables all_to_all debug prints')
+    parser.add_argument('--all-to-all-v', action='store_true', 
+                        help='Use alltoallv instead of alltoall. This will run the all_to_all benchmark with vector variant. Use with --all-to-all or alone to run just this benchmark.')
     return parser
