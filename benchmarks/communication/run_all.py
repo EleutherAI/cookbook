@@ -26,7 +26,7 @@ def main(args, rank):
         ops_to_run.append('broadcast')
     if args.pt2pt:
         ops_to_run.append('pt2pt')
-    if args.all_to_all:
+    if args.all_to_all or args.all_to_all_v:
         ops_to_run.append('all_to_all')
 
     if len(ops_to_run) == 0:
