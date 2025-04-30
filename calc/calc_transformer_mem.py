@@ -156,9 +156,9 @@ def config_parser():
                         default=None,
                         help='Number of transformer layers used in model')
     parser.add_argument("--ffn-expansion-factor", "-ff",
-                        type=int,
+                        type=float,
                         default=None,
-                        help='How much the MLP hidden size expands')
+                        help='How much the MLP hidden size expands (can be non-integer like 3.5 for Llama models)')
     parser.add_argument("--num-mlp-linears", "-nl",
                         type=int,
                         default=None,
@@ -227,7 +227,7 @@ DEFAULTS = {
     "hidden_size" : 6144,
     "num_attention_heads" : 64,
     "num_layers" : 44,
-    "ffn_expansion_factor" : 4,
+    "ffn_expansion_factor" : 4.0,
     "num_mlp_linears": 2,
     # Inference Settings
     "infer" : False,
@@ -417,5 +417,6 @@ if __name__ == "__main__":
     print('\nExample with pythia 6.9B: python calc_transformer_mem.py --num-layers=32 --sequence-length=2048 --num-attention-heads=32 --hidden-size=4096 --batch-size-per-gpu=8 --checkpoint-activations --zero-stage=1 --partition-activations --pipeline-parallel-size=1 --tensor-parallel-size=2 --num-gpus=128')
     print('Example with pythia 12B: python calc_transformer_mem.py --num-layers=36 --sequence-length=2048 --num-attention-heads=40 --hidden-size=5120 --batch-size-per-gpu=8 --checkpoint-activations --zero-stage=1 --partition-activations --pipeline-parallel-size=1 --tensor-parallel-size=4 --num-gpus=256')
     print('Example with default 20B: python calc_transformer_mem.py --num-layers=44 --sequence-length=2048 --num-attention-heads=64 --hidden-size=6144 --batch-size-per-gpu=1 --checkpoint-activations --zero-stage=1 --partition-activations --pipeline-parallel-size=1 --tensor-parallel-size=1 --num-gpus=1\n')
+    print('Example with llama 7B: python calc_transformer_mem.py --num-layers=32 --sequence-length=4096 --num-attention-heads=32 --hidden-size=4096 --ffn-expansion-factor=3.5 --batch-size-per-gpu=1 --zero-stage=1 --pipeline-parallel-size=1 --tensor-parallel-size=1 --num-gpus=1')
     args = config_parser().parse_args()
     calc_mem(args)
