@@ -9,8 +9,8 @@ def convert_flops(params):
     if params == 0:
         return "0"
     size_name = ("", "KFLOPs", "MFLOPs", "GFLOPs", "TFLOPs", "PFLOPs", "EFLOPs", "ZFLOPs", "YFLOPs")
-    i = int(math.floor(math.log(params, 1000)))
-    p = math.pow(1000, i)
+    i = int(math.floor(math.log(params, 1_000)))
+    p = math.pow(1_000, i)
     s = round(params / p, 2)
     
     # Calculate scientific notation
@@ -21,7 +21,7 @@ def convert_flops(params):
     return f"{s} {size_name[i]} ({sci_notation} FLOPs)"
 
 def config_parser():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--vocab-size", "-v",
                         type=int,
                         default=51200,
@@ -98,11 +98,14 @@ def calc_flops(args):
     # determine the flops factor. 
     # If no activation checkpointing/recomputation, 1 for fwd and 2 for bwd (because we need to calculate the grads with respect to both the input and weight tensors). 
     # If activation checkpointing/recomputation, add 1 more for the next full forward pass
-    iter_factor = 3
-    if args.checkpoint_activations:
-        iter_factor += 1
     # If inference-only, no bwd pass or activation ckpting necessary
     # This assumes simply running a single forward pass ('prefill' stage of decoding) and no subsequent autoregressively generated tokens.
+    if args.infer:
+        iter_factor = 1            # single forward pass
+    else:
+        iter_factor = 3            # fwd + two grads
+        if args.checkpoint_activations:
+            iter_factor += 1       # extra recomputed fwd
     if args.infer:
         iter_factor = 1
 
@@ -114,17 +117,16 @@ def calc_flops(args):
     ffn_flops = int(iter_factor * 2 * args.num_mlp_linears * args.ffn_expansion_factor) * args.num_layers * args.tokens * args.hidden_size * args.hidden_size
 
     # no activation checkpointing for embeddings
-    embedding_flops = 6 * args.tokens * args.hidden_size * args.vocab_size
+    # embedding (4*d_model) plus unembedding (2*d_model*vocab_size)
+    embedding_flops = args.tokens * (4 * args.hidden_size + 2 * args.hidden_size * args.vocab_size)
 
     if args.moe and args.topk > 1:
-        ffn_flops += ffn_flops * args.topk / args.expert_interval
-
-    if args.moe:
-        gating_flops = 2 * args.num_experts * args.hidden_size / args.expert_interval
+        ffn_flops *= args.topk / args.expert_interval
 
     total_flops = qkv_flops + attention_matrix_flops + attention_over_values_flops + linear_projection_flops + ffn_flops + embedding_flops
 
     if args.moe:
+        gating_flops = 2 * iter_factor * args.tokens * args.num_experts * args.hidden_size * args.num_layers / args.expert_interval
         total_flops += gating_flops
 
     print(f'Calculating number of FLOPs with training configuration: {vars(args)}\n')
