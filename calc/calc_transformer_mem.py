@@ -192,6 +192,11 @@ def config_parser():
                         type=int,
                         default=None,
                         help='The precision of gradient elements as bytes per value')
+    parser.add_argument("--optimizer", "-opt",
+                        type=str,
+                        choices=["adamw", "muon", "sgd_momentum"],
+                        default=None,
+                        help='Which optimizer to estimate memory for (default adamw)')
     # MoE Settings
     parser.add_argument("--num-experts",
                         type=int,
@@ -238,6 +243,7 @@ DEFAULTS = {
     "high_prec_bytes_per_val" : 4,
     "low_prec_bytes_per_val" : 2,
     "bytes_per_grad_ele" : 4,
+    "optimizer" : "adamw",
     # MoE Settings
     "num_experts" : 0,
     "expert_parallelism" : 1,
@@ -304,11 +310,23 @@ def calc_mem(args):
 
     # --- OPTIMIZER MEMORY ---
     # For mixed-precision Adam/AdamW, the optimizer must store fp32 copies of the parameters, momentum, and variance (4 + 4 + 4 = 12 bytes per optimizer parameter)
-    # Feel free to change the multiplier for your optimizer (examples include SGD (4 + 4 = 8) and 8-bit ADAM (2 + 2 + 2 = 6)
+    # Feel free to change the multiplier for your optimizer (examples include SGD w/ momentum (4 + 4 = 8) and 8-bit ADAM (2 + 2 + 2 = 6)
+    opt_type = args.optimizer.lower()
+    if opt_type == "sgd_momentum":
+        opt_multiplier = 8                         # fp32 copy + m
+    elif opt_type == "muon":
+        opt_multiplier = 8                         # fp32 copy + m (https://kellerjordan.github.io/posts/muon/#runtime-analysis)
+    else:  # Adamw default
+        opt_multiplier =  12                       # fp32 copy + m + v (https://arxiv.org/abs/1910.02054)
+
+
+
     if args.num_experts > 0:
-        optimizer_mem = EP_total_params * 12
+        optimizer_mem = EP_total_params * opt_multiplier
     else:
-        optimizer_mem = total_params * 12
+        optimizer_mem = total_params * opt_multiplier
+
+
     per_gpu_optimizer_mem = optimizer_mem
     # ZeRO stage 3 shards the optimizer states across GPUs
     if args.zero_stage >= 1:
@@ -385,7 +403,7 @@ def calc_mem(args):
         print(f'Per-GPU KV Cache Memory: {per_gpu_kv_cache_mem_gib:.2f} GiB')
     else:
         print(f'Per-GPU Gradient Memory: {per_gpu_gradient_mem_gib:.2f} GiB')
-        print(f'Per-GPU Optimizer Memory: {per_gpu_optimizer_mem_gib:.2f} GiB')
+        print(f'Per-GPU Optimizer Memory ({opt_type}): {per_gpu_optimizer_mem_gib:.2f} GiB')
         print(f'Per-GPU Communication Memory: {per_gpu_communication_mem_gib:.2f} GiB')
         print(f'Per-GPU Miscellaneous Memory: {args.misc_mem_gib:.2f} GiB')
     # Aggregate Per-GPU Memory
@@ -403,7 +421,7 @@ def calc_mem(args):
         print(f'Total KV Cache Memory: {kv_cache_mem_gib:.2f} GiB')
     else:
         print(f'Total Gradient Memory: {gradient_mem_gib:.2f} GiB')
-        print(f'Total Optimizer Memory: {optimizer_mem_gib:.2f} GiB')
+        print(f'Total Optimizer Memory ({opt_type}): {optimizer_mem_gib:.2f} GiB')
         print(f'Total Miscellaneous Memory: {args.num_gpus*args.misc_mem_gib:.2f} GiB')
     # Aggregate GPU memory
     if args.infer:
