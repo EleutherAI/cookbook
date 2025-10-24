@@ -48,8 +48,11 @@ def run_all_reduce(local_rank, args):
     elif args.dist == 'deepspeed':
         import deepspeed.comm as dist
 
-    # Prepare benchmark header
-    print_header(args, 'all_reduce')
+    # Prepare benchmark header unless validating
+    if not args.validate:
+        print_header(args, 'all_reduce')
+    else:
+        print_rank_0("Running Allreduce validation")
 
     world_size = dist.get_world_size()
     global_rank = dist.get_rank()
@@ -57,7 +60,39 @@ def run_all_reduce(local_rank, args):
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
 
-    if args.scan:
+    if args.single:
+        sync_all()
+        M = 2 ** (args.maxsize-1)
+        try:
+            mat = torch.ones(world_size, M,
+                             dtype=getattr(torch, args.dtype)).cuda(local_rank)
+            sync_all()
+            input = ((mat.mul_(float(global_rank))).view(-1))
+            del mat
+            torch.cuda.empty_cache()
+        except RuntimeError as e:
+            if 'out of memory' in str(e):
+                if dist.get_rank() == 0:
+                    print('WARNING: Ran out of GPU memory. Exiting comm op.')
+                sync_all()
+                return
+            else:
+                raise e
+        sync_all()
+        if args.validate:
+            passes = 0
+            for _ in range(args.trials):
+                if validate_allreduce(input.clone(), args):
+                    passes += 1
+            size = input.element_size() * input.nelement()
+            if not args.raw:
+                size = convert_size(size)
+            desc = f"validation ({passes}/{args.trials})"
+            print_rank_0(f"{size:<20} {desc:25s} {'PASS' if passes == args.trials else 'FAIL'}")
+        else:
+            timed_all_reduce(input, start_event, end_event, args)
+
+    elif args.scan:
         M_LIST = []
         for x in (2**p for p in range(1, args.maxsize)):
             M_LIST.append(x)
@@ -76,13 +111,24 @@ def run_all_reduce(local_rank, args):
             except RuntimeError as e:
                 if 'out of memory' in str(e):
                     if dist.get_rank() == 0:
-                        print('WARNING: Ran out of GPU memory. Exiting comm op.')
+                        print('WARNING: Ran out of GPU memory.')
                     sync_all()
                     break
                 else:
                     raise e
             sync_all()
-            timed_all_reduce(input, start_event, end_event, args)
+            if args.validate:
+                passes = 0
+                for _ in range(args.trials):
+                    if validate_allreduce(input.clone(), args):
+                        passes += 1
+                size = input.element_size() * input.nelement()
+                if not args.raw:
+                    size = convert_size(size)
+                desc = f"validation ({passes}/{args.trials})"
+                print_rank_0(f"{size:<20} {desc:25s} {'PASS' if passes == args.trials else 'FAIL'}")
+            else:
+                timed_all_reduce(input, start_event, end_event, args)
     else:
         # Send the biggest message size our GPUs can fit. If you're facing OOM errors, reduce the mem_factor
         # Don't need output tensor, so we double mem_factor
@@ -104,7 +150,19 @@ def run_all_reduce(local_rank, args):
             else:
                 raise e
         sync_all()
-        timed_all_reduce(input, start_event, end_event, args)
+        if args.validate:
+            passes = 0
+            for _ in range(args.trials):
+                if validate_allreduce(input.clone(), args):
+                    passes += 1
+            size = input.element_size() * input.nelement()
+            if not args.raw:
+                size = convert_size(size)
+            desc = f"validation ({passes}/{args.trials})"
+            print_rank_0(f"{size:<20} {desc:25s} {'PASS' if passes == args.trials else 'FAIL'}")
+        else:
+            timed_all_reduce(input, start_event, end_event, args)
+
 
 
 if __name__ == "__main__":

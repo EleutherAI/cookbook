@@ -207,6 +207,9 @@ def benchmark_parser():
     parser.add_argument("--trials", type=int, default=DEFAULT_TRIALS, help='Number of timed iterations')
     parser.add_argument("--warmups", type=int, default=DEFAULT_WARMUPS, help='Number of warmup (non-timed) iterations')
     parser.add_argument("--maxsize", type=int, default=24, help='Max message size as a power of 2')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--scan", action="store_true", help='Enables scanning all message sizes')
+    group.add_argument("--single", action="store_true", help='Run only 2^maxsize, mutual exclusive with --scan')
     parser.add_argument("--async-op", action="store_true", help='Enables non-blocking communication')
     parser.add_argument("--bw-unit", type=str, default=DEFAULT_UNIT, choices=['Gbps', 'GBps'])
     parser.add_argument("--backend",
@@ -235,4 +238,17 @@ def benchmark_parser():
     parser.add_argument("--debug", action="store_true", help='Enables all_to_all debug prints')
     parser.add_argument('--all-to-all-v', action='store_true', 
                         help='Use alltoallv instead of alltoall. This will run the all_to_all benchmark with vector variant. Use with --all-to-all or alone to run just this benchmark.')
+    parser.add_argument("--validate", action="store_true", help='Validate collective results')
     return parser
+
+def validate_allreduce(input, args):
+    if args.dist == 'torch':
+        import torch.distributed as dist
+    elif args.dist == 'deepspeed':
+        import deepspeed.comm as dist
+
+    dist.all_reduce(input, async_op=False)
+    sync_all()
+    n = dist.get_world_size()
+    expected = float(n * (n - 1) / 2)
+    return torch.allclose(input, torch.full_like(input, expected))
