@@ -222,7 +222,6 @@ def benchmark_parser():
                         default=DEFAULT_DIST,
                         choices=['deepspeed', 'torch'],
                         help='Distributed DL framework to use')
-    parser.add_argument("--scan", action="store_true", help='Enables scanning all message sizes')
     parser.add_argument("--raw", action="store_true", help='Print the message size and latency without units')
     parser.add_argument("--all-reduce", action="store_true", help='Run all_reduce')
     parser.add_argument("--reduce-scatter", action="store_true", help='Run reduce_scatter')
