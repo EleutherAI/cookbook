@@ -42,6 +42,42 @@ def timed_all_reduce(input, start_event, end_event, args):
     print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
 
 
+def create_input_tensor(world_size, num_elements, global_rank, local_rank, args):
+    """
+    Create input tensor for all_reduce benchmark/validation.
+    
+    Each rank's tensor is filled with its rank value, so after all_reduce SUM,
+    each element should equal sum(0..n-1) = n*(n-1)/2.
+    
+    Args:
+        world_size: Total number of ranks
+        num_elements: Number of elements per rank
+        global_rank: This rank's global rank
+        local_rank: This rank's local rank
+        args: Benchmark arguments
+        
+    Returns:
+        Input tensor on GPU, or None if OOM
+    """
+    if args.dist == 'torch':
+        import torch.distributed as dist
+    elif args.dist == 'deepspeed':
+        import deepspeed.comm as dist
+
+    try:
+        mat = torch.ones(num_elements, dtype=getattr(torch, args.dtype)).cuda(local_rank)
+        input = mat.mul_(float(global_rank))
+        return input
+    except RuntimeError as e:
+        if 'out of memory' in str(e):
+            if dist.get_rank() == 0:
+                print('WARNING: Ran out of GPU memory.')
+            sync_all()
+            return None
+        else:
+            raise e
+
+
 def run_all_reduce(local_rank, args):
     if args.dist == 'torch':
         import torch.distributed as dist
@@ -62,73 +98,39 @@ def run_all_reduce(local_rank, args):
 
     if args.single:
         sync_all()
-        M = 2 ** (args.maxsize-1)
-        try:
-            mat = torch.ones(world_size, M,
-                             dtype=getattr(torch, args.dtype)).cuda(local_rank)
-            sync_all()
-            input = ((mat.mul_(float(global_rank))).view(-1))
-            del mat
-            torch.cuda.empty_cache()
-        except RuntimeError as e:
-            if 'out of memory' in str(e):
-                if dist.get_rank() == 0:
-                    print('WARNING: Ran out of GPU memory. Exiting comm op.')
-                sync_all()
-                return
-            else:
-                raise e
+        num_elements = world_size * (2 ** args.maxsize)
+        input = create_input_tensor(world_size, num_elements, global_rank, local_rank, args)
+        if input is None:
+            if dist.get_rank() == 0:
+                print('Exiting comm op.')
+            return
         sync_all()
+        
         if args.validate:
-            passes = 0
-            for _ in range(args.trials):
-                if validate_allreduce(input.clone(), args):
-                    passes += 1
-            size = input.element_size() * input.nelement()
-            if not args.raw:
-                size = convert_size(size)
-            desc = f"validation ({passes}/{args.trials})"
-            print_rank_0(f"{size:<20} {desc:25s} {'PASS' if passes == args.trials else 'FAIL'}")
+            run_validation(input, args)
         else:
             timed_all_reduce(input, start_event, end_event, args)
 
     elif args.scan:
-        M_LIST = []
-        for x in (2**p for p in range(1, args.maxsize)):
-            M_LIST.append(x)
+        M_LIST = [2**p for p in range(1, args.maxsize)]
 
         sync_all()
         # loop over various tensor sizes
         for M in M_LIST:
-            global_rank = dist.get_rank()
-            try:
-                mat = torch.ones(world_size, M,
-                                 dtype=getattr(torch, args.dtype)).cuda(local_rank)
-                sync_all()
-                input = ((mat.mul_(float(global_rank))).view(-1))
-                del mat
-                torch.cuda.empty_cache()
-            except RuntimeError as e:
-                if 'out of memory' in str(e):
-                    if dist.get_rank() == 0:
-                        print('WARNING: Ran out of GPU memory.')
-                    sync_all()
-                    break
-                else:
-                    raise e
+            num_elements = world_size * M
+            input = create_input_tensor(world_size, num_elements, global_rank, local_rank, args)
+            if input is None:
+                break
             sync_all()
+            
             if args.validate:
-                passes = 0
-                for _ in range(args.trials):
-                    if validate_allreduce(input.clone(), args):
-                        passes += 1
-                size = input.element_size() * input.nelement()
-                if not args.raw:
-                    size = convert_size(size)
-                desc = f"validation ({passes}/{args.trials})"
-                print_rank_0(f"{size:<20} {desc:25s} {'PASS' if passes == args.trials else 'FAIL'}")
+                run_validation(input, args)
             else:
                 timed_all_reduce(input, start_event, end_event, args)
+            
+            # Clean up for next iteration
+            del input
+            torch.cuda.empty_cache()
     else:
         # Send the biggest message size our GPUs can fit. If you're facing OOM errors, reduce the mem_factor
         # Don't need output tensor, so we double mem_factor
@@ -137,32 +139,18 @@ def run_all_reduce(local_rank, args):
                                      mem_factor=args.mem_factor * 2,
                                      local_rank=local_rank,
                                      args=args)
-        try:
-            mat = torch.ones(elements_per_gpu, dtype=getattr(torch,
-                                                             args.dtype)).cuda(local_rank)
-            input = ((mat.mul_(float(global_rank))).view(-1))
-        except RuntimeError as e:
-            if 'out of memory' in str(e):
-                if dist.get_rank() == 0:
-                    print('WARNING: Ran out of GPU memory. Try to reduce the --mem-factor argument!')
-                sync_all()
-                return
-            else:
-                raise e
+        
+        input = create_input_tensor(world_size, elements_per_gpu, global_rank, local_rank, args)
+        if input is None:
+            if dist.get_rank() == 0:
+                print('Try to reduce the --mem-factor argument!')
+            return
         sync_all()
+        
         if args.validate:
-            passes = 0
-            for _ in range(args.trials):
-                if validate_allreduce(input.clone(), args):
-                    passes += 1
-            size = input.element_size() * input.nelement()
-            if not args.raw:
-                size = convert_size(size)
-            desc = f"validation ({passes}/{args.trials})"
-            print_rank_0(f"{size:<20} {desc:25s} {'PASS' if passes == args.trials else 'FAIL'}")
+            run_validation(input, args)
         else:
             timed_all_reduce(input, start_event, end_event, args)
-
 
 
 if __name__ == "__main__":
