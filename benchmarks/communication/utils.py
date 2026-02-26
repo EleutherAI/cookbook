@@ -93,7 +93,11 @@ def print_header(args, comm_op):
     duration_str = 'Duration'
     if args.raw:
         duration_str += ' (us)'
-    header += f"{'Size (Bytes)':20s} {'Description':25s} {duration_str:20s} {tput:20s} {busbw:20s}\n"
+    if args.compute_overlap:
+        overlap_str = 'Overlap (%)'
+        header += f"{'Size (Bytes)':20s} {'Description':25s} {duration_str:20s} {tput:20s} {busbw:20s} {overlap_str:>12s}\n"
+    else:
+        header += f"{'Size (Bytes)':20s} {'Description':25s} {duration_str:20s} {tput:20s} {busbw:20s}\n"
     header += "----------------------------------------------------------------------------------------------------"
     print_rank_0(header)
 
@@ -170,6 +174,50 @@ def max_numel(comm_op, dtype, mem_factor, local_rank, args):
         exit(0)
     return elements_per_gpu
 
+def create_compute_tensors(args, local_rank):
+    """Create square matrices used for the compute overlap kernel (matmul)."""
+    n = args.compute_size
+    a = torch.randn(n, n, device=torch.device(f'cuda:{local_rank}'))
+    b = torch.randn(n, n, device=torch.device(f'cuda:{local_rank}'))
+    return (a, b)
+
+
+def compute_kernel(compute_tensors, num_iters):
+    """Run a GPU-bound compute workload (repeated matmul)."""
+    a, b = compute_tensors
+    for _ in range(num_iters):
+        torch.mm(a, b)
+
+
+def measure_compute_time(compute_tensors, args):
+    """Measure the time for compute-only execution."""
+    start = torch.cuda.Event(enable_timing=True)
+    end = torch.cuda.Event(enable_timing=True)
+    sync_all()
+    # warmup
+    for _ in range(args.warmups):
+        compute_kernel(compute_tensors, args.compute_iters)
+    sync_all()
+    start.record()
+    for _ in range(args.trials):
+        compute_kernel(compute_tensors, args.compute_iters)
+    end.record()
+    sync_all()
+    return start.elapsed_time(end) / 1000 / args.trials
+
+
+def compute_overlap_pct(t_comm, t_compute, t_overlap):
+    """Calculate overlap efficiency as a percentage.
+
+    Returns 100% when communication is perfectly hidden behind compute
+    (or vice versa), and 0% when there is no overlap at all.
+    """
+    t_sum = t_comm + t_compute
+    t_min = min(t_comm, t_compute)
+    if t_min <= 0:
+        return 0.0
+    return max(0.0, min(100.0, (t_sum - t_overlap) / t_min * 100.0))
+
 
 # Helper function to pretty-print message sizes
 def convert_size(size_bytes):
@@ -235,4 +283,15 @@ def benchmark_parser():
     parser.add_argument("--debug", action="store_true", help='Enables all_to_all debug prints')
     parser.add_argument('--all-to-all-v', action='store_true', 
                         help='Use alltoallv instead of alltoall. This will run the all_to_all benchmark with vector variant. Use with --all-to-all or alone to run just this benchmark.')
+    parser.add_argument("--compute-overlap",
+                        action="store_true",
+                        help='Measure compute-communication overlap efficiency using matmul kernel')
+    parser.add_argument("--compute-size",
+                        type=int,
+                        default=DEFAULT_COMPUTE_SIZE,
+                        help='Square matrix dimension for the compute overlap matmul kernel')
+    parser.add_argument("--compute-iters",
+                        type=int,
+                        default=DEFAULT_COMPUTE_ITERS,
+                        help='Number of matmul iterations per trial in compute overlap mode')
     return parser

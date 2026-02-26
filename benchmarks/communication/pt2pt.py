@@ -8,7 +8,23 @@ from communication.utils import *
 from communication.constants import *
 
 
-def timed_pt2pt(input, start_event, end_event, args):
+def _pt2pt_op(dist, input, async_op=False):
+    """Run a single pt2pt send/recv, returning handle if async."""
+    handle = None
+    if dist.get_rank() == 0:
+        if async_op:
+            handle = dist.isend(input, 1)
+        else:
+            dist.send(input, 1)
+    if dist.get_rank() == 1:
+        if async_op:
+            handle = dist.irecv(input, src=0)
+        else:
+            dist.recv(input, src=0)
+    return handle
+
+
+def timed_pt2pt(input, start_event, end_event, args, compute_tensors=None):
     if args.dist == 'torch':
         import torch.distributed as dist
     elif args.dist == 'deepspeed':
@@ -17,38 +33,55 @@ def timed_pt2pt(input, start_event, end_event, args):
     sync_all()
     # Warmups, establish connections, etc.
     for i in range(args.warmups):
-        if dist.get_rank() == 0:
-            if args.async_op:
-                dist.isend(input, 1)
-            else:
-                dist.send(input, 1)
-        if dist.get_rank() == 1:
-            if args.async_op:
-                dist.irecv(input, src=0)
-            else:
-                dist.recv(input, src=0)
+        if args.compute_overlap and compute_tensors is not None:
+            handle = _pt2pt_op(dist, input, async_op=True)
+            compute_kernel(compute_tensors, args.compute_iters)
+            if handle is not None:
+                handle.wait()
+        else:
+            _pt2pt_op(dist, input, async_op=args.async_op)
     sync_all()
 
-    # time the actual comm op trials times and average it
-    start_event.record()
-    for i in range(args.trials):
-        if dist.get_rank() == 0:
-            if args.async_op:
-                dist.isend(input, 1)
-            else:
-                dist.send(input, 1)
-        if dist.get_rank() == 1:
-            if args.async_op:
-                dist.irecv(input, src=0)
-            else:
-                dist.recv(input, src=0)
+    if args.compute_overlap and compute_tensors is not None:
+        # Measure comm-only time
+        start = torch.cuda.Event(enable_timing=True)
+        end = torch.cuda.Event(enable_timing=True)
+        sync_all()
+        start.record()
+        for _ in range(args.trials):
+            _pt2pt_op(dist, input, async_op=False)
+        end.record()
+        sync_all()
+        t_comm = start.elapsed_time(end) / 1000 / args.trials
 
-    end_event.record()
-    sync_all()
-    duration = start_event.elapsed_time(end_event) / 1000
+        # Measure compute-only time
+        t_compute = measure_compute_time(compute_tensors, args)
+
+        # Measure overlapped time
+        sync_all()
+        start_event.record()
+        for i in range(args.trials):
+            handle = _pt2pt_op(dist, input, async_op=True)
+            compute_kernel(compute_tensors, args.compute_iters)
+            if handle is not None:
+                handle.wait()
+        end_event.record()
+        sync_all()
+        duration = start_event.elapsed_time(end_event) / 1000
+        avg_duration = duration / args.trials
+        overlap_pct = compute_overlap_pct(t_comm, t_compute, avg_duration)
+    else:
+        # time the actual comm op trials times and average it
+        start_event.record()
+        for i in range(args.trials):
+            _pt2pt_op(dist, input, async_op=args.async_op)
+        end_event.record()
+        sync_all()
+        duration = start_event.elapsed_time(end_event) / 1000
+        avg_duration = duration / args.trials
+        overlap_pct = None
 
     # maintain and clean performance data
-    avg_duration = duration / args.trials
     size = input.element_size() * input.nelement()
     n = dist.get_world_size()
     tput, busbw = get_bw('pt2pt', size, avg_duration, args)
@@ -58,7 +91,11 @@ def timed_pt2pt(input, start_event, end_event, args):
     if not args.raw:
         size = convert_size(size)
 
-    print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
+    if overlap_pct is not None:
+        print_rank_0(
+            f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s} {overlap_pct:>11.1f}%")
+    else:
+        print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
 
 
 def run_pt2pt(local_rank, args):
@@ -74,6 +111,8 @@ def run_pt2pt(local_rank, args):
 
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
+
+    compute_tensors = create_compute_tensors(args, local_rank) if args.compute_overlap else None
 
     if args.scan:
         # Create list of message sizes
@@ -101,7 +140,7 @@ def run_pt2pt(local_rank, args):
                 else:
                     raise e
             sync_all()
-            timed_pt2pt(input, start_event, end_event, args)
+            timed_pt2pt(input, start_event, end_event, args, compute_tensors)
     else:
         # Send the biggest message size our GPUs can fit. If you're facing OOM errors, reduce the mem_factor
         # Don't need output tensor, so double mem_factor
@@ -121,7 +160,7 @@ def run_pt2pt(local_rank, args):
                 sync_all()
                 return
         sync_all()
-        timed_pt2pt(input, start_event, end_event, args)
+        timed_pt2pt(input, start_event, end_event, args, compute_tensors)
 
 
 if __name__ == "__main__":

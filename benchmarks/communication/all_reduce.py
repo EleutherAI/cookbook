@@ -8,7 +8,7 @@ from communication.utils import *
 from communication.constants import *
 
 
-def timed_all_reduce(input, start_event, end_event, args):
+def timed_all_reduce(input, start_event, end_event, args, compute_tensors=None):
     if args.dist == 'torch':
         import torch.distributed as dist
     elif args.dist == 'deepspeed':
@@ -17,19 +17,45 @@ def timed_all_reduce(input, start_event, end_event, args):
     sync_all()
     # Warmups, establish connections, etc.
     for i in range(args.warmups):
-        dist.all_reduce(input, async_op=args.async_op)
+        if args.compute_overlap and compute_tensors is not None:
+            handle = dist.all_reduce(input, async_op=True)
+            compute_kernel(compute_tensors, args.compute_iters)
+            handle.wait()
+        else:
+            dist.all_reduce(input, async_op=args.async_op)
     sync_all()
 
-    # time the actual comm op trials times and average it
-    start_event.record()
-    for i in range(args.trials):
-        dist.all_reduce(input, async_op=args.async_op)
-    end_event.record()
-    sync_all()
-    duration = start_event.elapsed_time(end_event) / 1000
+    if args.compute_overlap and compute_tensors is not None:
+        # Measure comm-only time
+        t_comm = _measure_comm_only(lambda: dist.all_reduce(input, async_op=False), args)
+
+        # Measure compute-only time
+        t_compute = measure_compute_time(compute_tensors, args)
+
+        # Measure overlapped time
+        sync_all()
+        start_event.record()
+        for i in range(args.trials):
+            handle = dist.all_reduce(input, async_op=True)
+            compute_kernel(compute_tensors, args.compute_iters)
+            handle.wait()
+        end_event.record()
+        sync_all()
+        duration = start_event.elapsed_time(end_event) / 1000
+        avg_duration = duration / args.trials
+        overlap_pct = compute_overlap_pct(t_comm, t_compute, avg_duration)
+    else:
+        # time the actual comm op trials times and average it
+        start_event.record()
+        for i in range(args.trials):
+            dist.all_reduce(input, async_op=args.async_op)
+        end_event.record()
+        sync_all()
+        duration = start_event.elapsed_time(end_event) / 1000
+        avg_duration = duration / args.trials
+        overlap_pct = None
 
     # maintain and clean performance data
-    avg_duration = duration / args.trials
     size = input.element_size() * input.nelement()
     n = dist.get_world_size()
     tput, busbw = get_bw('all_reduce', size, avg_duration, args)
@@ -39,7 +65,24 @@ def timed_all_reduce(input, start_event, end_event, args):
     if not args.raw:
         size = convert_size(size)
 
-    print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
+    if overlap_pct is not None:
+        print_rank_0(
+            f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s} {overlap_pct:>11.1f}%")
+    else:
+        print_rank_0(f"{size:<20} {desc:25s} {duration_str:20s} {tput_str:20s} {busbw_str:20s}")
+
+
+def _measure_comm_only(comm_fn, args):
+    """Helper to measure communication-only time."""
+    start = torch.cuda.Event(enable_timing=True)
+    end = torch.cuda.Event(enable_timing=True)
+    sync_all()
+    start.record()
+    for _ in range(args.trials):
+        comm_fn()
+    end.record()
+    sync_all()
+    return start.elapsed_time(end) / 1000 / args.trials
 
 
 def run_all_reduce(local_rank, args):
@@ -56,6 +99,8 @@ def run_all_reduce(local_rank, args):
 
     start_event = torch.cuda.Event(enable_timing=True)
     end_event = torch.cuda.Event(enable_timing=True)
+
+    compute_tensors = create_compute_tensors(args, local_rank) if args.compute_overlap else None
 
     if args.scan:
         M_LIST = []
@@ -82,7 +127,7 @@ def run_all_reduce(local_rank, args):
                 else:
                     raise e
             sync_all()
-            timed_all_reduce(input, start_event, end_event, args)
+            timed_all_reduce(input, start_event, end_event, args, compute_tensors)
     else:
         # Send the biggest message size our GPUs can fit. If you're facing OOM errors, reduce the mem_factor
         # Don't need output tensor, so we double mem_factor
@@ -104,7 +149,7 @@ def run_all_reduce(local_rank, args):
             else:
                 raise e
         sync_all()
-        timed_all_reduce(input, start_event, end_event, args)
+        timed_all_reduce(input, start_event, end_event, args, compute_tensors)
 
 
 if __name__ == "__main__":
