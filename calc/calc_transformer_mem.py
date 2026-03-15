@@ -343,7 +343,7 @@ def calc_mem(args):
         per_gpu_communication_mem += args.zero3_max_live_params * bytes_per_param
 
     # --- ACTIVATION MEMORY ---
-    # Taken from Table 2 in https://arxiv.org/pdf/1910.02054.pdf and generalized to any precision (instead of just fp16 from the paper)
+    # Taken from Table 2 in https://arxiv.org/abs/2205.05198 and generalized to any precision (instead of just fp16 from the paper)
     # 3 cases: [training with activation checkpointing, training without activation checkpointing, inferencing]
     if not args.infer and args.checkpoint_activations:
         activation_mem = args.sequence_length * args.batch_size_per_gpu * args.hidden_size * args.num_layers * ((16 * args.low_prec_bytes_per_val + 2))
