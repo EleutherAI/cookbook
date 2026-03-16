@@ -13,7 +13,8 @@ global dist
 def env2int(env_list, default=-1):
     for e in env_list:
         val = int(os.environ.get(e, -1))
-        if val >= 0: return val
+        if val >= 0:
+            return val
     return default
 
 
@@ -133,7 +134,7 @@ def get_metric_strings(args, tput, busbw, duration):
     duration_ms = duration * 1e3
     duration_us = duration * 1e6
     tput = f'{tput / 1e9:.3f}'
-    busbw = f'{busbw /1e9:.3f}'
+    busbw = f'{busbw / 1e9:.3f}'
 
     if duration_us < 1e3 or args.raw:
         duration = f'{duration_us:.3f}'
@@ -207,6 +208,9 @@ def benchmark_parser():
     parser.add_argument("--trials", type=int, default=DEFAULT_TRIALS, help='Number of timed iterations')
     parser.add_argument("--warmups", type=int, default=DEFAULT_WARMUPS, help='Number of warmup (non-timed) iterations')
     parser.add_argument("--maxsize", type=int, default=24, help='Max message size as a power of 2')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--scan", action="store_true", help='Enables scanning all message sizes')
+    group.add_argument("--single", action="store_true", help='Run only at 2^maxsize message size')
     parser.add_argument("--async-op", action="store_true", help='Enables non-blocking communication')
     parser.add_argument("--bw-unit", type=str, default=DEFAULT_UNIT, choices=['Gbps', 'GBps'])
     parser.add_argument("--backend",
@@ -219,7 +223,6 @@ def benchmark_parser():
                         default=DEFAULT_DIST,
                         choices=['deepspeed', 'torch'],
                         help='Distributed DL framework to use')
-    parser.add_argument("--scan", action="store_true", help='Enables scanning all message sizes')
     parser.add_argument("--raw", action="store_true", help='Print the message size and latency without units')
     parser.add_argument("--all-reduce", action="store_true", help='Run all_reduce')
     parser.add_argument("--reduce-scatter", action="store_true", help='Run reduce_scatter')
@@ -233,6 +236,55 @@ def benchmark_parser():
                         default=.3,
                         help='Proportion of max available GPU memory to use for single-size evals')
     parser.add_argument("--debug", action="store_true", help='Enables all_to_all debug prints')
-    parser.add_argument('--all-to-all-v', action='store_true', 
+    parser.add_argument('--all-to-all-v', action='store_true',
                         help='Use alltoallv instead of alltoall. This will run the all_to_all benchmark with vector variant. Use with --all-to-all or alone to run just this benchmark.')
+    parser.add_argument("--validate", action="store_true", help='Validate collective results')
     return parser
+
+
+def validate_allreduce(input, args):
+    """
+    Validate all_reduce operation by checking the result against expected value.
+    
+    Each rank initializes its tensor elements to its rank value (0, 1, 2, ..., n-1).
+    After all_reduce with SUM, each element should equal n*(n-1)/2.
+    
+    Args:
+        input: Input tensor (will be modified in-place by all_reduce)
+        args: Benchmark arguments containing dist framework info
+        
+    Returns:
+        bool: True if validation passes, False otherwise
+    """
+    if args.dist == 'torch':
+        import torch.distributed as dist
+    elif args.dist == 'deepspeed':
+        import deepspeed.comm as dist
+
+    dist.all_reduce(input, async_op=False)
+    sync_all()
+    n = dist.get_world_size()
+    expected = float(n * (n - 1) / 2)
+    return torch.allclose(input, torch.full_like(input, expected))
+
+
+def run_validation(input, args):
+    """
+    Run validation trials and print results.
+    
+    Args:
+        input: Input tensor to validate (will be cloned for each trial)
+        args: Benchmark arguments
+    """
+    passes = 0
+    for _ in range(args.trials):
+        if validate_allreduce(input.clone(), args):
+            passes += 1
+    
+    size = input.element_size() * input.nelement()
+    if not args.raw:
+        size = convert_size(size)
+    
+    desc = f"validation ({passes}/{args.trials})"
+    status = 'PASS' if passes == args.trials else 'FAIL'
+    print_rank_0(f"{size:<20} {desc:25s} {status}")
