@@ -30,20 +30,21 @@ def timed_pt2pt(input, start_event, end_event, args):
     sync_all()
 
     # time the actual comm op trials times and average it
-    start_event.record()
-    for i in range(args.trials):
-        if dist.get_rank() == 0:
-            if args.async_op:
-                dist.isend(input, 1)
-            else:
-                dist.send(input, 1)
-        if dist.get_rank() == 1:
-            if args.async_op:
-                dist.irecv(input, src=0)
-            else:
-                dist.recv(input, src=0)
-
-    end_event.record()
+    with prof(args) as profiler:
+        start_event.record()
+        for i in range(args.trials):
+            if dist.get_rank() == 0:
+                if args.async_op:
+                    dist.isend(input, 1)
+                else:
+                    dist.send(input, 1)
+            if dist.get_rank() == 1:
+                if args.async_op:
+                    dist.irecv(input, src=0)
+                else:
+                    dist.recv(input, src=0)
+            profiler.step()
+        end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
 

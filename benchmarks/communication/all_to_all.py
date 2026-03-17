@@ -31,13 +31,15 @@ def timed_all_to_all(input, output, start_event, end_event, args):
     sync_all()
 
     # time the actual comm op trials times and average it
-    start_event.record()
-    for i in range(args.trials):
-        if args.all_to_all_v:
-            dist.all_to_all(output_list, input_list, async_op=args.async_op)
-        else:
-            dist.all_to_all_single(output, input, async_op=args.async_op)
-    end_event.record()
+    with prof(args) as profiler:
+        start_event.record()
+        for i in range(args.trials):
+            if args.all_to_all_v:
+                dist.all_to_all(output_list, input_list, async_op=args.async_op)
+            else:
+                dist.all_to_all_single(output, input, async_op=args.async_op)
+            profiler.step()
+        end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
 

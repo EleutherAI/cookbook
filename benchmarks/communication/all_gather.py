@@ -33,19 +33,21 @@ def timed_all_gather(input, output, start_event, end_event, args):
     sync_all()
 
     # time the actual comm op trials times and average it
-    start_event.record()
-    for i in range(args.trials):
-        if args.dist == 'torch':
-            if hasattr(torch.distributed, "_all_gather_base"):
-                dist._all_gather_base(output, input, group=None, async_op=args.async_op)
-            else:
-                output_tensors = list(
-                    torch.chunk(output,
-                                dist.get_world_size()))
-                dist.all_gather(output_tensors, input, group=None, async_op=True)
-        elif args.dist == 'deepspeed':
-            dist.allgather_fn(output, input, group=None, async_op=args.async_op)
-    end_event.record()
+    with prof(args) as profiler:
+        start_event.record()
+        for i in range(args.trials):
+            if args.dist == 'torch':
+                if hasattr(torch.distributed, "_all_gather_base"):
+                    dist._all_gather_base(output, input, group=None, async_op=args.async_op)
+                else:
+                    output_tensors = list(
+                        torch.chunk(output,
+                                    dist.get_world_size()))
+                    dist.all_gather(output_tensors, input, group=None, async_op=True)
+            elif args.dist == 'deepspeed':
+                dist.allgather_fn(output, input, group=None, async_op=args.async_op)
+            profiler.step()
+        end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
 

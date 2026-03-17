@@ -2,6 +2,7 @@ import torch
 import os, sys
 import math
 import argparse
+from contextlib import nullcontext
 
 COMMS_BENCH_DIR = os.path.join(os.path.dirname(__file__), "../")
 sys.path.append(COMMS_BENCH_DIR)
@@ -235,4 +236,48 @@ def benchmark_parser():
     parser.add_argument("--debug", action="store_true", help='Enables all_to_all debug prints')
     parser.add_argument('--all-to-all-v', action='store_true', 
                         help='Use alltoallv instead of alltoall. This will run the all_to_all benchmark with vector variant. Use with --all-to-all or alone to run just this benchmark.')
+    parser.add_argument("--profile", action="store_true", help='Enable PyTorch profiler during timed iterations')
     return parser
+
+class PassProfile:
+    """
+    Even when profiling is disabled, the code can still walk through step.
+    """
+    def step(self):
+        pass
+
+def prof(args):
+    """
+    Returns a context manager that enables PyTorch profiler when args.profile is True.
+    """
+    if not getattr(args, 'profile', False):
+        return nullcontext(PassProfile())
+    
+    try:
+        from torch.profiler import profile, ProfilerActivity, schedule, tensorboard_trace_handler
+    except Exception:
+        return nullcontext(PassProfile())
+
+    activities = [ProfilerActivity.CPU]
+    if torch.cuda.is_available():
+        activities.append(ProfilerActivity.CUDA)
+
+    prof_schedule = schedule(wait=1, warmup=1, active=5, repeat=1)
+    
+    # assume saving logs under communication folder
+    comm_dir = os.path.abspath(os.path.dirname(__file__))
+    log_dir = os.path.join(comm_dir, 'profiles')
+    os.makedirs(log_dir, exist_ok=True)
+    
+    rank = 0
+    if 'dist' in globals(): rank = dist.get_rank()
+    handler = tensorboard_trace_handler(os.path.join(log_dir, f'rank_{rank}'))
+
+    return profile(
+        activities=activities,
+        schedule=prof_schedule,
+        on_trace_ready=handler,
+        record_shapes=True,
+        profile_memory=True,
+        with_stack=True,
+    )

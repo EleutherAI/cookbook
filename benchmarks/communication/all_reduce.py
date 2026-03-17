@@ -21,10 +21,12 @@ def timed_all_reduce(input, start_event, end_event, args):
     sync_all()
 
     # time the actual comm op trials times and average it
-    start_event.record()
-    for i in range(args.trials):
-        dist.all_reduce(input, async_op=args.async_op)
-    end_event.record()
+    with prof(args) as profiler:
+        start_event.record()
+        for i in range(args.trials):
+            dist.all_reduce(input, async_op=args.async_op)
+            profiler.step()
+        end_event.record()
     sync_all()
     duration = start_event.elapsed_time(end_event) / 1000
 
