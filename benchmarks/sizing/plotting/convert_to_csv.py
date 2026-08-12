@@ -1,6 +1,7 @@
 import argparse
 from pylab import *
 import pandas as pd
+import re
 
 def read_transformer_logfile(logfile_name):
     all_values = []
@@ -25,23 +26,35 @@ def read_transformer_logfile(logfile_name):
                     values[value_labels[i-1]] = int(match.group(i))
                 all_values.append(values)
 
+            match = re.match(r'Throughput \(in TFLOP/s\) for sdpa_attn \((.*)\): (\d+\.\d+)', line)
+            if match is not None:
+                throughput = float(match.group(2))
+                if reading_estimate:
+                    all_values[-1]["sdpa"] = throughput
+
+            match = re.match(r'Throughput \(in TFLOP/s\) for flash_attn \((.*)\): (\d+\.\d+)', line)
+            if match is not None:
+                time = float(match.group(2))
+                if reading_estimate:
+                    all_values[-1]["flash_attn"] = time
+
             match = re.match(r'Throughput \(in TFLOP/s\) for qkv_transform \((.*)\): (\d+\.\d+)', line)
             if match is not None:
                 throughput = float(match.group(2))
                 if reading_estimate:
-                    all_values[-1]["attention_key_value_query_transform"] = throughput
+                    all_values[-1]["attention_qkv_transform"] = throughput
             
             match = re.match(r'Throughput \(in TFLOP/s\) for attention_score \((.*)\): (\d+\.\d+)', line)
             if match is not None:
                 throughput = float(match.group(2))
                 if reading_estimate:
-                    all_values[-1]["attention_key_query_prob"] = throughput
+                    all_values[-1]["attention_score"] = throughput
 
             match = re.match(r'Throughput \(in TFLOP/s\) for attention_over_value \((.*)\): (\d+\.\d+)', line)
             if match is not None:
                 throughput = float(match.group(2))
                 if reading_estimate:
-                    all_values[-1]["attention_prob_times_values"] = throughput
+                    all_values[-1]["attention_over_value"] = throughput
 
             match = re.match(r'Throughput \(in TFLOP/s\) for attention_dropout \((.*)\): (\d+\.\d+)', line)
             if match is not None:
@@ -158,6 +171,19 @@ def read_mm_logfile(logfile_name):
                                     'throughput': throughput})
     return throughputs
 
+def read_mm_b_logfile(logfile_name):
+    throughputs = []
+    with open(logfile_name, 'r') as f:
+        for line in f:
+            line = line.strip()
+            match = re.match(r'Throughput \(in TFLOP/s\) for  \((\d+)x(\d+)x(\d+), b=(\d+)\): (\d+\.\d+)', line)
+            if match is not None:
+                m, n, k, b = int(match.group(1)), int(match.group(2)), int(match.group(3)), int(match.group(4))
+                throughput = float(match.group(5))
+                throughputs.append({'m': m, 'n': n, 'k': k, 'b': b,
+                                    'throughput': throughput})
+    return throughputs
+
 def read_bmm_logfile(logfile_name):
     throughputs = []
     with open(logfile_name, 'r') as f:
@@ -172,16 +198,32 @@ def read_bmm_logfile(logfile_name):
     return throughputs
 
 def to_pandas(filename):
-    all_values_transformer = read_transformer_logfile(filename)
-    all_values_mm = read_mm_logfile(filename)
-    all_values_bmm = read_bmm_logfile(filename)
-    if len(all_values_transformer) > 0:
-        df = pd.DataFrame(all_values_transformer)
-    elif len(all_values_mm) > 0:
-        df = pd.DataFrame(all_values_mm)
-    else:
-        df = pd.DataFrame(all_values_bmm)
-    return df
+    all_values_transformer = pd.DataFrame(
+        read_transformer_logfile(filename) or []
+    )
+
+    all_values_mm = pd.DataFrame(
+        read_mm_logfile(filename) or []
+    )
+
+    all_values_bmm = pd.DataFrame(
+        read_bmm_logfile(filename) or []
+    )
+
+    all_values_mm_b = pd.DataFrame(
+        read_mm_b_logfile(filename) or []
+    )
+    print(all_values_mm_b)
+
+    return pd.concat(
+        [
+            all_values_transformer,
+            all_values_mm,
+            all_values_bmm,
+            all_values_mm_b,
+        ],
+        ignore_index=True,
+    )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

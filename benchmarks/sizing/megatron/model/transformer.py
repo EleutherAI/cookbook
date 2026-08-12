@@ -39,6 +39,9 @@ from megatron.model.fused_bias_dropout import (
     bias_dropout_add_fused_inference,
 )
 from megatron.model.utils import configure_sparse_attention
+except ImportError:
+    local_attn_forward = None
+    local_attn_backward = None
 
 import time
 
@@ -68,7 +71,6 @@ torch._C._jit_override_can_fuse_on_gpu(True)
                masked-attention-scores = attention_mask_func(
                                      unmasked-attention-scores, attention-mask)
 """
-
 
 class ParallelMLP(nn.Module):
     """MLP.
@@ -356,6 +358,16 @@ class ParallelSelfAttention(nn.Module):
             )
         else:
             if self.use_flash_attention:
+				from flash_attn.flash_attn_interface import (
+					flash_attn_func,
+					flash_attn_varlen_func,
+				)
+				self.flash_triton_fn = flash_attn_unpadded_unpacked_func_triton
+				self.flash_qkv_fn = flash_attn_func
+				self.flash_varlen_qkv_fn = flash_attn_varlen_func
+
+            elif False:#self.use_ring_attention:
+                from ringX_attn import ringX3_attn_func 
                 from megatron.model.flash_attention import (
                     # flash_attn_unpadded_qkvpacked_func_cuda,
                     # flash_attn_unpadded_kvpacked_func_cuda,
@@ -522,11 +534,13 @@ class ParallelSelfAttention(nn.Module):
 
     def flash_attention(self, query_layer, key_layer, value_layer):
         # [b, np, sq, sk]
+        #print(query_layer.size(), key_layer.size(), value_layer.size())
+        flash_input_size = (query_layer.size(0), query_layer.size(2), query_layer.size(1),query_layer.size(3))
         output_size = (
             query_layer.size(1),
             query_layer.size(2),
             query_layer.size(0),
-            key_layer.size(0),
+            query_layer.size(3),
         )
 
         if self.pos_emb != "alibi":
@@ -582,25 +596,27 @@ class ParallelSelfAttention(nn.Module):
 
             else:
 
-                # [sq, b, np, hn] -> [b * sq, 1, np, hn]
-                query_layer = query_layer.transpose(0, 1).reshape(
-                    output_size[0] * output_size[2], 1, output_size[1], -1
-                )
-
-                # Combined q/k/v into [b * s, 3, np, hn].
-                qkv = torch.concat([query_layer, key_layer, value_layer], dim=1)
-                output = self.flash_qkv_fn(
-                    qkv,
-                    cu_seqlens_q,
-                    max_seqlen_q,
-                    self.dropout_p if self.training else 0.0,
-                    softmax_scale=None,
-                    causal=True,
-                )
+				if hasattr(torch, "xpu") and torch.xpu.is_available():
+					output = F.scaled_dot_product_attention(
+						query_layer.view(flash_input_size),
+						key_layer.view(flash_input_size),
+						value_layer.view(flash_input_size),
+						attn_mask = None,
+						dropout_p = self.dropout_p if self.training else 0.0,
+						is_causal = True,
+					)
+				 else:
+					output  = self.flash_qkv_fn(
+						query_layer,
+						key_layer,
+						value_layer,
+						self.dropout_p if self.training else 0.0,
+						causal=True,
+					)
 
             # [b * sq, np, hn] -> [b, sq, np, hn]
             matmul_result = output.view(
-                output_size[0], output_size[2], output.shape[1], output.shape[2]
+                output_size[0], output_size[2], output_size[1], output_size[3]
             )
             # [b, sq, np, hn] -> [b, np, sq, hn]
             matmul_result = matmul_result.transpose(1, 2)

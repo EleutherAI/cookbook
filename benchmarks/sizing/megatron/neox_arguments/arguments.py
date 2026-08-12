@@ -831,14 +831,19 @@ class NeoXArgs(*BASE_CLASSES):
                 if self.num_gpus is not None and self.num_gpus > 0:
                     global_num_gpus = self.num_gpus * len(resources)
             else:
-                global_num_gpus = torch.cuda.device_count()
+                if torch.cuda.is_available():
+                    global_num_gpus = torch.cuda.device_count()
+                elif torch.xpu.is_available():
+                    global_num_gpus = torch.xpu.device_count()
+                else:
+                    global_num_gpus = 0
             self.update_value("global_num_gpus", global_num_gpus)
 
-        logging.info(
+        '''logging.info(
             self.__class__.__name__
             + ".calculate_derived() "
             + f"Total number of GPUs determined to be: {global_num_gpus}"
-        )
+        )'''
 
         # get world size in the model/pipe parallel case, the actual `world size` deepspeed uses is the size of the
         # data-parallel group, or (num_gpus / mp_size) / pp_size
@@ -889,6 +894,7 @@ class NeoXArgs(*BASE_CLASSES):
             }
         )
 
+        #logging.info(self.__class__.__name__ + ".calculate_derived() " + "derive where checkpoint should be saved")
         # derive steps where checkpoint should be saved
         if self.checkpoint_factor or self.extra_save_iters:
             if self.extra_save_iters:
@@ -913,6 +919,7 @@ class NeoXArgs(*BASE_CLASSES):
                 }
             )
 
+        #logging.info(self.__class__.__name__ + ".calculate_derived() " + "derive precision")
         # derive precision
         fp16_conflict = "DeepSpeed fp16 field was set but precision conflicts"
         if self.fp16 and self.fp16.get("enabled", False):
@@ -939,6 +946,9 @@ class NeoXArgs(*BASE_CLASSES):
         else:
             self.update_value("precision", "fp32")
 
+        '''logging.info(self.__class__.__name__ + ".calculate_derived() " +
+        "zero_optimization")
+        '''
         # zero optimization
         if self.zero_optimization is None:
             self.zero_optimization = copy.deepcopy(
@@ -976,6 +986,8 @@ class NeoXArgs(*BASE_CLASSES):
             print(f"Zero Optimization config: {self.zero_optimization}")
             raise ke
 
+        '''logging.info(self.__class__.__name__ + ".calculate_derived() " +
+        "optimizer and scheduler")'''
         # optimizer and scheduler
         opt_params = self.optimizer or {
             "type": OPT_DEFAULT,
@@ -1009,6 +1021,8 @@ class NeoXArgs(*BASE_CLASSES):
         # the sequential model without the PipelineModule wrapper to avoid the overhead it incurs
         self.update_value("is_pipe_parallel", self.pipe_parallel_size >= 1)
 
+        '''logging.info(self.__class__.__name__ + ".calculate_derived() " +
+        "attention config")'''
         # Attention config
         if self.attention_config is None:
             self.update_value("attention_config", [[["global"], self.num_layers]])

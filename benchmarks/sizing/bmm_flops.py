@@ -5,7 +5,7 @@ import sys
 import argparse
 import os
 
-from utils import Tee, benchmark_bmm, print_benchmark_header
+from utils import Tee, benchmark_bmm, print_benchmark_header, set_device, get_device, prof_start, prof_stop
 
 file_dir = os.path.abspath(os.path.dirname(__file__))
 
@@ -29,10 +29,23 @@ if __name__ == '__main__':
 
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
-    parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
+    parser.add_argument("--device", type=int, default=0, help="The device to run the benchmark on")
     parser.add_argument("--notes", type=str, default="", help="benchmark-specific notes to add to the output_file's header")
     parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/bmm.out")
     parser.add_argument("--verbose", default=True, action=argparse.BooleanOptionalAction, help='log to stdout besides output_file?')
+    parser.add_argument(
+        "--profile",
+        action="store_true",
+        help="Enable PyTorch profiler"
+    )
+
+    parser.add_argument("--profile_start_idx", type=int, default=None)
+    parser.add_argument("--profile_stop_idx", type=int, default=None)
+    parser.add_argument(
+        "--profile_output",
+        type=str,
+        default="profile_trace.json"
+    )
     args = parser.parse_args()
 
     b = args.b
@@ -54,15 +67,25 @@ if __name__ == '__main__':
         k = np.arange(start,stop,step)
     
     # set cuda device
-    torch.cuda.set_device(f"cuda:{args.cuda_device}")
+    set_device(args.device)
+    device = get_device()
 
     sys.stdout = Tee(args.output_file, args.verbose)
-    print_benchmark_header(args.notes)
+    print_benchmark_header(device, args.notes)
+
+    prof = None
+    bench_idx = 0
 
     # loop through all sizes to benchmark
     for B in b:
         for M in m:
             for N in n:
                 for K in k:
+                    prof = start_prof(args, bench_idx, prof)    
+
                     benchmark_bmm(B, M, N, K, "bmm", args.num_iterations, args.num_warmup_iterations)
+
                     print("-" * 80)
+                    bench_idx += 1
+
+                    prof = stop_prof(args, bench_idx, prof)

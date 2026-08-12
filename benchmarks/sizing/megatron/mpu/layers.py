@@ -154,7 +154,7 @@ class VocabParallelEmbedding(torch.nn.Module):
                 torch.empty(
                     self.num_embeddings_per_partition,
                     self.embedding_dim,
-                    device=torch.cuda.current_device(),
+                    device=torch.xpu.current_device(),
                     dtype=neox_args.params_dtype,
                 )
             )
@@ -281,7 +281,7 @@ class ParallelRelativePositionBias(torch.nn.Module):
                 torch.empty(
                     self.num_buckets,
                     self.num_heads_per_partition,
-                    device=torch.cuda.current_device(),
+                    device=torch.xpu.current_device(),
                     dtype=neox_args.params_dtype,
                 )
             )
@@ -354,10 +354,10 @@ class ParallelRelativePositionBias(torch.nn.Module):
             # cache bucket if first step seq len stays constant
             self._q_len_cached, self._k_len_cached = q_len, k_len
             q_pos = torch.arange(
-                q_len, dtype=torch.long, device=torch.cuda.current_device()
+                q_len, dtype=torch.long, device=torch.xpu.current_device()
             )
             k_pos = torch.arange(
-                k_len, dtype=torch.long, device=torch.cuda.current_device()
+                k_len, dtype=torch.long, device=torch.xpu.current_device()
             )
             rel_pos = k_pos[None, :] - q_pos[:, None]
             rp_bucket = self._relative_position_bucket(
@@ -458,7 +458,7 @@ class ColumnParallelLinear(torch.nn.Module):
                 torch.empty(
                     self.output_size_per_partition,
                     self.input_size,
-                    device=torch.cuda.current_device(),
+                    device=torch.xpu.current_device(),
                     dtype=neox_args.params_dtype,
                 )
             )
@@ -477,7 +477,7 @@ class ColumnParallelLinear(torch.nn.Module):
                 self.bias = Parameter(
                     torch.empty(
                         self.output_size_per_partition,
-                        device=torch.cuda.current_device(),
+                        device=torch.xpu.current_device(),
                         dtype=neox_args.params_dtype,
                     )
                 )
@@ -653,7 +653,7 @@ class RowParallelLinear(torch.nn.Module):
                 torch.empty(
                     self.output_size,
                     self.input_size_per_partition,
-                    device=torch.cuda.current_device(),
+                    device=torch.xpu.current_device(),
                     dtype=neox_args.params_dtype,
                 )
             )
@@ -669,7 +669,7 @@ class RowParallelLinear(torch.nn.Module):
                 self.bias = Parameter(
                     torch.empty(
                         self.output_size,
-                        device=torch.cuda.current_device(),
+                        device=torch.xpu.current_device(),
                         dtype=neox_args.params_dtype,
                     )
                 )
