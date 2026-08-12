@@ -1,0 +1,531 @@
+---
+MainSourceFile:  '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/sycl/scaled_masked_softmax.h'
+Replacements:
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          0
+    Length:          0
+    ReplacementText: "#define DPCT_COMPAT_RT_VERSION 10010\n"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          658
+    Length:          0
+    ReplacementText: "#include <sycl/sycl.hpp>\n#include <dpct/dpct.hpp>\n"
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          709
+    Length:          23
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          872
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          961
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          1155
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          1371
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          1496
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          1643
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          1762
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          1856
+    Length:          5
+    ReplacementText: 'sycl::half2'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          1873
+    Length:          5
+    ReplacementText: 'sycl::half2'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2057
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2068
+    Length:          15
+    ReplacementText: __dpct_inline__
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2174
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2185
+    Length:          15
+    ReplacementText: __dpct_inline__
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2282
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2293
+    Length:          15
+    ReplacementText: __dpct_inline__
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2367
+    Length:          8
+    ReplacementText: '0'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2415
+    Length:          12
+    ReplacementText: DPCT_COMPAT_RT_VERSION
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2440
+    Length:          0
+    ReplacementText: "if (!width) width = sycl::ext::oneapi::this_work_item::get_sub_group().get_local_range().get(0);\n    "
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2650
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          2661
+    Length:          15
+    ReplacementText: __dpct_inline__
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          3211
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          3845
+    Length:          0
+    ReplacementText: "auto item_ct1 = sycl::ext::oneapi::this_work_item::get_nd_item<3>();\n    "
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4422
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4436
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4449
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4462
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4475
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4487
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(0)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4511
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4657
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4671
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4684
+    Length:          9
+    ReplacementText: 'item_ct1.get_group_range(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4696
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(0)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4710
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4792
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4805
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          4818
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          5205
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          8458
+    Length:          11
+    ReplacementText: ''
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          9028
+    Length:          0
+    ReplacementText: "auto item_ct1 = sycl::ext::oneapi::this_work_item::get_nd_item<3>();\n    "
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          9597
+    Length:          10
+    ReplacementText: 'item_ct1.get_local_range(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          9610
+    Length:          10
+    ReplacementText: 'item_ct1.get_group(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          9623
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(1)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          10004
+    Length:          11
+    ReplacementText: 'item_ct1.get_local_id(2)'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          14903
+    Length:          4
+    ReplacementText: 'dpct::dim3'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          14980
+    Length:          4
+    ReplacementText: 'dpct::dim3'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+  - FilePath:        '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels/scaled_masked_softmax.h'
+    Offset:          20254
+    Length:          4
+    ReplacementText: 'dpct::dim3'
+    ConstantFlag:    ''
+    ConstantOffset:  0
+    InitStr:         ''
+    NewHostVarName:  ''
+    BlockLevelFormatFlag: false
+MainSourceFilesDigest:
+  - MainSourceFile:  ''
+    Digest:          ''
+    HasCUDASyntax:   false
+DpctVersion:     2025.3.0
+SDKVersionMajor: '10'
+SDKVersionMinor: '1'
+MainHelperFileName: ''
+USMLevel:        ''
+FeatureMap:      {}
+CompileTargets:  {}
+OptionMap:
+  AnalysisScopePath:
+    Value:           ''
+    ValueVec:
+      - '/lus/flare/projects/FoundMedicine/jahatef/sizing/cookbook/benchmarks/sizing/megatron/fused_kernels'
+    Specified:       false
+  AsyncHandler:
+    Value:           'false'
+    Specified:       false
+  BuildScript:
+    Value:           '0'
+    Specified:       false
+  CodePinEnabled:
+    Value:           'false'
+    Specified:       false
+  CommentsEnabled:
+    Value:           'false'
+    Specified:       false
+  CompilationsDir:
+    Value:           ''
+    Specified:       false
+  CtadEnabled:
+    Value:           'false'
+    Specified:       false
+  EnablepProfiling:
+    Value:           'false'
+    Specified:       false
+  ExperimentalFlag:
+    Value:           '0'
+    Specified:       false
+  ExplicitNamespace:
+    Value:           '20'
+    Specified:       false
+  ExtensionDDFlag:
+    Value:           '0'
+    Specified:       false
+  ExtensionDEFlag:
+    Value:           '4294967295'
+    Specified:       false
+  HelperFuncPreferenceFlag:
+    Value:           '0'
+    Specified:       false
+  NDRangeDim:
+    Value:           '3'
+    Specified:       false
+  NoDRYPattern:
+    Value:           'false'
+    Specified:       false
+  OptimizeMigration:
+    Value:           'false'
+    Specified:       false
+  ProcessAll:
+    Value:           'false'
+    Specified:       false
+  RuleFile:
+    Value:           ''
+    Specified:       false
+  SyclNamedLambda:
+    Value:           'false'
+    Specified:       false
+  UseSYCLCompat:
+    Value:           'false'
+    Specified:       false
+  UsmLevel:
+    Value:           '1'
+    Specified:       false
+...

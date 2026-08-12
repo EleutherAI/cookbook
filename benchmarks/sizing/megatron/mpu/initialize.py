@@ -134,6 +134,7 @@ def initialize_model_parallel(model_parallel_size, topology=None, fp32_allreduce
         if model_parallel_size == 1:
             for group_rank in range(world_size):
                 group = torch.distributed.new_group(ranks=[group_rank])
+                print(f"\n\ngroup: {group}\n\n")
                 if rank == 0:
                     print(f"MPU MP:", [group_rank])
                 if rank == group_rank:

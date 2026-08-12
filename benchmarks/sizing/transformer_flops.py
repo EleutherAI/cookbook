@@ -9,9 +9,9 @@ from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask
 import sys
 from utils import *
 import argparse
-from megatron.model import LayerNorm
+from torch.nn import LayerNorm
 from megatron.model.fused_softmax import FusedScaleMaskSoftmax, SoftmaxFusionTypes
-from megatron.model.transformer import ParallelSelfAttention, ParallelMLP, ParallelTransformerLayer
+from megatron.model.transformer import ParallelSelfAttention, ParallelMLP, ParallelTransformerLayer,fused_attention 
 from megatron.model.transformer import bias_dropout_add_fused_train
 from megatron.model.activations import bias_gelu_impl
 from megatron.model.gpt2_model import gpt2_attention_mask_func as attention_mask_func
@@ -33,6 +33,21 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
     mlp_throughput = 0.0
     total_throughput = 0.0
     
+    if 'flash_attn' in args.blocks or 'all' in args.blocks:
+        elapsed_attention_time += benchmark_flash(
+            (microbatch_size, seq_length, num_attention_heads, hidden_size//num_attention_heads // tensor_mp_size),
+            'flash_attn',
+             num_iterations, num_warmup_iterations)
+    if 'sdpa_attn' in args.blocks or 'all' in args.blocks:
+        elapsed_attention_time += benchmark_sdpa(
+            (microbatch_size, num_attention_heads, seq_length, hidden_size//num_attention_heads // tensor_mp_size),
+            'sdpa_attn',
+             num_iterations, num_warmup_iterations)
+    #if 'neox_attn' in args.blocks or 'all' in args.blocks:
+    #    elapsed_attention_time += benchmark_neox_attn(
+    #        (microbatch_size, 1, seq_length, hidden_size // tensor_mp_size),
+    #        'neox_attn',
+    #         num_iterations, num_warmup_iterations)
     if 'qkv_transform' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_mm_b(
             microbatch_size, hidden_size,
@@ -56,11 +71,11 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
             (microbatch_size, num_attention_heads // tensor_mp_size, seq_length, seq_length),
             'attention_dropout',
             num_iterations, num_warmup_iterations)
-    if 'softmax' in args.blocks or 'all' in args.blocks:
-        elapsed_attention_time += benchmark_softmax(
-            (microbatch_size, num_attention_heads // tensor_mp_size, seq_length, seq_length),
-            seq_length, 'attention_softmax',
-            num_iterations, num_warmup_iterations)
+    #if 'softmax' in args.blocks or 'all' in args.blocks:
+    #    elapsed_attention_time += benchmark_softmax(
+    #        (microbatch_size, num_attention_heads // tensor_mp_size, seq_length, seq_length),
+    #        seq_length, 'attention_softmax',
+    #        num_iterations, num_warmup_iterations)
     if 'attention_linear_projection' in args.blocks or 'all' in args.blocks:
         elapsed_attention_time += benchmark_mm_b(
             microbatch_size, hidden_size // tensor_mp_size,
@@ -129,16 +144,18 @@ def benchmark_transformer_from_mm_and_bmm(args, configuration, seq_length, globa
     print("Transformer - MLP - Attention (in seconds): "
           f"{(elapsed_total_time - elapsed_attention_time - elapsed_mlp_time):.4f}")
 
+    print("",flush=True)
     num_microbatches_in_pipeline = global_batch_size // (microbatch_size * dp_size)
     pipeline_bubble_fraction = (pipeline_mp_size - 1) / num_microbatches_in_pipeline
     elapsed_time *= (1 + pipeline_bubble_fraction)
     # Throughput if considering pipeline bubble.
-    throughput = num_total_floating_point_operations / (elapsed_time * 10**12 / 10**3)
+    #throughput = num_total_floating_point_operations / (elapsed_time * 10**12 / 10**3)
 
 # benchmarks the entire transformer using megatron
 def benchmark_transformer(c_args,configuration, seq_length, global_batch_size, num_iterations,num_warmup_iterations):
-    start = torch.cuda.Event(enable_timing=True)
-    end = torch.cuda.Event(enable_timing=True)
+    device = get_device()
+    start = get_device_timing_event(device)
+    end = get_device_timing_event(device)
     (microbatch_size, hidden_size,
      (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
     print("\n\nActual")
@@ -150,13 +167,13 @@ def benchmark_transformer(c_args,configuration, seq_length, global_batch_size, n
     init_method = megatron.model.init_functions.init_method_normal(args.init_method_std)
     if c_args.use_flash:
         args.attention_config=["flash","global"]
-    attention_layer = ParallelSelfAttention(args,attention_mask_func=attention_mask_func, init_method=init_method,output_layer_init_method=init_method, layer_number=0).half().to("cuda")
-    mlp_layer = ParallelMLP(args,init_method=init_method,output_layer_init_method=init_method).half().to("cuda")
-    transformer_layer = ParallelTransformerLayer(args,attention_mask_func=attention_mask_func,init_method=init_method,output_layer_init_method=init_method,layer_number=0).half().to("cuda")
-    inp = torch.randn((args.seq_length, args.batch_size, args.hidden_size)).half().to("cuda")
+    attention_layer = ParallelSelfAttention(args,attention_mask_func=attention_mask_func, init_method=init_method,output_layer_init_method=init_method, layer_number=0).bfloat16().to(device)
+    mlp_layer = ParallelMLP(args,init_method=init_method,output_layer_init_method=init_method).bfloat16().to(device)
+    transformer_layer = ParallelTransformerLayer(args,attention_mask_func=attention_mask_func,init_method=init_method,output_layer_init_method=init_method,layer_number=0).bfloat16().to(device)
+    inp = torch.randn((args.batch_size,seq_length, args.hidden_size)).bfloat16().to(device)
     attention_mask = torch.tril(torch.ones(
-        (1, args.seq_length, args.seq_length), device="cuda")).view(
-        1, 1, args.seq_length, args.seq_length)
+        (1, seq_length, seq_length), device=device)).view(
+        1, 1, seq_length, seq_length)
     attention_mask = attention_mask < 0.5
 
     num_embedding_floating_point_operations = \
@@ -183,11 +200,11 @@ def benchmark_transformer(c_args,configuration, seq_length, global_batch_size, n
                 start.record()
                 if need_attention_mask:
                     out = layer(inp, attention_mask)
-                    torch.cuda.empty_cache()
+                    #torch.cuda.empty_cache()
                 else:
                     out = layer(inp)
                 end.record()
-            torch.cuda.synchronize()
+            device_synchronize(device)
             times[i] = start.elapsed_time(end)
 
         times = times[num_warmup_iterations:]
@@ -228,16 +245,29 @@ if __name__ == '__main__':
     t_group.add_argument("--tensor_mp_size", nargs="+", type=int, help='The tensor parallel size, enter any number of arguments')
     t_group.add_argument("--tensor_mp_size_range", nargs='+', type=int, help="The tensor parallel size, [start,stop,step]")
 
-    parser.add_argument("--blocks", nargs="+", type=str, help='The transformer blocks to benchmark, enter "all" or any number of [qkv_transform, attention_score, \
+    parser.add_argument("--blocks", nargs="+", type=str, help='The transformer blocks to benchmark, enter "all" or any number of [flash_attn,qkv_transform, attention_score, \
                           attention_over_value, attention_linear_projection, mlp_h_to_4h, mlp_4h_to_h, logit_block, layer_norm, dropout, add_bias_dropout, softmax, gelu]')
 
     parser.add_argument("--use_flash", action="store_true", help="Use flash  attention")
     parser.add_argument("--num_iterations", type=int, default=200, help='The number of iterations used to benchmark each BMM')
     parser.add_argument("--num_warmup_iterations", type=int, default=50, help='The number of warmup iterations')
-    parser.add_argument("--cuda_device", type=int, default=0, help="The cuda device to run the benchmark on")
+    parser.add_argument("--device", type=int, default=0, help="The device to run the benchmark on")
     parser.add_argument("--notes", type=str, default="", help="benchmark-specific notes to add to the output_file's header")
     parser.add_argument("--output_file", type=str, default=f"{file_dir}/results/mm.out")
     parser.add_argument("--verbose", default=True, action=argparse.BooleanOptionalAction, help='log to stdout besides output_file?')
+    parser.add_argument(
+        "--profile",
+        action="store_true",
+        help="Enable PyTorch profiler"
+    )
+
+    parser.add_argument("--profile_start_idx", type=int, default=None)
+    parser.add_argument("--profile_stop_idx", type=int, default=None)
+    parser.add_argument(
+        "--profile_output",
+        type=str,
+        default="profile_trace.json"
+    )
     args = parser.parse_args()
 
     h = args.hidden_size
@@ -270,10 +300,11 @@ if __name__ == '__main__':
         start,stop,step = args.global_batch_size_range
         global_batch_size = np.arange(start,stop,step)
 
-    torch.cuda.set_device(f"cuda:{args.cuda_device}")
+    set_device(args.device)
+    device = get_device()
 
     sys.stdout = Tee(args.output_file, args.verbose)
-    print_benchmark_header(args.notes)
+    #print_benchmark_header(device, args.notes)
 
     configurations = []
     for train_batch_size in global_batch_size:
@@ -283,9 +314,14 @@ if __name__ == '__main__':
                     for hidden_size in h:
                         for microbatch_size in b:
                             for vocab_size in v:
-                                configurations.append((microbatch_size, hidden_size,
+                                configurations.append((microbatch_size, int(hidden_size),
                                         (tensor_mp_size, 1, 1), num_attention_heads,vocab_size,seq_length,train_batch_size))
+        print("entering megatron init")
         megatron_wrapper.initialize_megatron(configurations[0])
+        print("exiting megatron init")
+        
+        prof = None
+        bench_idx = 0
         for configuration in configurations:
             (microbatch_size, hidden_size,
                     (tensor_mp_size, pipeline_mp_size, dp_size), num_attention_heads,vocab_size,seq_length,train_batch_size) = configuration
@@ -300,8 +336,12 @@ if __name__ == '__main__':
                     'dp_size': dp_size}
             label_str = ", ".join([f"{k}: {v}" for (k, v) in label.items()])
             print(label_str)
+            prof = start_prof(args, bench_idx, prof)    
             if args.blocks is None:
                 benchmark_transformer(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
             else:
                 benchmark_transformer_from_mm_and_bmm(args,configuration, seq_length, train_batch_size, args.num_iterations, args.num_warmup_iterations)
             print("=" * 120)
+            bench_idx += 1
+
+            prof = stop_prof(args, bench_idx, prof)

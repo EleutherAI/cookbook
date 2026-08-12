@@ -124,7 +124,7 @@ class FlashAttnQKVPackedFunc(torch.autograd.Function):
         return_softmax,
     ):
         # Save rng_state because the backward pass will regenerate the dropout mask
-        rng_state = torch.cuda.get_rng_state() if dropout_p > 0 else None
+        rng_state = torch.xpu.get_rng_state() if dropout_p > 0 else None
         if softmax_scale is None:
             softmax_scale = qkv.shape[-1] ** (-0.5)
         out, softmax_lse, S_dmask = _flash_attn_forward_cuda(
@@ -152,8 +152,8 @@ class FlashAttnQKVPackedFunc(torch.autograd.Function):
     def backward(ctx, dout, *args):
         qkv, out, softmax_lse, cu_seqlens, rng_state = ctx.saved_tensors
         if rng_state is not None:
-            cur_rng_state = torch.cuda.get_rng_state()
-            torch.cuda.set_rng_state(rng_state)
+            cur_rng_state = torch.xpu.get_rng_state()
+            torch.xpu.set_rng_state(rng_state)
         dqkv = torch.empty_like(qkv)
         _flash_attn_backward_cuda(
             dout,
@@ -174,7 +174,7 @@ class FlashAttnQKVPackedFunc(torch.autograd.Function):
             ctx.causal,
         )
         if rng_state is not None:
-            torch.cuda.set_rng_state(cur_rng_state)
+            torch.xpu.set_rng_state(cur_rng_state)
         return dqkv, None, None, None, None, None, None
 
 
@@ -208,7 +208,7 @@ class FlashAttnKVPackedFunc(torch.autograd.Function):
         return_softmax,
     ):
         # Save rng_state because the backward pass will regenerate the dropout mask
-        rng_state = torch.cuda.get_rng_state() if dropout_p > 0 else None
+        rng_state = torch.xpu.get_rng_state() if dropout_p > 0 else None
         if softmax_scale is None:
             softmax_scale = q.shape[-1] ** (-0.5)
         out, softmax_lse, S_dmask = _flash_attn_forward_cuda(
@@ -247,8 +247,8 @@ class FlashAttnKVPackedFunc(torch.autograd.Function):
             rng_state,
         ) = ctx.saved_tensors
         if rng_state is not None:
-            cur_rng_state = torch.cuda.get_rng_state()
-            torch.cuda.set_rng_state(rng_state)
+            cur_rng_state = torch.xpu.get_rng_state()
+            torch.xpu.set_rng_state(rng_state)
         dq = torch.empty_like(q)
         dkv = torch.empty_like(kv)
         _flash_attn_backward_cuda(
@@ -270,7 +270,7 @@ class FlashAttnKVPackedFunc(torch.autograd.Function):
             ctx.causal,
         )
         if rng_state is not None:
-            torch.cuda.set_rng_state(cur_rng_state)
+            torch.xpu.set_rng_state(cur_rng_state)
         return dq, dkv, None, None, None, None, None, None, None, None
 
 
@@ -343,7 +343,7 @@ class FlashAttnFunc(torch.autograd.Function):
         return_softmax,
     ):
         # Save rng_state because the backward pass will regenerate the dropout mask
-        rng_state = torch.cuda.get_rng_state() if dropout_p > 0 else None
+        rng_state = torch.xpu.get_rng_state() if dropout_p > 0 else None
         if softmax_scale is None:
             softmax_scale = q.shape[-1] ** (-0.5)
         out, softmax_lse, S_dmask = _flash_attn_forward_cuda(
@@ -383,8 +383,8 @@ class FlashAttnFunc(torch.autograd.Function):
             rng_state,
         ) = ctx.saved_tensors
         if rng_state is not None:
-            cur_rng_state = torch.cuda.get_rng_state()
-            torch.cuda.set_rng_state(rng_state)
+            cur_rng_state = torch.xpu.get_rng_state()
+            torch.xpu.set_rng_state(rng_state)
         dq, dk, dv = torch.empty_like(q), torch.empty_like(k), torch.empty_like(v)
         _flash_attn_backward_cuda(
             dout,
@@ -405,7 +405,7 @@ class FlashAttnFunc(torch.autograd.Function):
             ctx.causal,
         )
         if rng_state is not None:
-            torch.cuda.set_rng_state(cur_rng_state)
+            torch.xpu.set_rng_state(cur_rng_state)
         return dq, dk, dv, None, None, None, None, None, None, None, None
 
 

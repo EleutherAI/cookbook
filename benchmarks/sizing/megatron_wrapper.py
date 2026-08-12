@@ -8,7 +8,7 @@ import megatron
 
 @dataclass
 class Arguments:
-    precision: str = "fp16"
+    precision: str = "bf16"
     #fp16 : bool = True
     #bf16 : bool = False
     apply_query_key_layer_scaling : bool = True
@@ -20,7 +20,7 @@ class Arguments:
     hidden_size : int = 1024
     rank : int = 0
     local_rank : int = 0
-    distributed_backend : str = "nccl"
+    distributed_backend : str = "xccl"
     world_size : int = 1
     model_parallel_size : int = 1
     pipe_parallel_size : int = 1
@@ -35,13 +35,13 @@ class Arguments:
     use_cpu_initialization : bool = False
     params_dtype = torch.float16
     #ffn_hidden_size : int = 4096
-    num_layers : int = 2
-    bias_gelu_fusion : bool = True
+    num_layers : int = 1
+    bias_gelu_fusion : bool = False
     #openai_gelu : bool = False
     onnx_safe = None
     #apply_residual_connection_post_layernorm : bool = False
     #fp32_residual_connection : bool = False
-    bias_dropout_fusion : bool = True
+    bias_dropout_fusion : bool = False
     layernorm_epsilon : float = 1e-5
     hidden_dropout : float = 0.0
     fp16_lm_cross_entropy : bool = False
@@ -83,10 +83,10 @@ class Arguments:
 
 
 def initialize_megatron(configuration):
-    with open("/dev/null", 'w') as f:
-        with contextlib.redirect_stdout(f):
-            os.environ["MASTER_ADDR"] = "localhost"
-            os.environ["MASTER_PORT"] = "6000"
+    #with open("/dev/null", 'w') as f:
+    #    with contextlib.redirect_stdout(f):
+            #os.environ["MASTER_ADDR"] = "localhost"
+            #os.environ["MASTER_PORT"] = "6000"
             os.environ["RANK"] = "0"
             os.environ["WORLD_SIZE"] = "1"
             args = get_megatron_args(configuration, override_tensor_mp_size=True)
@@ -111,6 +111,7 @@ def get_megatron_args(configuration, override_tensor_mp_size=False):
     args.padded_vocab_size=vocab_size
     args.attention_config = [[["flash"], 0]]
     args.train_batch_size = train_batch_size
+    print(args)
     #megatron.global_vars._GLOBAL_ARGS = args
     neox_args = megatron.NeoXArgs.from_dict(asdict(args))
     return neox_args
