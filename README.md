@@ -31,6 +31,8 @@ Useful external calculators include
 
 [Transformer Training and Inference VRAM Estimator](https://vram.asmirnov.xyz/) by Alexander Smirnov. A user-friendly tool to estimate VRAM overhead.
 
+[LLM VRAM Calculator](https://modelvram.com/llm-vram-calculator/) ([source](https://github.com/159753a52/llm-vram-calculator)). Estimates inference memory (weights, KV cache, runtime overhead) for any Hugging Face model from its config.json and safetensors metadata, including MoE, MLA and sliding-window attention.
+
 ### Benchmarks
 
 Communication benchmarks
