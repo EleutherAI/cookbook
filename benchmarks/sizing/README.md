@@ -11,6 +11,10 @@ First, install the required packages:
 pip install -r requirements.txt
 ```
 
+## Aurora (Intel Data Center GPU Max 1550)
+
+[`aurora/`](aurora) has steady-state GEMM and attention benchmarks for Aurora, the methods we used to identify the kernels oneDNN runs and why they are fast or slow (`ONEDNN_VERBOSE`, `unitrace`, `xpu-smi`, a replay of oneDNN's kernel selection), and the data behind the Aurora paper's figures. Read [`aurora/README.md`](aurora/README.md) before benchmarking on Aurora: the GPUs boost for a few hundred milliseconds after an idle period, so short runs overstate sustained throughput.
+
 ## Plotting
 
 Once you run the benchmark you can [plot the results](plotting).
