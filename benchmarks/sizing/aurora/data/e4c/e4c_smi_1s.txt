@@ -1,0 +1,156 @@
+Timestamp, DeviceId, TileId, GPU Utilization (%), GPU Power (W), GPU Frequency (MHz), GPU Core Temperature (Celsius Degree), Throttle reason
+22:32:47.775,    0,    0, 0.00, 85.91, 1500, 37.00, Not Throttled
+22:32:48.775,    0,    0,  N/A, 85.99, 1500, 37.00, Not Throttled
+22:32:49.775,    0,    0,  N/A, 85.94, 1500, 36.00, Not Throttled
+22:32:50.775,    0,    0,  N/A, 85.89, 1500, 37.00, Not Throttled
+22:32:51.775,    0,    0,  N/A, 85.97, 1500, 37.00, Not Throttled
+22:32:52.775,    0,    0,  N/A, 85.87, 1500, 36.00, Not Throttled
+22:32:53.775,    0,    0,  N/A, 86.04, 1500, 36.00, Not Throttled
+22:32:54.775,    0,    0,  N/A, 85.97, 1500, 37.00, Not Throttled
+22:32:55.775,    0,    0,  N/A, 85.72, 1500, 37.00, Not Throttled
+22:32:56.775,    0,    0,  N/A, 85.85, 1500, 37.00, Not Throttled
+22:32:57.775,    0,    0,  N/A, 86.00, 1500, 37.00, Not Throttled
+22:32:58.775,    0,    0,  N/A, 85.90, 1500, 36.00, Not Throttled
+22:32:59.775,    0,    0,  N/A, 85.83, 1500, 37.00, Not Throttled
+22:33:00.775,    0,    0,  N/A, 85.88, 1500, 37.00, Not Throttled
+22:33:01.775,    0,    0,  N/A, 85.87, 1500, 37.00, Not Throttled
+22:33:02.775,    0,    0, 0.17, 95.04, 1200, 42.00, Current Excursion
+22:33:03.775,    0,    0, 99.36, 215.69,  900, 53.00, Average Power Excursion
+22:33:04.775,    0,    0, 99.26, 215.54,  850, 54.00, Average Power Excursion
+22:33:05.775,    0,    0, 99.31, 215.44,  850, 55.00, Average Power Excursion
+22:33:06.775,    0,    0, 99.26, 215.73,  850, 55.00, Average Power Excursion
+22:33:07.775,    0,    0, 99.28, 215.49,  850, 55.00, Average Power Excursion
+22:33:08.775,    0,    0, 99.29, 215.45,  850, 55.00, Average Power Excursion
+22:33:09.775,    0,    0, 99.25, 215.45,  850, 55.00, Average Power Excursion
+22:33:10.775,    0,    0, 99.25, 215.36,  900, 55.00, Average Power Excursion
+22:33:11.775,    0,    0, 99.35, 215.78,  850, 55.00, Average Power Excursion
+22:33:12.775,    0,    0, 99.28, 215.97,  850, 55.00, Average Power Excursion
+22:33:13.775,    0,    0, 99.26, 215.41,  900, 56.00, Average Power Excursion
+22:33:14.775,    0,    0, 99.26, 215.30,  850, 55.00, Average Power Excursion
+22:33:15.775,    0,    0, 99.27, 215.94,  850, 56.00, Average Power Excursion
+22:33:16.775,    0,    0, 99.34, 215.52,  850, 56.00, Average Power Excursion
+22:33:17.775,    0,    0, 99.32, 215.73,  900, 55.00, Average Power Excursion
+22:33:18.775,    0,    0, 99.24, 215.54,  850, 56.00, Average Power Excursion
+22:33:19.775,    0,    0, 69.84, 175.73, 1500, 47.00, Not Throttled
+22:33:20.775,    0,    0,  N/A, 86.05, 1500, 40.00, Not Throttled
+22:33:21.775,    0,    0,  N/A, 86.18, 1500, 39.00, Not Throttled
+22:33:22.775,    0,    0,  N/A, 86.11, 1500, 38.00, Not Throttled
+22:33:23.775,    0,    0,  N/A, 85.95, 1500, 38.00, Not Throttled
+22:33:24.775,    0,    0,  N/A, 85.87, 1500, 38.00, Not Throttled
+22:33:25.775,    0,    0,  N/A, 85.99, 1500, 38.00, Not Throttled
+22:33:26.775,    0,    0,  N/A, 85.92, 1500, 37.00, Not Throttled
+22:33:27.775,    0,    0,  N/A, 85.85, 1500, 37.00, Not Throttled
+22:33:28.775,    0,    0,  N/A, 85.91, 1500, 37.00, Not Throttled
+22:33:29.775,    0,    0,  N/A, 85.81, 1500, 37.00, Not Throttled
+22:33:30.775,    0,    0,  N/A, 85.98, 1500, 37.00, Not Throttled
+22:33:31.775,    0,    0,  N/A, 85.93, 1500, 37.00, Not Throttled
+22:33:32.775,    0,    0,  N/A, 85.84, 1500, 37.00, Not Throttled
+22:33:33.775,    0,    0,  N/A, 85.88, 1500, 37.00, Not Throttled
+22:33:34.775,    0,    0,  N/A, 85.83, 1500, 37.00, Not Throttled
+22:33:35.775,    0,    0,  N/A, 85.81, 1500, 37.00, Not Throttled
+22:33:36.775,    0,    0, 0.34, 108.24,  850, 43.00, Average Power Excursion | Current Excursion
+22:33:37.775,    0,    0, 99.48, 215.95,  850, 52.00, Average Power Excursion
+22:33:38.775,    0,    0, 99.43, 215.63,  850, 53.00, Average Power Excursion
+22:33:39.775,    0,    0, 99.47, 215.43,  850, 54.00, Average Power Excursion
+22:33:40.775,    0,    0, 99.54, 215.94,  850, 55.00, Average Power Excursion
+22:33:41.775,    0,    0, 99.56, 215.56,  850, 55.00, Average Power Excursion
+22:33:42.775,    0,    0, 99.56, 215.47,  850, 55.00, Average Power Excursion
+22:33:43.775,    0,    0, 99.56, 215.54,  850, 55.00, Average Power Excursion
+22:33:44.775,    0,    0, 99.48, 215.81,  850, 55.00, Average Power Excursion
+22:33:45.775,    0,    0, 99.57, 215.40,  850, 56.00, Average Power Excursion
+22:33:46.775,    0,    0, 99.52, 215.73,  850, 55.00, Average Power Excursion
+22:33:47.775,    0,    0, 99.48, 215.60,  850, 56.00, Average Power Excursion
+22:33:48.775,    0,    0, 99.53, 215.37,  850, 55.00, Average Power Excursion
+22:33:49.775,    0,    0, 99.51, 215.83,  850, 55.00, Average Power Excursion
+22:33:50.775,    0,    0, 99.49, 215.47,  800, 55.00, Average Power Excursion
+22:33:51.775,    0,    0, 99.53, 215.60,  800, 55.00, Average Power Excursion
+22:33:52.775,    0,    0, 99.50, 215.78,  850, 55.00, Average Power Excursion
+22:33:53.775,    0,    0, 99.49, 215.48,  850, 55.00, Average Power Excursion
+22:33:54.775,    0,    0, 19.64, 99.40, 1500, 44.00, Not Throttled
+22:33:55.775,    0,    0,  N/A, 86.41, 1500, 40.00, Not Throttled
+22:33:56.775,    0,    0,  N/A, 86.24, 1500, 38.00, Not Throttled
+22:33:57.775,    0,    0,  N/A, 85.93, 1500, 38.00, Not Throttled
+22:33:58.775,    0,    0,  N/A, 86.04, 1500, 38.00, Not Throttled
+22:33:59.775,    0,    0,  N/A, 85.74, 1500, 38.00, Not Throttled
+22:34:00.775,    0,    0,  N/A, 85.73, 1500, 38.00, Not Throttled
+22:34:01.775,    0,    0,  N/A, 85.92, 1500, 37.00, Not Throttled
+22:34:02.775,    0,    0,  N/A, 85.87, 1500, 37.00, Not Throttled
+22:34:03.775,    0,    0,  N/A, 85.94, 1500, 37.00, Not Throttled
+22:34:04.775,    0,    0,  N/A, 85.98, 1500, 38.00, Not Throttled
+22:34:05.775,    0,    0,  N/A, 85.89, 1500, 37.00, Not Throttled
+22:34:06.775,    0,    0,  N/A, 85.66, 1500, 37.00, Not Throttled
+22:34:07.775,    0,    0,  N/A, 85.95, 1500, 37.00, Not Throttled
+22:34:08.775,    0,    0,  N/A, 85.80, 1500, 37.00, Not Throttled
+22:34:09.775,    0,    0,  N/A, 85.72, 1500, 37.00, Not Throttled
+22:34:10.775,    0,    0,  N/A, 85.64, 1500, 37.00, Not Throttled
+22:34:11.775,    0,    0, 2.03, 217.68,  800, 53.00, Average Power Excursion
+22:34:12.775,    0,    0, 99.49, 215.56,  800, 53.00, Average Power Excursion
+22:34:13.775,    0,    0, 99.47, 215.76,  800, 54.00, Average Power Excursion
+22:34:14.775,    0,    0, 99.52, 215.91,  800, 55.00, Average Power Excursion
+22:34:15.775,    0,    0, 99.61, 215.27,  800, 55.00, Average Power Excursion
+22:34:16.775,    0,    0, 99.54, 215.53,  800, 55.00, Average Power Excursion
+22:34:17.775,    0,    0, 99.56, 215.47,  800, 55.00, Average Power Excursion
+22:34:18.775,    0,    0, 99.53, 215.42,  800, 55.00, Average Power Excursion
+22:34:19.775,    0,    0, 99.52, 215.38,  800, 55.00, Average Power Excursion
+22:34:20.775,    0,    0, 99.55, 215.73,  800, 55.00, Average Power Excursion
+22:34:21.775,    0,    0, 99.59, 215.61,  800, 55.00, Average Power Excursion
+22:34:22.775,    0,    0, 99.57, 215.39,  800, 55.00, Average Power Excursion
+22:34:23.775,    0,    0, 99.55, 215.90,  800, 56.00, Average Power Excursion | Current Excursion
+22:34:24.775,    0,    0, 99.53, 215.43,  800, 56.00, Average Power Excursion
+22:34:25.775,    0,    0, 99.56, 215.43,  800, 56.00, Average Power Excursion
+22:34:26.775,    0,    0, 99.53, 215.22,  800, 56.00, Average Power Excursion
+22:34:27.775,    0,    0, 99.55, 215.36,  800, 56.00, Average Power Excursion | Current Excursion
+22:34:28.775,    0,    0, 99.57, 215.30,  750, 56.00, Average Power Excursion
+22:34:29.775,    0,    0, 99.54, 215.93,  800, 56.00, Average Power Excursion
+22:34:30.775,    0,    0, 99.71, 215.70,  800, 56.00, Average Power Excursion
+22:34:31.775,    0,    0, 99.78, 215.48,  800, 55.00, Average Power Excursion
+22:34:32.775,    0,    0, 3.86, 86.83, 1500, 43.00, Not Throttled
+22:34:33.775,    0,    0,  N/A, 86.35, 1500, 40.00, Not Throttled
+22:34:34.775,    0,    0,  N/A, 86.08, 1500, 38.00, Not Throttled
+22:34:35.775,    0,    0,  N/A, 86.12, 1500, 39.00, Not Throttled
+22:34:36.775,    0,    0,  N/A, 85.99, 1500, 38.00, Not Throttled
+22:34:37.775,    0,    0,  N/A, 85.88, 1500, 38.00, Not Throttled
+22:34:38.775,    0,    0,  N/A, 85.74, 1500, 38.00, Not Throttled
+22:34:39.775,    0,    0,  N/A, 85.91, 1500, 38.00, Not Throttled
+22:34:40.775,    0,    0,  N/A, 85.86, 1500, 37.00, Not Throttled
+22:34:41.775,    0,    0,  N/A, 85.78, 1500, 37.00, Not Throttled
+22:34:42.775,    0,    0,  N/A, 85.97, 1500, 37.00, Not Throttled
+22:34:43.775,    0,    0,  N/A, 85.88, 1500, 37.00, Not Throttled
+22:34:44.775,    0,    0,  N/A, 85.91, 1500, 37.00, Not Throttled
+22:34:45.775,    0,    0,  N/A, 86.07, 1500, 37.00, Not Throttled
+22:34:46.775,    0,    0,  N/A, 85.78, 1500, 37.00, Not Throttled
+22:34:47.775,    0,    0,  N/A, 85.75, 1500, 37.00, Not Throttled
+22:34:48.775,    0,    0,  N/A, 85.66, 1500, 37.00, Not Throttled
+22:34:49.775,    0,    0, 0.05, 85.79, 1500, 37.00, Not Throttled
+22:34:50.775,    0,    0, 0.06, 85.83, 1500, 37.00, Not Throttled
+22:34:51.775,    0,    0,  N/A, 85.97, 1500, 37.00, Not Throttled
+22:34:52.775,    0,    0,  N/A, 85.66, 1500, 37.00, Not Throttled
+22:34:53.775,    0,    0,  N/A, 85.67, 1500, 37.00, Not Throttled
+22:34:54.775,    0,    0, 3.14, 125.27, 1500, 39.00, Not Throttled
+22:34:55.775,    0,    0, 0.13, 86.32, 1500, 37.00, Not Throttled
+22:34:56.775,    0,    0,  N/A, 85.95, 1500, 37.00, Not Throttled
+22:34:57.775,    0,    0,  N/A, 86.08, 1500, 37.00, Not Throttled
+22:34:58.775,    0,    0,  N/A, 85.89, 1500, 37.00, Not Throttled
+22:34:59.775,    0,    0, 0.24, 85.92, 1500, 37.00, Not Throttled
+22:35:00.775,    0,    0, 95.71, 202.45, 1500, 45.00, Not Throttled
+22:35:01.775,    0,    0,  N/A, 86.28, 1500, 39.00, Not Throttled
+22:35:02.775,    0,    0,  N/A, 85.95, 1500, 37.00, Not Throttled
+22:35:03.775,    0,    0,  N/A, 86.09, 1500, 37.00, Not Throttled
+22:35:04.775,    0,    0,  N/A, 85.90, 1500, 38.00, Not Throttled
+22:35:05.775,    0,    0, 0.72, 95.98, 1300, 42.00, Current Excursion
+22:35:06.775,    0,    0, 0.00, 86.70, 1500, 37.00, Not Throttled
+22:35:07.775,    0,    0, 0.11, 86.47, 1500, 37.00, Not Throttled
+22:35:08.775,    0,    0,  N/A, 85.98, 1500, 37.00, Not Throttled
+22:35:09.775,    0,    0,  N/A, 85.95, 1500, 37.00, Not Throttled
+22:35:10.775,    0,    0,  N/A, 86.08, 1500, 37.00, Not Throttled
+22:35:11.775,    0,    0, 97.67, 258.97,  800, 52.00, Average Power Excursion
+22:35:12.775,    0,    0,  N/A, 86.21, 1500, 39.00, Not Throttled
+22:35:13.775,    0,    0,  N/A, 85.98, 1500, 38.00, Not Throttled
+22:35:14.775,    0,    0,  N/A, 85.83, 1500, 37.00, Not Throttled
+22:35:15.775,    0,    0,  N/A, 85.94, 1500, 37.00, Not Throttled
+22:35:16.775,    0,    0,  N/A, 85.99, 1500, 37.00, Not Throttled
+22:35:17.775,    0,    0,  N/A, 85.84, 1500, 37.00, Not Throttled
+22:35:18.775,    0,    0,  N/A, 85.73, 1500, 37.00, Not Throttled
+22:35:19.775,    0,    0,  N/A, 85.74, 1500, 37.00, Not Throttled
+22:35:20.775,    0,    0,  N/A, 85.71, 1500, 37.00, Not Throttled
+22:35:21.775,    0,    0,  N/A, 85.66, 1500, 38.00, Not Throttled

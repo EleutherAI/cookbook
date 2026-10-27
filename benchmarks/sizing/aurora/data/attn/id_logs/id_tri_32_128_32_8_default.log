@@ -1,0 +1,22 @@
+### TRITON d=32 BM=128 BN=32 warps=8 grf=default
+    n_regs=256 n_spills=0 threads_per_warp=16 shared=0 build_flags=' -cl-intel-256-GRF-per-thread'
+
+=== Device Timing Summary ===
+
+                Total Execution Time (ns):           3317842101
+    Total Device Time for L0 backend (ns):              3440800
+
+== L0 Backend ==
+
+                                                                                                                                                                                                                                                 Kernel,        Calls,            Time (ns),     Time (%),         Average (ns),             Min (ns),             Max (ns)
+                                                                                                                                                                                                           "_attn_fwd[SIMD16 {16; 128; 1} {128; 1; 1}]",            3,              3243200,    94.257149,              1081066,              1075360,              1087840
+"at::native::xpu::DistributionElementwiseKernelFunctor<c10::BFloat16, float, 4, at::native::templates::xpu::Normal4DistributionFunctor, at::native::templates::xpu::NormalTransformFunctor<c10::BFloat16, float>, int>[SIMD32 {448; 1; 1} {256; 1; 1}]",            3,               197600,     5.742850,                65866,                62880,                71040
+
+
+=== Kernel Properties ===
+
+                                                                                                                                                                                                                                                 Kernel, Compiled, SIMD, Number of Arguments, SLM Per Work Group, Private Memory Per Thread, Spill Memory Per Thread, Register File Size Per Thread
+                                                                                                                                                                                                           "_attn_fwd[SIMD16 {16; 128; 1} {128; 1; 1}]",      JIT,   16,                  12,                  0,                         0,                       0,                       unknown
+"at::native::xpu::DistributionElementwiseKernelFunctor<c10::BFloat16, float, 4, at::native::templates::xpu::Normal4DistributionFunctor, at::native::templates::xpu::NormalTransformFunctor<c10::BFloat16, float>, int>[SIMD32 {448; 1; 1} {256; 1; 1}]",      AOT,   32,                   5,                  0,                         0,                       0,                       unknown
+
+

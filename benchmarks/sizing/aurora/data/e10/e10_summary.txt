@@ -1,0 +1,58 @@
+== active stacks: steady TFLOP/s (2-20 s), first 0.3 s, tile MHz / W / temp / throttle
+phase     k  n_active  stack  gpu  TF_steady  TF_0_0p3s    MHz     W    C                                    throttle  late_s
+   p1 16128         1      0    0      167.7      203.5  850.0 215.7 52.0                     Average Power Excursion   -21.2
+   p2 16128         2      0    0      165.6      198.1  850.0 200.9 51.0                           Current Excursion   -28.1
+   p2 16128         2      1    0      168.2      202.4  850.0 203.5 53.0 Average Power Excursion | Current Excursion   -28.1
+   p3 16128         2      0    0      168.2      206.7  850.0 215.7 52.0                     Average Power Excursion   -28.2
+   p3 16128         2      2    1      179.8      207.3  900.0 215.7 65.0                     Average Power Excursion   -28.2
+   p4 16128         6      0    0      167.8      202.8  850.0 215.6 53.0                     Average Power Excursion   -28.2
+   p4 16128         6      2    1      180.3      210.6  900.0 215.6 65.0                     Average Power Excursion   -28.2
+   p4 16128         6      4    2      177.2      210.6  900.0 215.9 65.0                     Average Power Excursion   -28.2
+   p4 16128         6      6    3      172.0      204.7  850.0 215.7 59.0                     Average Power Excursion   -28.2
+   p4 16128         6      8    4      170.9      200.7  850.0 215.6 58.0                     Average Power Excursion   -28.2
+   p4 16128         6     10    5      171.2      201.1  850.0 215.8 55.0                     Average Power Excursion   -28.2
+   p5 16128        12      0    0      165.7      200.2  850.0 200.9 51.0                           Current Excursion   -28.1
+   p5 16128        12      1    0      168.4      204.4  850.0 203.5 53.0 Average Power Excursion | Current Excursion   -28.1
+   p5 16128        12      2    1      170.2      209.0  850.0 201.7 65.0                           Current Excursion   -28.1
+   p5 16128        12      3    1      159.8      197.5  850.0 205.5 63.0 Average Power Excursion | Current Excursion   -28.1
+   p5 16128        12      4    2      167.5      205.6  850.0 198.4 64.0                           Current Excursion   -28.1
+   p5 16128        12      5    2      170.8      199.4  850.0 209.7 52.0 Average Power Excursion | Current Excursion   -28.1
+   p5 16128        12      6    3      162.9      207.1  800.0 202.6 59.0                           Current Excursion   -28.1
+   p5 16128        12      7    3      163.4      205.9  800.0 206.1 49.0 Average Power Excursion | Current Excursion   -28.1
+   p5 16128        12      8    4      162.8      205.1  850.0 202.7 59.0                           Current Excursion   -28.1
+   p5 16128        12      9    4      165.3      202.5  850.0 205.4 56.0 Average Power Excursion | Current Excursion   -28.1
+   p5 16128        12     10    5      169.1      204.9  850.0 209.5 56.0                           Current Excursion   -28.1
+   p5 16128        12     11    5      169.2      200.5  850.0 201.4 60.0 Average Power Excursion | Current Excursion   -28.1
+   p6 98562         1      0    0      105.4      120.3 1000.0 215.5 52.0                     Average Power Excursion   -28.2
+   p7 98562        12      0    0       94.1      119.8  900.0 186.3 48.0                           Current Excursion   -28.0
+   p7 98562        12      1    0      100.2      122.0  900.0 195.2 51.0 Average Power Excursion | Current Excursion   -27.9
+   p7 98562        12      2    1      105.1      126.4  950.0 197.9 64.0                           Current Excursion   -28.0
+   p7 98562        12      3    1       91.0      121.5  950.0 186.0 60.0 Average Power Excursion | Current Excursion   -28.0
+   p7 98562        12      4    2       98.6      125.2  900.0 189.5 62.0                           Current Excursion   -28.0
+   p7 98562        12      5    2      101.1      126.4  900.0 195.3 49.0 Average Power Excursion | Current Excursion   -28.0
+   p7 98562        12      6    3      100.6      126.6  900.0 191.9 56.0                           Current Excursion   -28.0
+   p7 98562        12      7    3       98.6      122.8  900.0 193.5 47.0 Average Power Excursion | Current Excursion   -28.0
+   p7 98562        12      8    4       97.5      125.2  900.0 189.0 56.0                           Current Excursion   -28.0
+   p7 98562        12      9    4      101.2      122.7  900.0 195.5 54.0 Average Power Excursion | Current Excursion   -28.0
+   p7 98562        12     10    5       99.7      124.1  900.0 195.9 53.0                           Current Excursion   -27.9
+   p7 98562        12     11    5       99.9      125.4  900.0 191.8 58.0 Average Power Excursion | Current Excursion   -28.0
+
+== per phase summary
+                      TF_med  TF_min  TF_max  W_med  MHz_med
+phase k     n_active                                        
+p1    16128 1          167.7   167.7   167.7  215.7    850.0
+p2    16128 2          166.9   165.6   168.2  202.2    850.0
+p3    16128 2          174.0   168.2   179.8  215.7    875.0
+p4    16128 6          171.6   167.8   180.3  215.7    850.0
+p5    16128 12         166.6   159.8   170.8  203.1    850.0
+p6    98562 1          105.4   105.4   105.4  215.5   1000.0
+p7    98562 12          99.8    91.0   105.1  192.7    900.0
+
+== per-GPU power (sum of both tiles, median over 2-20 s) and idle-tile power
+p1 k=16128 active=[0]: GPU W 302 170 166 173 179 173 | idle tiles median 86 W
+p2 k=16128 active=[0, 1]: GPU W 404 170 166 173 179 173 | idle tiles median 86 W
+p3 k=16128 active=[0, 2]: GPU W 302 303 166 173 179 173 | idle tiles median 86 W
+p4 k=16128 active=[0, 2, 4, 6, 8, 10]: GPU W 302 304 299 303 305 303 | idle tiles median 87 W
+p5 k=16128 active=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]: GPU W 404 407 408 409 408 411
+p6 k=98562 active=[0]: GPU W 302 170 166 173 179 173 | idle tiles median 86 W
+p7 k=98562 active=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]: GPU W 382 384 385 385 385 388

@@ -1,0 +1,55 @@
+{
+ "started": "2026-10-25T21:24:16",
+ "host": "x4105c6s0b0n0",
+ "argv": [
+  "$QA/bench/gemm_bench.py",
+  "--m",
+  "2048",
+  "--n",
+  "2048",
+  "--k",
+  "41218",
+  "--iters",
+  "5",
+  "--warmup",
+  "2",
+  "--out",
+  "$QA/runs/e012_20261025_211815/e1.csv",
+  "--tag",
+  "verbose_k41218"
+ ],
+ "torch": "2.10.0a0+git449b176",
+ "torch_xpu": "20250302",
+ "device": "_XpuDeviceProperties(name='Intel(R) Data Center GPU Max 1550', platform_name='Intel(R) oneAPI Unified Runtime over Level-Zero', type='gpu', device_id=0xBD6, uuid=bf688c6c-b2e4-3e7e-0000-000000000001, driver_version='1.6.33578+77', total_memory=65520MB, max_compute_units=448, gpu_eu_count=448, gpu_subslice_count=56, max_work_group_size=1024, max_num_sub_groups=64, sub_group_sizes=[16 32], has_fp16=1, has_fp64=1, has_atomic64=1)",
+ "platform": "Linux x4105c6s0b0n0 6.4.0-150700.53.78-default #1 SMP PREEMPT_DYNAMIC Fri Aug  7 14:17:23 UTC 2026 (adae288) x86_64 x86_64",
+ "env": {
+  "ONEDNN_VERBOSE": "profile_exec",
+  "PBS_JOBID": "8965299.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov",
+  "DNNL_ROOT": "/opt/aurora/26.26.0/oneapi/dnnl/latest",
+  "DNNLROOT": "/opt/aurora/26.26.0/oneapi/dnnl/latest",
+  "ONEAPI_DEVICE_SELECTOR": "opencl:gpu;level_zero:gpu",
+  "ZE_ENABLE_API_TRACING": "1",
+  "ZE_AFFINITY_MASK": "0",
+  "ZE_FLAT_DEVICE_HIERARCHY": "FLAT",
+  "ONEAPI_ROOT": "/opt/aurora/26.26.0/oneapi",
+  "ZE_ENABLE_PCI_ID_DEVICE_ORDER": "1",
+  "PBS_JOBID_SHORT": "8965299.aurora"
+ }
+}
+onednn_verbose,v1,info,oneDNN v3.10.2 (commit f1d471933dc852f956fd05389f9313c7148783d5)
+onednn_verbose,v1,info,cpu,runtime:threadpool,nthr:52
+onednn_verbose,v1,info,cpu,isa:Intel AVX-512 with float16, Intel DL Boost and bfloat16 support and Intel AMX with bfloat16 and 8-bit integer support
+onednn_verbose,v1,info,gpu,runtime:DPC++
+onednn_verbose,v1,info,gpu,engine,sycl gpu device count:1 
+onednn_verbose,v1,info,gpu,engine,0,backend:Level Zero,name:Intel(R) Data Center GPU Max 1550,driver_version:1.6.33578,binary_kernels:enabled
+onednn_verbose,v1,info,graph,backend,0:dnnl_backend
+onednn_verbose,v1,primitive,info,template:operation,engine,primitive,implementation,prop_kind,memory_descriptors,attributes,auxiliary,problem_desc,exec_time
+onednn_verbose,v1,graph,info,template:operation,engine,partition_id,partition_kind,op_names,data_formats,logical_tensors,fpmath_mode,implementation,backend,exec_time
+onednn_verbose,v1,primitive,exec,gpu,matmul,jit:gemm:any,undef,src:bf16::blocked:ab::f0 wei:bf16::blocked:ab::f0 dst:bf16::blocked:ab::f0,attr-scratchpad:user,,2048x2048:2048x41218,2.90991
+onednn_verbose,v1,primitive,exec,gpu,matmul,jit:gemm:any,undef,src:bf16::blocked:ab::f0 wei:bf16::blocked:ab::f0 dst:bf16::blocked:ab::f0,attr-scratchpad:user,,2048x2048:2048x41218,2.43091
+onednn_verbose,v1,primitive,exec,gpu,matmul,jit:gemm:any,undef,src:bf16::blocked:ab::f0 wei:bf16::blocked:ab::f0 dst:bf16::blocked:ab::f0,attr-scratchpad:user,,2048x2048:2048x41218,2.51514
+onednn_verbose,v1,primitive,exec,gpu,matmul,jit:gemm:any,undef,src:bf16::blocked:ab::f0 wei:bf16::blocked:ab::f0 dst:bf16::blocked:ab::f0,attr-scratchpad:user,,2048x2048:2048x41218,2.24487
+onednn_verbose,v1,primitive,exec,gpu,matmul,jit:gemm:any,undef,src:bf16::blocked:ab::f0 wei:bf16::blocked:ab::f0 dst:bf16::blocked:ab::f0,attr-scratchpad:user,,2048x2048:2048x41218,2.54492
+onednn_verbose,v1,primitive,exec,gpu,matmul,jit:gemm:any,undef,src:bf16::blocked:ab::f0 wei:bf16::blocked:ab::f0 dst:bf16::blocked:ab::f0,attr-scratchpad:user,,2048x2048:2048x41218,2.38403
+onednn_verbose,v1,primitive,exec,gpu,matmul,jit:gemm:any,undef,src:bf16::blocked:ab::f0 wei:bf16::blocked:ab::f0 dst:bf16::blocked:ab::f0,attr-scratchpad:user,,2048x2048:2048x41218,2.42188
+NN b=1 2048x2048x41218 R=1: min 149.6  median 139.4 TFLOP/s (min 2.3106 ms, warmup-min 2.5766 ms)

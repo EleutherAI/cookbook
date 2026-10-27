@@ -1,0 +1,19 @@
+log,kernel,simd,grid,wg,slm_B,spill_B,onednn,triton_regs
+id_sdpa_d128.log,micro_sdpa,16,16; 32; 4,16; 32; 1,107008,0,sdp:matmul_qk;scale_mul;softmax;matmul_v;sdp:matmul_qk;scale_mul;mask_gen_idx_row;mask_gen_idx_col;mask_gt;mask_select;s,
+id_sdpa_d16.log,micro_sdpa,16,16; 32; 4,16; 8; 1,27136,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d160.log,micro_sdpa,16,16; 32; 4,16; 32; 1,102912,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d192.log,micro_sdpa,16,16; 32; 4,16; 32; 1,102912,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d256.log,micro_sdpa,16,16; 32; 4,16; 32; 1,102912,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d32.log,micro_sdpa,16,16; 32; 4,16; 8; 1,27136,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d384.log,micro_sdpa,16,32; 32; 4,16; 32; 1,100608,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d48.log,micro_sdpa,16,16; 32; 4,16; 16; 1,53760,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d512.log,micro_sdpa,16,32; 32; 4,16; 32; 1,100608,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d64.log,micro_sdpa,16,16; 32; 4,16; 16; 1,53760,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d80.log,micro_sdpa,16,16; 32; 4,16; 32; 1,107008,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_sdpa_d96.log,micro_sdpa,16,16; 32; 4,16; 32; 1,107008,0,sdp:matmul_qk;scale_mul;softmax;matmul_v,
+id_tri_128_128_32_8_default.log,_attn_fwd,16,16; 128; 1,128; 1; 1,0,0,,256/0/16/0
+id_tri_128_128_64_16_default.log,_attn_fwd,16,16; 128; 1,256; 1; 1,0,0,,256/0/16/0
+id_tri_256_128_32_16_default.log,_attn_fwd,16,16; 128; 1,256; 1; 1,0,14144,,256/14144/16/0
+id_tri_256_64_64_8_default.log,_attn_fwd,16,32; 128; 1,128; 1; 1,0,15744,,256/15744/16/0
+id_tri_32_128_32_8_default.log,_attn_fwd,16,16; 128; 1,128; 1; 1,0,0,,256/0/16/0
+id_tri_64_128_64_16_default.log,_attn_fwd,16,16; 128; 1,256; 1; 1,0,0,,256/0/16/0

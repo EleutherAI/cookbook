@@ -1,0 +1,10 @@
+Error.  nthreads cannot be larger than environment variable "NUMEXPR_MAX_THREADS" (64)wrote $QA/runs/e47_20261025_220432/e7.joined.csv
+
+median TFLOP/s (min-time based) by predicted configuration:
+                                    count  median    min    max
+pred_copy_based pred_entry pred_kv                             
+False           442        False       24   146.0  102.2  183.4
+                443        False       24   128.1   84.9  167.3
+                449        False       10    72.6   49.3  117.8
+                454        False        2    37.0   32.1   42.0
+                668        False        2    29.2   22.4   36.0

@@ -1,0 +1,35 @@
+### SDPA d=192 causal=False
+onednn_verbose,v1,info,oneDNN v3.10.2 (commit f1d471933dc852f956fd05389f9313c7148783d5)
+onednn_verbose,v1,info,cpu,runtime:threadpool,nthr:52
+onednn_verbose,v1,info,cpu,isa:Intel AVX-512 with float16, Intel DL Boost and bfloat16 support and Intel AMX with bfloat16 and 8-bit integer support
+onednn_verbose,v1,info,gpu,runtime:DPC++
+onednn_verbose,v1,info,gpu,engine,sycl gpu device count:1 
+onednn_verbose,v1,info,gpu,engine,0,backend:Level Zero,name:Intel(R) Data Center GPU Max 1550,driver_version:1.6.33578,binary_kernels:enabled
+onednn_verbose,v1,info,graph,backend,0:dnnl_backend
+onednn_verbose,v1,primitive,info,template:operation,engine,primitive,implementation,prop_kind,memory_descriptors,attributes,auxiliary,problem_desc,exec_time
+onednn_verbose,v1,graph,info,template:operation,engine,partition_id,partition_kind,op_names,data_formats,logical_tensors,fpmath_mode,implementation,backend,exec_time
+onednn_verbose,v1,graph,exec,gpu,100002,sdp,matmul_qk;scale_mul;softmax;matmul_v,,in0_bf16:0:strided:undef:4x32x2048x192:12582912s393216s192s1 in1_bf16:1:strided:undef:4x32x2048x192:12582912s393216s192s1 in2_f32:2:strided:constant:1:1 in3_bf16:5:strided:undef:4x32x2048x192:12582912s393216s192s1 out0_bf16:6:strided:undef:4x32x2048x192:12582912s393216s192s1,fpm:strict,sdp_primitive_kernel_t,dnnl_backend,4.47705
+onednn_verbose,v1,graph,exec,gpu,100002,sdp,matmul_qk;scale_mul;softmax;matmul_v,,in0_bf16:0:strided:undef:4x32x2048x192:12582912s393216s192s1 in1_bf16:1:strided:undef:4x32x2048x192:12582912s393216s192s1 in2_f32:2:strided:constant:1:1 in3_bf16:5:strided:undef:4x32x2048x192:12582912s393216s192s1 out0_bf16:6:strided:undef:4x32x2048x192:12582912s393216s192s1,fpm:strict,sdp_primitive_kernel_t,dnnl_backend,4.44287
+onednn_verbose,v1,graph,exec,gpu,100002,sdp,matmul_qk;scale_mul;softmax;matmul_v,,in0_bf16:0:strided:undef:4x32x2048x192:12582912s393216s192s1 in1_bf16:1:strided:undef:4x32x2048x192:12582912s393216s192s1 in2_f32:2:strided:constant:1:1 in3_bf16:5:strided:undef:4x32x2048x192:12582912s393216s192s1 out0_bf16:6:strided:undef:4x32x2048x192:12582912s393216s192s1,fpm:strict,sdp_primitive_kernel_t,dnnl_backend,4.40698
+
+=== Device Timing Summary ===
+
+                Total Execution Time (ns):           2520543074
+    Total Device Time for L0 backend (ns):             14111680
+
+== L0 Backend ==
+
+                                                                                                                                                                                                                                                 Kernel,        Calls,            Time (ns),     Time (%),         Average (ns),             Min (ns),             Max (ns)
+                                                                                                                                                                                                           "micro_sdpa[SIMD16 {16; 32; 4} {16; 32; 1}]",            3,             13079840,    92.688042,              4359946,              4312160,              4392960
+"at::native::xpu::DistributionElementwiseKernelFunctor<c10::BFloat16, float, 4, at::native::templates::xpu::Normal4DistributionFunctor, at::native::templates::xpu::NormalTransformFunctor<c10::BFloat16, float>, int>[SIMD32 {448; 1; 1} {256; 1; 1}]",            3,              1013760,     7.183836,               337920,               334720,               343840
+                                                           "at::native::xpu::VectorizedElementwiseKernel<4, at::native::xpu::FillFunctor<float>, at::detail::Array<char*, 1>, TrivialOffsetCalculator<0, unsigned int> >[SIMD32 {1; 1; 1} {256; 1; 1}]",            3,                18080,     0.128121,                 6026,                 5760,                 6400
+
+
+=== Kernel Properties ===
+
+                                                                                                                                                                                                                                                 Kernel, Compiled, SIMD, Number of Arguments, SLM Per Work Group, Private Memory Per Thread, Spill Memory Per Thread, Register File Size Per Thread
+                                                                                                                                                                                                           "micro_sdpa[SIMD16 {16; 32; 4} {16; 32; 1}]",      AOT,   16,                  22,             102912,                         0,                       0,                       unknown
+"at::native::xpu::DistributionElementwiseKernelFunctor<c10::BFloat16, float, 4, at::native::templates::xpu::Normal4DistributionFunctor, at::native::templates::xpu::NormalTransformFunctor<c10::BFloat16, float>, int>[SIMD32 {448; 1; 1} {256; 1; 1}]",      AOT,   32,                   5,                  0,                         0,                       0,                       unknown
+                                                           "at::native::xpu::VectorizedElementwiseKernel<4, at::native::xpu::FillFunctor<float>, at::detail::Array<char*, 1>, TrivialOffsetCalculator<0, unsigned int> >[SIMD32 {1; 1; 1} {256; 1; 1}]",      AOT,   32,                   3,                  0,                         0,                       0,                       unknown
+
+

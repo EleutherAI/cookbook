@@ -1,0 +1,30 @@
+idle: n=144 freq 1500 MHz power 85.9 W temp 37.0 {'Not Throttled': 144}
+              tag     k      win  calls    TF  n_smi    MHz       W    C                                    throttle
+ long_reuse_16128 16128   0-0.1s    100 205.1      1 1000.0 272.920 45.0 Average Power Excursion | Current Excursion
+ long_reuse_16128 16128 0.1-0.3s    268 201.7      2 1075.0 269.255 49.0 Average Power Excursion | Current Excursion
+ long_reuse_16128 16128 0.3-0.6s    371 175.6      3  850.0 219.290 52.0                     Average Power Excursion
+ long_reuse_16128 16128   0.6-2s   1654 171.4     14  850.0 215.960 53.0                     Average Power Excursion
+ long_reuse_16128 16128   2-100s  17607 171.4    148  850.0 215.790 55.0                     Average Power Excursion
+long_rot800_16128 16128   0-0.1s     96 196.0      1 1200.0  98.280 37.0                               Not Throttled
+long_rot800_16128 16128 0.1-0.3s    256 192.7      2  950.0 268.200 47.0 Average Power Excursion | Current Excursion
+long_rot800_16128 16128 0.3-0.6s    354 167.3      3  850.0 257.470 52.0                     Average Power Excursion
+long_rot800_16128 16128   0.6-2s   1583 166.9     14  850.0 215.290 53.0                     Average Power Excursion
+long_rot800_16128 16128   2-100s  17711 167.0    156  850.0 215.490 55.0                     Average Power Excursion
+ long_reuse_50176 50176   0-0.1s     32 216.6      1 1100.0  90.840 37.0                               Not Throttled
+ long_reuse_50176 50176 0.1-0.3s     84 189.7      2 1225.0 267.635 46.5 Average Power Excursion | Current Excursion
+ long_reuse_50176 50176 0.3-0.6s    119 167.4      3  800.0 262.020 51.0                     Average Power Excursion
+ long_reuse_50176 50176   0.6-2s    535 167.2     14  800.0 215.545 53.0                     Average Power Excursion
+ long_reuse_50176 50176   2-100s   7230 167.3    189  800.0 215.720 56.0                     Average Power Excursion
+         oldproto  8192   0-0.1s    201 205.2      1 1200.0 269.990 45.0                           Current Excursion
+         oldproto  8192 0.1-0.3s     49 196.7      0    NaN     NaN  NaN                                           -
+         oldproto 49152   0-0.1s     10 221.2      1 1500.0  86.420 37.0                               Not Throttled
+         oldproto 49152 0.1-0.3s     86 188.3      2  825.0 273.900 46.0                     Average Power Excursion
+         oldproto 49152 0.3-0.6s    123 166.4      3 1100.0 261.210 51.0                               Not Throttled
+         oldproto 49152   0.6-2s     31 163.2      1  800.0 214.620 52.0                     Average Power Excursion
+         oldproto  8192   0-0.1s    245 203.6      1 1100.0 272.910 45.0                     Average Power Excursion
+         oldproto  8192 0.1-0.3s      5 186.1      0    NaN     NaN  NaN                                           -
+         oldproto 49152   0-0.1s     45 208.0      1 1000.0 300.760 43.0 Average Power Excursion | Current Excursion
+         oldproto 49152 0.1-0.3s     86 197.5      2  800.0 267.140 49.0                     Average Power Excursion
+         oldproto 49152 0.3-0.6s    118 163.7      3  800.0 214.920 51.0                     Average Power Excursion
+
+steady TF/GHz: [201.6, 196.5, 209.1]

@@ -1,0 +1,59 @@
+{
+ "started": "2026-10-25T21:24:43",
+ "host": "x4105c6s0b0n0",
+ "argv": [
+  "$QA/bench/gemm_bench.py",
+  "--m",
+  "2048",
+  "--n",
+  "2048",
+  "--k",
+  "99330",
+  "--iters",
+  "3",
+  "--warmup",
+  "1",
+  "--out",
+  "$QA/runs/e012_20261025_211815/e2u.csv",
+  "--tag",
+  "ut_k99330"
+ ],
+ "torch": "2.10.0a0+git449b176",
+ "torch_xpu": "20250302",
+ "device": "_XpuDeviceProperties(name='Intel(R) Data Center GPU Max 1550', platform_name='Intel(R) oneAPI Unified Runtime over Level-Zero', type='gpu', device_id=0xBD6, uuid=bf688c6c-b2e4-3e7e-0000-000000000001, driver_version='1.6.33578+77', total_memory=65520MB, max_compute_units=448, gpu_eu_count=448, gpu_subslice_count=56, max_work_group_size=1024, max_num_sub_groups=64, sub_group_sizes=[16 32], has_fp16=1, has_fp64=1, has_atomic64=1)",
+ "platform": "Linux x4105c6s0b0n0 6.4.0-150700.53.78-default #1 SMP PREEMPT_DYNAMIC Fri Aug  7 14:17:23 UTC 2026 (adae288) x86_64 x86_64",
+ "env": {
+  "PBS_JOBID": "8965299.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov",
+  "DNNL_ROOT": "/opt/aurora/26.26.0/oneapi/dnnl/latest",
+  "DNNLROOT": "/opt/aurora/26.26.0/oneapi/dnnl/latest",
+  "ONEAPI_DEVICE_SELECTOR": "opencl:gpu;level_zero:gpu",
+  "ZE_ENABLE_API_TRACING": "1",
+  "ZE_AFFINITY_MASK": "0",
+  "ZE_FLAT_DEVICE_HIERARCHY": "FLAT",
+  "ONEAPI_ROOT": "/opt/aurora/26.26.0/oneapi",
+  "ZE_ENABLE_PCI_ID_DEVICE_ORDER": "1",
+  "PBS_JOBID_SHORT": "8965299.aurora",
+  "ZE_ENABLE_TRACING_LAYER": "1"
+ }
+}
+NN b=1 2048x2048x99330 R=1: min 174.1  median 172.1 TFLOP/s (min 4.7860 ms, warmup-min 68.2975 ms)
+
+=== Device Timing Summary ===
+
+                Total Execution Time (ns):           2006861814
+    Total Device Time for L0 backend (ns):             21695840
+
+== L0 Backend ==
+
+                                                                                                                                                                                                                                                 Kernel,        Calls,            Time (ns),     Time (%),         Average (ns),             Min (ns),             Max (ns)
+                                                                                                                                                                                                           "gemm_kernel[SIMD16 {56; 1; 1} {128; 4; 1}]",            4,             20323520,    93.674728,              5080880,              4683200,              6118080
+"at::native::xpu::DistributionElementwiseKernelFunctor<c10::BFloat16, float, 4, at::native::templates::xpu::Normal4DistributionFunctor, at::native::templates::xpu::NormalTransformFunctor<c10::BFloat16, float>, int>[SIMD32 {448; 1; 1} {256; 1; 1}]",            2,              1372320,     6.325268,               686160,                43520,              1328800
+
+
+=== Kernel Properties ===
+
+                                                                                                                                                                                                                                                 Kernel, Compiled, SIMD, Number of Arguments, SLM Per Work Group, Private Memory Per Thread, Spill Memory Per Thread, Register File Size Per Thread
+                                                                                                                                                                                                           "gemm_kernel[SIMD16 {56; 1; 1} {128; 4; 1}]",      AOT,   16,                  19,              65536,                         0,                       0,                       unknown
+"at::native::xpu::DistributionElementwiseKernelFunctor<c10::BFloat16, float, 4, at::native::templates::xpu::Normal4DistributionFunctor, at::native::templates::xpu::NormalTransformFunctor<c10::BFloat16, float>, int>[SIMD32 {448; 1; 1} {256; 1; 1}]",      AOT,   32,                   5,                  0,                         0,                       0,                       unknown
+
+

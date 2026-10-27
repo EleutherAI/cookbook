@@ -1,0 +1,54 @@
+{
+ "started": "2026-10-25T21:24:27",
+ "host": "x4105c6s0b0n0",
+ "argv": [
+  "$QA/bench/gemm_bench.py",
+  "--m",
+  "2048",
+  "--n",
+  "2048",
+  "--k",
+  "98561",
+  "--iters",
+  "5",
+  "--warmup",
+  "3",
+  "--profile",
+  "--out",
+  "$QA/runs/e012_20261025_211815/e2.csv",
+  "--tag",
+  "trace_k98561"
+ ],
+ "torch": "2.10.0a0+git449b176",
+ "torch_xpu": "20250302",
+ "device": "_XpuDeviceProperties(name='Intel(R) Data Center GPU Max 1550', platform_name='Intel(R) oneAPI Unified Runtime over Level-Zero', type='gpu', device_id=0xBD6, uuid=bf688c6c-b2e4-3e7e-0000-000000000001, driver_version='1.6.33578+77', total_memory=65520MB, max_compute_units=448, gpu_eu_count=448, gpu_subslice_count=56, max_work_group_size=1024, max_num_sub_groups=64, sub_group_sizes=[16 32], has_fp16=1, has_fp64=1, has_atomic64=1)",
+ "platform": "Linux x4105c6s0b0n0 6.4.0-150700.53.78-default #1 SMP PREEMPT_DYNAMIC Fri Aug  7 14:17:23 UTC 2026 (adae288) x86_64 x86_64",
+ "env": {
+  "PBS_JOBID": "8965299.aurora-pbs-0001.hostmgmt.cm.aurora.alcf.anl.gov",
+  "DNNL_ROOT": "/opt/aurora/26.26.0/oneapi/dnnl/latest",
+  "DNNLROOT": "/opt/aurora/26.26.0/oneapi/dnnl/latest",
+  "ONEAPI_DEVICE_SELECTOR": "opencl:gpu;level_zero:gpu",
+  "ZE_ENABLE_API_TRACING": "1",
+  "ZE_AFFINITY_MASK": "0",
+  "ZE_FLAT_DEVICE_HIERARCHY": "FLAT",
+  "ONEAPI_ROOT": "/opt/aurora/26.26.0/oneapi",
+  "ZE_ENABLE_PCI_ID_DEVICE_ORDER": "1",
+  "PBS_JOBID_SHORT": "8965299.aurora"
+ }
+}
+/opt/aurora/26.26.0/frameworks/aurora_frameworks-2025.3.1/lib/python3.12/site-packages/torch/profiler/profiler.py:217: UserWarning: Warning: Profiler clears events at the end of each cycle.Only events from the current cycle will be reported.To keep events across cycles, set acc_events=True.
+  _warn_once(
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                         Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg      Self XPU    Self XPU %     XPU total  XPU time avg    # of Calls  
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                     aten::mm        58.91%     790.656us       100.00%       1.342ms     268.427us      34.216ms       100.00%      34.216ms       6.843ms             5  
+                  gemm_kernel         0.00%       0.000us         0.00%       0.000us       0.000us      19.518ms        57.04%      19.518ms       3.904ms             5  
+    xe_hpc_systolic_gemm_copy         0.00%       0.000us         0.00%       0.000us       0.000us      14.698ms        42.96%      14.698ms       1.470ms            10  
+                aten::resize_         0.35%       4.713us         0.35%       4.713us       0.943us       0.000us         0.00%       0.000us       0.000us             5  
+                  aten::empty         1.56%      20.889us         1.56%      20.889us       4.178us       0.000us         0.00%       0.000us       0.000us             5  
+        urEnqueueKernelLaunch        39.18%     525.876us        39.18%     525.876us      35.058us       0.000us         0.00%       0.000us       0.000us            15  
+-----------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 1.342ms
+Self XPU time total: 34.216ms
+
+NN b=1 2048x2048x98561 R=1: min 120.0  median 117.4 TFLOP/s (min 6.8889 ms, warmup-min 6.8793 ms)

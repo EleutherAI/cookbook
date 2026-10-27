@@ -1,0 +1,45 @@
+per-stack median TFLOP/s (median-time based), k=41216..43008 step 2, 50 calls
+cls    0 mod 32  16 mod 32  2 mod 4 high  2 mod 4 low (r in 1,2,3)  4 mod 8  8 mod 16
+stack                                                                                
+0         161.0      144.8         128.6                     109.9    131.6     135.9
+1         164.0      147.1         129.0                     110.3    132.7     136.3
+2         163.4      145.8         126.4                     111.3    130.8     135.7
+3         172.0      148.5         130.8                     111.4    133.7     138.1
+4         156.9      142.1         123.6                     107.1    127.9     132.6
+5         164.1      146.3         129.0                     109.8    132.1     136.5
+6         162.9      143.2         126.0                     107.9    128.8     133.3
+7         161.8      143.1         125.5                     108.0    128.6     133.1
+8         159.7      145.4         125.3                     108.7    130.3     135.0
+9         164.7      144.7         128.0                     109.9    131.4     135.6
+10        161.0      146.3         127.2                     110.0    132.1     136.0
+11        162.7      145.4         129.2                     110.6    131.6     136.6
+
+spread (max-min)/median %:
+cls
+0 mod 32                    9.27
+16 mod 32                   4.41
+2 mod 4 high                5.68
+2 mod 4 low (r in 1,2,3)    3.92
+4 mod 8                     4.35
+8 mod 16                    4.06
+
+min-time based spread %:
+cls
+0 mod 32                    5.81
+16 mod 32                   4.20
+2 mod 4 high                4.95
+2 mod 4 low (r in 1,2,3)    5.87
+4 mod 8                     4.83
+8 mod 16                    4.23
+stack 0: low 109.9 high 128.6 agreement 99.8%
+stack 1: low 110.3 high 129.0 agreement 99.8%
+stack 2: low 111.3 high 126.4 agreement 99.8%
+stack 3: low 111.4 high 130.8 agreement 99.8%
+stack 4: low 107.1 high 123.6 agreement 99.1%
+stack 5: low 109.8 high 129.0 agreement 99.8%
+stack 6: low 107.9 high 126.0 agreement 99.8%
+stack 7: low 108.0 high 125.5 agreement 99.8%
+stack 8: low 108.7 high 125.3 agreement 99.8%
+stack 9: low 109.9 high 128.0 agreement 99.8%
+stack 10: low 110.0 high 127.2 agreement 99.8%
+stack 11: low 110.6 high 129.2 agreement 99.8%

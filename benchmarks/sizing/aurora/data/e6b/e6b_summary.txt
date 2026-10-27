@@ -1,0 +1,51 @@
+
+== dgrad: steady-state median TFLOP/s (mean of passes)
+HO     2048   3072   3584   4096   5376   7168   8192   12288  14336  16384
+T                                                                          
+4096   170.5  169.6  168.7  166.4  169.3  174.4  171.0  171.3  169.8  168.1
+8192   161.9  169.4  171.7  170.8  167.9  167.7  168.9  168.4  165.5  167.2
+14336  171.6  169.4  169.9  172.0  166.9  166.6  169.3  169.0  166.7  168.5
+16384  166.7  168.0  168.6  166.1  165.3  165.5  168.4  168.5  166.2  168.1
+pass0 vs pass1 |diff| median 0.11%, max 2.22%
+Spearman(measured, pred_eff) n=40: -0.456
+
+== fwd: steady-state median TFLOP/s (mean of passes)
+HO     2048   3072   3584   4096   5376   7168   8192   12288  14336  16384
+T                                                                          
+4096   163.2  161.3  166.1  162.2  168.4  168.6  161.1  163.5  162.5  162.2
+8192   162.3  166.1  169.3  161.3  163.3  163.8  163.7  161.2  161.7  161.1
+14336  168.0  164.7  162.8  165.0  163.1  161.8  161.6  161.2  161.6  161.4
+16384  160.4  163.1  162.5  162.1  161.0  161.6  160.9  160.5  160.5  160.3
+pass0 vs pass1 |diff| median 0.14%, max 1.67%
+Spearman(measured, pred_eff) n=40: 0.238
+  T=4096: 3584 vs 4096: measured +2.4%  predicted +0.0%
+  T=4096: 5376 vs 4096: measured +3.9%  predicted +0.0%
+  T=4096: 7168 vs 8192: measured +4.7%  predicted +1.6%
+  T=4096: 3584 vs 2048: measured +1.8%  predicted +9.4%
+  T=8192: 3584 vs 4096: measured +5.0%  predicted +1.6%
+  T=8192: 5376 vs 4096: measured +1.2%  predicted +0.0%
+  T=8192: 7168 vs 8192: measured +0.0%  predicted +1.0%
+  T=8192: 3584 vs 2048: measured +4.3%  predicted +0.0%
+  HO=4096: T=14336 vs 16384 measured +1.8% predicted +1.0%
+  HO=8192: T=14336 vs 16384 measured +0.5% predicted +1.1%
+  HO=16384: T=14336 vs 16384 measured +0.7% predicted +1.1%
+
+== wgrad: steady-state median TFLOP/s (mean of passes)
+HO     2048   3072   3584   4096   5376   7168   8192   12288  14336  16384
+T                                                                          
+4096   173.5  175.2  166.4  159.8  168.7  163.4  161.2  160.3  162.3  160.5
+8192   170.1  166.3  164.3  162.7  164.9  165.2  163.0  162.4  162.7  162.1
+14336  169.0  162.7  166.0  162.6  165.4  163.4  162.0  161.7  161.3  161.8
+16384  170.0  162.8  166.3  161.4  163.8  162.8  161.6  161.0  160.7  161.4
+pass0 vs pass1 |diff| median 0.09%, max 16.57%
+Spearman(measured, pred_eff) n=40: undefined (constant prediction)
+
+== vocab (steady state, after heater)
+                                             count  median
+tag                layout m     n     k                   
+logits_dgrad_50257 NN     8192  50257 4096       2   110.0
+logits_dgrad_50304 NN     8192  50304 4096       2   161.2
+logits_fwd_50257   NT     8192  4096  50257      3   143.6
+logits_fwd_50304   NT     8192  4096  50304      3   161.6
+logits_wgrad_50257 TN     50257 8192  4096       2   149.3
+logits_wgrad_50304 TN     50304 8192  4096       2   153.2
