@@ -1,0 +1,6 @@
+runs/
+e9_plan/
+e11a/
+experiments/e9_chunk[0-9]*.sh
+__pycache__/
+figures/out/
